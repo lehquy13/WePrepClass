@@ -1,4 +1,5 @@
 ﻿using Matt.ResultObject;
+using Matt.SharedKernel;
 using Matt.SharedKernel.Domain.Primitives.Auditing;
 using WePrepClass.Domain.WePrepClassAggregates.Subjects.ValueObjects;
 
@@ -23,14 +24,12 @@ public class Subject : FullAuditedAggregateRoot<SubjectId>
     {
         var subject = new Subject();
 
-        var setNameResult = subject.SetName(name);
-        var setDescriptionResult = subject.SetDescription(description);
+        var result = subject.ValidateSequentially(
+            () => subject.SetName(name),
+            () => subject.SetDescription(description)
+        );
 
-        if (setNameResult.IsFailure)
-            return setNameResult.Error;
-
-        if (setDescriptionResult.IsFailure)
-            return setDescriptionResult.Error;
+        if (result.IsFailure) return result.Error;
 
         return subject;
     }

@@ -217,11 +217,12 @@ public class UserUnitTests
     }
 
     [Fact]
-    public void CreateUser_WhenDescriptionLengthLessThan64_ShouldReturnError()
+    public void CreateUser_WhenUserIsTutorAndDescriptionLengthLessThan64_ShouldReturnError()
     {
         // Arrange
         var identityId = UserId.Create();
         var shortDescription = new string('a', 63);
+        const Role roleTutor = Role.Tutor;
 
         // Act
         var userResult = User.Create(
@@ -235,7 +236,7 @@ public class UserUnitTests
             null,
             Mail,
             PhoneNumber,
-            UserRole);
+            roleTutor);
 
         // Assert
         userResult.Should().NotBeNull();
@@ -244,11 +245,12 @@ public class UserUnitTests
     }
 
     [Fact]
-    public void CreateUser_WhenDescriptionLengthGreaterThan256_ShouldReturnError()
+    public void CreateUser_WhenUserIsTutorAndDescriptionLengthGreaterThan256_ShouldReturnError()
     {
         // Arrange
         var identityId = UserId.Create();
         var longDescription = new string('a', 257);
+        const Role roleTutor = Role.Tutor;
 
         // Act
         var userResult = User.Create(
@@ -262,7 +264,7 @@ public class UserUnitTests
             null,
             Mail,
             PhoneNumber,
-            UserRole);
+            roleTutor);
 
         // Assert
         userResult.Should().NotBeNull();

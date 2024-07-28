@@ -18,7 +18,7 @@ public record CreateUserCommand(
     string LastName,
     int BirthYear,
     string City,
-    string Country,
+    string District,
     string DetailAddress,
     Gender Gender
 ) : ICommandRequest;
@@ -29,8 +29,8 @@ public class CreateUserCommandValidator : AbstractValidator<CreateUserCommand>
     {
         RuleFor(x => x.Username)
             .NotEmpty()
-            .MinimumLength(3)
-            .MaximumLength(50)
+            .MinimumLength(6)
+            .MaximumLength(20)
             .Matches("^[a-zA-Z0-9_]+$") // Only letters, numbers, and underscores
             .WithMessage(
                 "Username must be between 3 and 50 characters long, and can only contain letters, numbers, and underscores.");
@@ -45,24 +45,26 @@ public class CreateUserCommandValidator : AbstractValidator<CreateUserCommand>
 
         RuleFor(x => x.Password)
             .NotEmpty()
-            .MinimumLength(6)
+            .MinimumLength(8)
             .Matches(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$")
             .WithMessage(
                 "Password must be at least 8 characters long and contain at least one lowercase letter, one uppercase letter, one digit, and one special character.");
         RuleFor(x => x.FirstName)
             .NotEmpty()
             .WithMessage("First name is required.")
-            .MaximumLength(50)
+            .MinimumLength(User.MinNameLength)
+            .MaximumLength(User.MaxNameLength)
             .WithMessage("First name must not exceed 50 characters.");
 
         RuleFor(x => x.LastName)
             .NotEmpty()
             .WithMessage("Last name is required.")
-            .MaximumLength(50)
+            .MinimumLength(User.MinNameLength)
+            .MaximumLength(User.MaxNameLength)
             .WithMessage("Last name must not exceed 50 characters.");
 
         RuleFor(x => x.BirthYear)
-            .InclusiveBetween(1900, DateTime.UtcNow.Year)
+            .InclusiveBetween(1900, DateTime.Now.Year - 16)
             .WithMessage("Invalid birth year.");
     }
 }
@@ -76,7 +78,9 @@ public class CreateUserCommandHandler(
 {
     public override async Task<Result> Handle(CreateUserCommand command, CancellationToken cancellationToken)
     {
-        var address = Address.Create(command.City, command.Country, command.DetailAddress);
+        var address = Address.Create(command.City, command.District, command.DetailAddress);
+
+        if (address.IsFailure) return Result.Fail(address.Error);
 
         var result = await identityService.CreateAsync(
             command.Username,
@@ -85,7 +89,7 @@ public class CreateUserCommandHandler(
             command.Gender,
             command.BirthYear,
             address.Value,
-            command.Country,
+            command.District,
             string.Empty,
             command.Email,
             command.PhoneNumber);

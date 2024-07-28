@@ -6,7 +6,6 @@ using Matt.SharedKernel.Application.Mediators.Queries;
 using Matt.SharedKernel.Domain.Interfaces;
 using WePrepClass.Contracts.Users;
 using WePrepClass.Domain.WePrepClassAggregates.Users;
-using WePrepClass.Domain.WePrepClassAggregates.Users.Errors;
 using WePrepClass.Domain.WePrepClassAggregates.Users.ValueObjects;
 
 namespace WePrepClass.Application.UseCases.Accounts.Queries;
@@ -29,7 +28,7 @@ public class GetUserProfileQueryHandler(
             cancellationToken);
 
         return customer is null
-            ? Result.Fail(UserError.NonExistUserError)
+            ? Result.Fail(AccountServiceErrorConstants.NonExistUserError)
             : Mapper.Map<UserProfileDto>(customer);
     }
 }

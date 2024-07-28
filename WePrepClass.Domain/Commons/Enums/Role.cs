@@ -6,5 +6,7 @@ public enum Role
     BaseUser = 1,
     Tenant = 2,
     Admin = 3,
-    All = 4
+    All = 4,
+    SuperAdmin = 5,
+    Tutor = 6
 }

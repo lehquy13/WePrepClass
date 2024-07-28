@@ -9,16 +9,16 @@ namespace WePrepClass.Domain.WePrepClassAggregates.Users;
 
 public class User : FullAuditedAggregateRoot<UserId>
 {
-    private const int MaxBirthYear = 1990;
-    private const int MinAge = 16;
+    public const int MaxBirthYear = 1990;
+    public const int MinAge = 16;
 
-    private const int MinDescriptionLength = 64;
-    private const int MaxDescriptionLength = 256;
+    public const int MinDescriptionLength = 64;
+    public const int MaxDescriptionLength = 256;
 
-    private const int MaxPhoneNumberLength = 13;
+    public const int MaxPhoneNumberLength = 13;
 
-    private const int MaxNameLength = 15;
-    private const int MinNameLength = 2;
+    public const int MaxNameLength = 15;
+    public const int MinNameLength = 2;
 
     public string FirstName { get; private set; } = null!;
     public string LastName { get; private set; } = null!;
@@ -54,7 +54,7 @@ public class User : FullAuditedAggregateRoot<UserId>
             () => IsBirthYearValid(birthYear) ? Result.Success() : DomainErrorConstants.User.InvalidBirthYear,
             () => IsNameValid(firstName) ? Result.Success() : DomainErrorConstants.User.FirstNameIsRequired,
             () => IsNameValid(lastName) ? Result.Success() : DomainErrorConstants.User.LastNameIsRequired,
-            () => IsDescriptionValid(description) ? Result.Success() : DomainErrorConstants.User.DescriptionIsRequired,
+            () => IsDescriptionValid(description, role) ? Result.Success() : DomainErrorConstants.User.DescriptionIsRequired,
             () => IsEmailValid(email) ? Result.Success() : DomainErrorConstants.User.EmailIsRequired,
             () => IsPhoneNumberValid(phoneNumber) ? Result.Success() : DomainErrorConstants.User.InvalidPhoneNumber
         );
@@ -91,8 +91,8 @@ public class User : FullAuditedAggregateRoot<UserId>
     private static bool IsBirthYearValid(int birthYear) =>
         birthYear >= MaxBirthYear && birthYear <= DateTime.Now.Year - MinAge;
 
-    private static bool IsDescriptionValid(string description) =>
-        description.Length is <= MaxDescriptionLength and >= MinDescriptionLength;
+    private static bool IsDescriptionValid(string description, Role role) =>
+        role != Role.Tutor || description.Length is <= MaxDescriptionLength and >= MinDescriptionLength;
 
     private static bool IsNameValid(string name) => name.Length is <= MaxNameLength and >= MinNameLength;
 }

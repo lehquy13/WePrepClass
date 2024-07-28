@@ -24,7 +24,7 @@ public class Subject : FullAuditedAggregateRoot<SubjectId>
     {
         var subject = new Subject();
 
-        var result = subject.ValidateSequentially(
+        var result = DomainValidation.Sequentially(
             () => subject.SetName(name),
             () => subject.SetDescription(description)
         );

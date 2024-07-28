@@ -18,6 +18,7 @@ public record RegisterCommand(
     int BirthYear,
     string City,
     string Country,
+    string DetailAddress,
     Gender Gender
 ) : ICommandRequest;
 
@@ -52,29 +53,29 @@ public class RegisterCommandValidator : AbstractValidator<RegisterCommand>
             .WithMessage("First name is required.")
             .MaximumLength(50)
             .WithMessage("First name must not exceed 50 characters.");
-        
+
         RuleFor(x => x.LastName)
             .NotEmpty()
             .WithMessage("Last name is required.")
             .MaximumLength(50)
             .WithMessage("Last name must not exceed 50 characters.");
-        
+
         RuleFor(x => x.BirthYear)
             .InclusiveBetween(1900, DateTime.UtcNow.Year)
             .WithMessage("Invalid birth year.");
-        
+
         RuleFor(x => x.City)
             .NotEmpty()
             .WithMessage("City is required.")
             .MaximumLength(50)
             .WithMessage("City must not exceed 50 characters.");
-        
+
         RuleFor(x => x.Country)
             .NotEmpty()
             .WithMessage("Country is required.")
             .MaximumLength(50)
             .WithMessage("Country must not exceed 50 characters.");
-        
+
         RuleFor(x => x.Gender)
             .IsInEnum()
             .WithMessage("Invalid gender value.");
@@ -90,22 +91,26 @@ public class RegisterCommandHandler(
 {
     public override async Task<Result> Handle(RegisterCommand command, CancellationToken cancellationToken)
     {
+        var address = Address.Create(command.City, command.Country, command.DetailAddress);
+
+        if (address.IsFailure)
+        {
+            return Result.Fail(address.Error);
+        }
+
         var result = await identityService.CreateAsync(
             command.Username,
             command.FirstName,
             command.LastName,
             command.Gender,
             command.BirthYear,
-            Address.Create(command.City, command.Country),
+            address.Value,
             command.Country,
             string.Empty,
             command.Email,
             command.PhoneNumber);
 
-        if (!result.IsSuccess)
-        {
-            return Result.Fail(result.Error);
-        }
+        if (!result.IsSuccess) return Result.Fail(result.Error);
 
         await userRepository.InsertAsync(result.Value, cancellationToken);
 

@@ -1,8 +1,7 @@
-using WePrepClass.Api.Commons;
-using Matt.SharedKernel.Domain.Interfaces;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using WePrepClass.Api.Commons;
 using WePrepClass.Application.UseCases.Users.Commands;
 using WePrepClass.Application.UseCases.Users.Queries;
 

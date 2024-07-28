@@ -1,8 +1,7 @@
-﻿using WePrepClass.Api.Commons;
-using Matt.SharedKernel.Domain.Interfaces;
-using MediatR;
+﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using WePrepClass.Api.Commons;
 using WePrepClass.Application.UseCases.Accounts.Commands;
 using WePrepClass.Application.UseCases.Accounts.Queries;
 using WePrepClass.Contracts.Users;
@@ -10,8 +9,7 @@ using WePrepClass.Contracts.Users;
 namespace WePrepClass.Api.Controllers;
 
 [Authorize]
-public class ProfileController(ISender sender
-) : ApiControllerBase
+public class ProfileController(ISender sender) : ApiControllerBase
 {
     [HttpGet("")]
     public async Task<IActionResult> Profile()

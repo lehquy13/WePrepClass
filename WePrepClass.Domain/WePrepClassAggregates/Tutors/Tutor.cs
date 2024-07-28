@@ -49,18 +49,16 @@ public class Tutor : AuditedAggregateRoot<TutorId>
         IList<Major> majors,
         bool isVerified = false)
     {
-        var id = TutorId.Create();
-
         var tutor = new Tutor
         {
-            Id = id,
+            Id = TutorId.Create(),
             UserId = userId,
             AcademicLevel = academicLevel,
             IsVerified = isVerified,
             TutorStatus = TutorStatus.Active
         };
 
-        var result = tutor.ValidateSequentially(
+        var result = DomainValidation.Sequentially(
             () => tutor.SetUniversity(university),
             () => tutor.SetMajors(majors)
         );
@@ -87,7 +85,7 @@ public class Tutor : AuditedAggregateRoot<TutorId>
         {
             VerificationChange = verificationChange.Value;
         }
-        
+
         DomainEvents.Add(new VerificationChangeCreatedDomainEvent(this));
 
         return Result.Success();
@@ -121,7 +119,7 @@ public class Tutor : AuditedAggregateRoot<TutorId>
 
     public Result Update(string university, AcademicLevel academicLevel, IList<Major> updateMajors)
     {
-        var result = this.ValidateSequentially(
+        var result = DomainValidation.Sequentially(
             () => SetUniversity(university),
             () => SetMajors(updateMajors)
         );

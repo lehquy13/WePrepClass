@@ -7,7 +7,7 @@ using WePrepClass.Domain.WePrepClassAggregates.Subjects;
 
 namespace WePrepClass.Application.UseCases.Administrator.Subjects.Queries;
 
-public record GetAllSubjectsQuery() : IQueryRequest<List<SubjectDto>>;
+public record GetAllSubjectsQuery : IQueryRequest<List<SubjectDto>>;
 
 public class GetAllSubjectsQueryHandler(
     ISubjectRepository subjectRepository,

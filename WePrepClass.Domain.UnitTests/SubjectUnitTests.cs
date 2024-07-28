@@ -28,7 +28,6 @@ public class SubjectUnitTests
     {
         // Arrange
         const string name = "a";
-        const string description = "Valid description";
 
         // Act
         var result = _subject.SetName(name);

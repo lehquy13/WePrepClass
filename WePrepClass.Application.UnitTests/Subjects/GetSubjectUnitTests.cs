@@ -1,10 +1,8 @@
 ﻿using FluentAssertions;
-using Mapster;
 using MapsterMapper;
 using Matt.SharedKernel.Domain.Interfaces;
 using Moq;
 using WePrepClass.Application.UseCases.Administrator.Subjects.Queries;
-using WePrepClass.Contracts.Subjects;
 using WePrepClass.Domain.WePrepClassAggregates.Subjects;
 using WePrepClass.Domain.WePrepClassAggregates.Subjects.ValueObjects;
 using WePrepClass.UnitTestSetup;

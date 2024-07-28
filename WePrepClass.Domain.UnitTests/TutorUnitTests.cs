@@ -15,7 +15,6 @@ public class TutorUnitTests
     private readonly Tutor _validTutor;
     private readonly Tutor _validTutor2;
     private readonly TutorId _validTutorId;
-    private readonly TutorId _validTutor2Id;
 
     public TutorUnitTests()
     {
@@ -32,10 +31,10 @@ public class TutorUnitTests
         _validTutor = tutorCreationResult.Value;
 
         var userId2 = UserId.Create();
-        _validTutor2Id = TutorId.Create();
+        var validTutor2Id = TutorId.Create();
         var expectedMajor2 = _subjects[1];
 
-        var majors2 = new List<Major> { Major.Create(_validTutor2Id, expectedMajor2.Id) };
+        var majors2 = new List<Major> { Major.Create(validTutor2Id, expectedMajor2.Id) };
 
         var tutorCreationResult2 = Tutor.Create(userId2, expectedAcademicLevel, university, majors2);
 

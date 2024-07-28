@@ -19,6 +19,7 @@ public record CreateUserCommand(
     int BirthYear,
     string City,
     string Country,
+    string DetailAddress,
     Gender Gender
 ) : ICommandRequest;
 
@@ -75,13 +76,15 @@ public class CreateUserCommandHandler(
 {
     public override async Task<Result> Handle(CreateUserCommand command, CancellationToken cancellationToken)
     {
+        var address = Address.Create(command.City, command.Country, command.DetailAddress);
+
         var result = await identityService.CreateAsync(
             command.Username,
             command.FirstName,
             command.LastName,
             command.Gender,
             command.BirthYear,
-            Address.Create(command.City, command.Country),
+            address.Value,
             command.Country,
             string.Empty,
             command.Email,

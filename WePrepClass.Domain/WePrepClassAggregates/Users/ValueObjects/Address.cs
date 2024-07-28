@@ -1,40 +1,42 @@
-﻿using Matt.SharedKernel.Domain.Primitives;
+﻿using Matt.ResultObject;
+using Matt.SharedKernel.Domain.Primitives;
 
 namespace WePrepClass.Domain.WePrepClassAggregates.Users.ValueObjects;
 
 public class Address : ValueObject
 {
-    public string City { get; private init; } = string.Empty;
+    public string City { get; private init; } = null!;
 
-    public string Country { get; private init; } = string.Empty;
+    public string District { get; private init; } = null!;
+
+    public string DetailAddress { get; private init; } = null!;
 
     private Address()
     {
     }
 
-    public static Address Create(string city, string country)
+    public static Result<Address> Create(string city, string country, string detail)
     {
+        if (string.IsNullOrWhiteSpace(city) || string.IsNullOrWhiteSpace(country) || string.IsNullOrWhiteSpace(detail))
+            return Result.Fail("City, Country and Detail are required");
+
         return new Address
         {
             City = city,
-            Country = country
+            District = country,
+            DetailAddress = detail
         };
     }
 
-    public override string ToString()
-    {
-        return $"City: {City}, Country: {Country}";
-    }
+    public override string ToString() => $"{DetailAddress}, District: {District}, City: {City}";
 
     public override IEnumerable<object> GetEqualityComponents()
     {
         yield return City;
-        yield return Country;
+        yield return District;
     }
 
-    public bool Match(string address)
-    {
-        return City.Contains(address, StringComparison.CurrentCultureIgnoreCase) ||
-               Country.Contains(address, StringComparison.CurrentCultureIgnoreCase);
-    }
+    public bool Match(string address) =>
+        City.Contains(address, StringComparison.CurrentCultureIgnoreCase) ||
+        District.Contains(address, StringComparison.CurrentCultureIgnoreCase);
 }

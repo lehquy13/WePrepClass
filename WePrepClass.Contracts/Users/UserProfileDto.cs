@@ -11,6 +11,7 @@ public class UserProfileDto : BasicAuditedEntityDto<Guid>
     public string LastName { get; set; } = string.Empty;
     public Gender Gender { get; set; }
     public int BirthYear { get; set; } = 1960;
+    public string DetailAddress { get; set; } = string.Empty;
     public string Country { get; set; } = string.Empty;
     public string City { get; set; } = string.Empty;
     public string Description { get; set; } = string.Empty;
@@ -30,7 +31,7 @@ public class LearnerForProfileDtoMappingConfig : IRegister
             .Map(dest => dest.Id, src => src.Id.Value)
             .Map(dest => dest.City, src => src.Address.City)
             .Map(dest => dest.Avatar, src => src.Avatar)
-            .Map(dest => dest.Country, src => src.Address.Country)
+            .Map(dest => dest.Country, src => src.Address.District)
             .Map(dest => dest.Role, src => src.Role.ToString())
             .Map(dest => dest, src => src);
 
@@ -40,7 +41,7 @@ public class LearnerForProfileDtoMappingConfig : IRegister
             .Map(dest => dest.BirthYear, src => src.BirthYear)
             .Map(dest => dest.Description, src => src.Description)
             .Map(dest => dest.PhoneNumber, src => src.PhoneNumber)
-            .Map(dest => dest.Address, src => Address.Create(src.City, src.Country))
+            .Map(dest => dest.Address, src => Address.Create(src.City, src.Country, src.DetailAddress))
             .Map(dest => dest.Gender, src => src.Gender)
             .IgnoreNonMapped(true);
     }

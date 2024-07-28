@@ -50,10 +50,13 @@ internal class CustomerConfiguration : IEntityTypeConfiguration<User>
         builder.OwnsOne(user => user.Address,
             navigationBuilder =>
             {
-                navigationBuilder.Property(address => address.Country)
-                    .HasColumnName("Country");
+                navigationBuilder.Property(address => address.District)
+                    .HasColumnName(nameof(Address.District));
                 navigationBuilder.Property(address => address.City)
-                    .HasColumnName("City");
+                    .HasColumnName(nameof(Address.City));
+                navigationBuilder.Property(address => address.DetailAddress)
+                    .HasColumnName(nameof(Address.DetailAddress));
+                    
             });
     }
 }

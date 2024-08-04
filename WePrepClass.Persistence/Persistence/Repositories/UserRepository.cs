@@ -14,6 +14,7 @@ public class UserRepository(AppDbContext appDbContext) : IUserRepository
     public async Task InsertAsync(User user, CancellationToken cancellationToken) =>
         await appDbContext.Users.AddAsync(user, cancellationToken);
 
-    public async Task<List<User>> GetListAsync(CancellationToken cancellationToken)
-        => await appDbContext.Users.ToListAsync(cancellationToken);
+    public async Task<List<User>> GetPaginatedListAsync(int pageIndex, int pageSize,
+        CancellationToken cancellationToken)
+        => await appDbContext.Users.Skip((pageIndex - 1) * pageSize).Take(pageSize).ToListAsync(cancellationToken);
 }

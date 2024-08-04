@@ -20,7 +20,7 @@ public class GetUserProfileQueryHandler(
 ) : QueryHandlerBase<GetUserProfileQuery, UserProfileDto>(logger, mapper)
 {
     public override async Task<Result<UserProfileDto>> Handle(
-        GetUserProfileQuery request,
+        GetUserProfileQuery getAllUserQuery,
         CancellationToken cancellationToken)
     {
         var customer = await userRepository.GetByCustomerIdAsync(

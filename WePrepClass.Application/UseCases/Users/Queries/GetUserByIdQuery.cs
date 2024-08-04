@@ -17,10 +17,10 @@ public class GetUserByIdQueryHandler(
     IMapper mapper
 ) : QueryHandlerBase<GetUserByIdQuery, UserDetailDto>(logger, mapper)
 {
-    public override async Task<Result<UserDetailDto>> Handle(GetUserByIdQuery request,
+    public override async Task<Result<UserDetailDto>> Handle(GetUserByIdQuery getAllUserQuery,
         CancellationToken cancellationToken)
     {
-        var user = await userRepository.GetByCustomerIdAsync(UserId.Create(request.Id), cancellationToken);
+        var user = await userRepository.GetByCustomerIdAsync(UserId.Create(getAllUserQuery.Id), cancellationToken);
 
         if (user is null)
         {
@@ -28,7 +28,7 @@ public class GetUserByIdQueryHandler(
         }
 
         var userDetailDto = new UserDetailDto(
-            user.Id.Value.ToString(),
+            user.Id.Value,
             user.GetFullName(),
             user.Email,
             user.Gender.ToString(),

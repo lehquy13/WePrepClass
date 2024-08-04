@@ -54,7 +54,7 @@ public class CreateUserHandlerUnitTests
     }
 
     [Fact]
-    public async Task Handle_WhenWithValidData_ShouldReturnUser()
+    public async Task CreateUserHandler_WhenWithValidData_ShouldReturnUser()
     {
         // Arrange
         var command = new CreateUserCommand(UserName, Mail, PhoneNumber, Password, FirstName, LastName, BirthYear, City,
@@ -88,7 +88,7 @@ public class CreateUserHandlerUnitTests
     }
 
     [Fact]
-    public async Task Handle_WhenWithInvalidAddress_ShouldReturnError()
+    public async Task CreateUserHandler_WhenWithInvalidAddress_ShouldReturnError()
     {
         // Arrange
         var emptyCity = string.Empty;
@@ -104,7 +104,7 @@ public class CreateUserHandlerUnitTests
     }
 
     [Fact]
-    public async Task Handle_WhenIdentityServiceFail_ShouldReturnError()
+    public async Task CreateUserHandler_WhenIdentityServiceFail_ShouldReturnError()
     {
         // Arrange
         const string resultMessage = "Error";
@@ -135,7 +135,7 @@ public class CreateUserHandlerUnitTests
     }
 
     [Fact]
-    public async Task Handle_WhenSaveChangesFail_ShouldReturnError()
+    public async Task CreateUserHandler_WhenSaveChangesFail_ShouldReturnError()
     {
         // Arrange
         var command = new CreateUserCommand(UserName, Mail, PhoneNumber, Password, FirstName, LastName, BirthYear,

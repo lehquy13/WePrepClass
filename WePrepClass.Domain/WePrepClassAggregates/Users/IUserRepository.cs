@@ -7,5 +7,5 @@ public interface IUserRepository : IRepository
 {
     Task<User?> GetByCustomerIdAsync(UserId userId, CancellationToken cancellationToken);
     Task InsertAsync(User user, CancellationToken cancellationToken);
-    Task<List<User>> GetListAsync(CancellationToken cancellationToken);
+    Task<List<User>> GetPaginatedListAsync(int pageIndex, int pageSize, CancellationToken cancellationToken);
 }

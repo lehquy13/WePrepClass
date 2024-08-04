@@ -1,3 +1,3 @@
 ﻿namespace WePrepClass.Contracts.Users;
 
-public record UserDetailDto(string Id, string Name, string Email, string Gender, int BirthYear);
+public record UserDetailDto(Guid Id, string FullName, string Email, string Gender, int BirthYear);

@@ -41,11 +41,11 @@ public class LoginQueryHandler(
 ) : QueryHandlerBase<LoginQuery, AuthenticationResult>(logger, mapper)
 {
     public override async Task<Result<AuthenticationResult>> Handle(
-        LoginQuery request,
+        LoginQuery getAllUserQuery,
         CancellationToken cancellationToken)
     {
         var identityDto = await identityService.SignInAsync(
-            request.Email, request.Password);
+            getAllUserQuery.Email, getAllUserQuery.Password);
 
         if (identityDto is null)
         {

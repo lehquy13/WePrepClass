@@ -25,10 +25,10 @@ public class GetSubjectQueryHandler(
     IMapper mapper
 ) : QueryHandlerBase<GetSubjectQuery, SubjectDto>(logger, mapper)
 {
-    public override async Task<Result<SubjectDto>> Handle(GetSubjectQuery request,
+    public override async Task<Result<SubjectDto>> Handle(GetSubjectQuery getAllUserQuery,
         CancellationToken cancellationToken)
     {
-        var subjects = await subjectRepository.GetAsync(SubjectId.Create(request.Id), cancellationToken);
+        var subjects = await subjectRepository.GetAsync(SubjectId.Create(getAllUserQuery.Id), cancellationToken);
 
         if (subjects is null) return Result.Fail(AppServiceError.Subject.NotExist);
 

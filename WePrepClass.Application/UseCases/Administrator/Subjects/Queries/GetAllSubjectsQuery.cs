@@ -15,7 +15,7 @@ public class GetAllSubjectsQueryHandler(
     IMapper mapper
 ) : QueryHandlerBase<GetAllSubjectsQuery, List<SubjectDto>>(logger, mapper)
 {
-    public override async Task<Result<List<SubjectDto>>> Handle(GetAllSubjectsQuery request,
+    public override async Task<Result<List<SubjectDto>>> Handle(GetAllSubjectsQuery getAllUserQuery,
         CancellationToken cancellationToken)
     {
         var subjects = await subjectRepository.GetAllListAsync(cancellationToken);

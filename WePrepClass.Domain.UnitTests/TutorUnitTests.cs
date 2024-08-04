@@ -1,9 +1,8 @@
 ﻿using FluentAssertions;
 using WePrepClass.Domain.Commons.Enums;
 using WePrepClass.Domain.WePrepClassAggregates.Subjects;
+using WePrepClass.Domain.WePrepClassAggregates.Subjects.ValueObjects;
 using WePrepClass.Domain.WePrepClassAggregates.Tutors;
-using WePrepClass.Domain.WePrepClassAggregates.Tutors.Entities;
-using WePrepClass.Domain.WePrepClassAggregates.Tutors.ValueObjects;
 using WePrepClass.Domain.WePrepClassAggregates.Users.ValueObjects;
 using WePrepClass.UnitTestSetup;
 
@@ -11,30 +10,27 @@ namespace WePrepClass.Domain.UnitTests;
 
 public class TutorUnitTests
 {
-    private readonly List<Subject> _subjects = SubjectTestData.Subjects;
+    private readonly List<Subject> _subjects = TestData.SubjectData.Subjects;
     private readonly Tutor _validTutor;
     private readonly Tutor _validTutor2;
-    private readonly TutorId _validTutorId;
 
     public TutorUnitTests()
     {
         var userId = UserId.Create();
-        _validTutorId = TutorId.Create();
         var expectedMajor = _subjects[0];
 
         const AcademicLevel expectedAcademicLevel = AcademicLevel.UnderGraduate;
         const string university = "University of Lagos";
-        var majors = new List<Major> { Major.Create(_validTutorId, expectedMajor.Id) };
+        var majors = new List<SubjectId> { expectedMajor.Id };
 
         var tutorCreationResult = Tutor.Create(userId, expectedAcademicLevel, university, majors);
 
         _validTutor = tutorCreationResult.Value;
 
         var userId2 = UserId.Create();
-        var validTutor2Id = TutorId.Create();
         var expectedMajor2 = _subjects[1];
 
-        var majors2 = new List<Major> { Major.Create(validTutor2Id, expectedMajor2.Id) };
+        var majors2 = new List<SubjectId> { expectedMajor2.Id };
 
         var tutorCreationResult2 = Tutor.Create(userId2, expectedAcademicLevel, university, majors2);
 
@@ -52,12 +48,11 @@ public class TutorUnitTests
     {
         // Arrange
         var userId = UserId.Create();
-        var tutorId = TutorId.Create();
         var expectedMajor = _subjects[0];
 
         const AcademicLevel expectedAcademicLevel = AcademicLevel.UnderGraduate;
         const string expectedUniversity = "University of Lagos";
-        var majors = new List<Major> { Major.Create(tutorId, expectedMajor.Id) };
+        var majors = new List<SubjectId> { expectedMajor.Id };
 
         // Act
         var tutorCreationResult = Tutor.Create(userId, expectedAcademicLevel, expectedUniversity, majors);
@@ -79,12 +74,11 @@ public class TutorUnitTests
     {
         // Arrange
         var userId = UserId.Create();
-        var tutorId = TutorId.Create();
         var expectedMajor = _subjects[0];
 
         const AcademicLevel expectedAcademicLevel = AcademicLevel.UnderGraduate;
         const string expectedUniversity = "Lo";
-        var majors = new List<Major> { Major.Create(tutorId, expectedMajor.Id) };
+        var majors = new List<SubjectId> { expectedMajor.Id };
 
         // Act
         var tutorCreationResult = Tutor.Create(userId, expectedAcademicLevel, expectedUniversity, majors);
@@ -99,13 +93,12 @@ public class TutorUnitTests
     {
         // Arrange
         var userId = UserId.Create();
-        var tutorId = TutorId.Create();
         var expectedMajor = _subjects[0];
 
         const AcademicLevel expectedAcademicLevel = AcademicLevel.UnderGraduate;
         const string expectedUniversity =
             "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been thenm.";
-        var majors = new List<Major> { Major.Create(tutorId, expectedMajor.Id) };
+        var majors = new List<SubjectId> { expectedMajor.Id };
 
         // Act
         var tutorCreationResult = Tutor.Create(userId, expectedAcademicLevel, expectedUniversity, majors);
@@ -137,18 +130,17 @@ public class TutorUnitTests
     {
         // Arrange
         var userId = UserId.Create();
-        var tutorId = TutorId.Create();
 
         const AcademicLevel expectedAcademicLevel = AcademicLevel.UnderGraduate;
         const string expectedUniversity = "University of Lagos";
-        var majors = new List<Major>
+        var majors = new List<SubjectId>
         {
-            Major.Create(tutorId, _subjects[0].Id),
-            Major.Create(tutorId, _subjects[1].Id),
-            Major.Create(tutorId, _subjects[2].Id),
-            Major.Create(tutorId, _subjects[3].Id),
-            Major.Create(tutorId, _subjects[4].Id),
-            Major.Create(tutorId, _subjects[5].Id)
+            _subjects[0].Id,
+            _subjects[1].Id,
+            _subjects[2].Id,
+            _subjects[3].Id,
+            _subjects[4].Id,
+            _subjects[5].Id
         };
 
         // Act
@@ -165,7 +157,7 @@ public class TutorUnitTests
         // Arrange
         const AcademicLevel newAcademicLevel = AcademicLevel.Graduate;
         const string newUniversity = "University of Ibadan";
-        var newMajors = new List<Major> { Major.Create(_validTutorId, _subjects[1].Id) };
+        var newMajors = new List<SubjectId> { _subjects[1].Id };
 
         // Act
         var tutorUpdateResult = _validTutor.Update(newUniversity, newAcademicLevel, newMajors);
@@ -184,7 +176,7 @@ public class TutorUnitTests
         // Arrange
         const AcademicLevel newAcademicLevel = AcademicLevel.Graduate;
         const string newUniversity = "Lo";
-        var newMajors = new List<Major> { Major.Create(_validTutorId, _subjects[1].Id) };
+        var newMajors = new List<SubjectId> { _subjects[1].Id };
 
         // Act
         var tutorUpdateResult = _validTutor.Update(newUniversity, newAcademicLevel, newMajors);
@@ -289,7 +281,7 @@ public class TutorUnitTests
         _validTutor2.VerificationChange.Should().NotBeNull();
         _validTutor2.VerificationChange.ChangeVerificationRequestDetails.Count.Should().Be(2);
     }
-    
+
     [Fact]
     public void ChangeVerification_WhenWithValidDataAndTutorHasNoExistedVerification_ShouldSetVerification()
     {
@@ -301,12 +293,12 @@ public class TutorUnitTests
 
         // Assert
         verificationResult.IsSuccess.Should().BeTrue();
-        
+
         _validTutor.VerificationChange.Should().BeNull();
         _validTutor.Verifications.Count.Should().Be(2);
         _validTutor.Verifications.All(v => urls.Contains(v.Image)).Should().BeTrue();
     }
-    
+
     [Fact]
     public void ChangeVerification_WhenVerificationUrlEmpty_ShouldNotAddVerificationChange()
     {
@@ -375,7 +367,7 @@ public class TutorUnitTests
         _validTutor2.VerificationChange.VerificationChangeStatus.Should().Be(VerificationChangeStatus.Rejected);
         _validTutor2.Verifications.Should().BeEquivalentTo(oldVerifications);
     }
-    
+
     [Fact]
     public void VerifyVerificationChange_WhenNoVerificationChange_ShouldNotUpdateVerification()
     {

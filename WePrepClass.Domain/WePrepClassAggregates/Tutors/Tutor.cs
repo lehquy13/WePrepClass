@@ -3,6 +3,7 @@ using Matt.SharedKernel;
 using Matt.SharedKernel.Domain.Interfaces;
 using Matt.SharedKernel.Domain.Primitives.Auditing;
 using WePrepClass.Domain.Commons.Enums;
+using WePrepClass.Domain.WePrepClassAggregates.Subjects.ValueObjects;
 using WePrepClass.Domain.WePrepClassAggregates.Tutors.Entities;
 using WePrepClass.Domain.WePrepClassAggregates.Tutors.ValueObjects;
 using WePrepClass.Domain.WePrepClassAggregates.Users.ValueObjects;
@@ -23,7 +24,7 @@ public class Tutor : AuditedAggregateRoot<TutorId>
     private const int MaxMajorsCount = 5;
 
     private List<Verification> _verifications = [];
-    private readonly List<Major> _majors = [];
+    private readonly List<SubjectId> _majors = [];
 
     public UserId UserId { get; private set; } = null!;
 
@@ -36,7 +37,7 @@ public class Tutor : AuditedAggregateRoot<TutorId>
     public VerificationChange? VerificationChange { get; private set; }
 
     public IReadOnlyList<Verification> Verifications => _verifications.AsReadOnly();
-    public IReadOnlyList<Major> Majors => _majors.AsReadOnly();
+    public IReadOnlyList<SubjectId> Majors => _majors.AsReadOnly();
 
     private Tutor()
     {
@@ -46,7 +47,7 @@ public class Tutor : AuditedAggregateRoot<TutorId>
         UserId userId,
         AcademicLevel academicLevel,
         string university,
-        IList<Major> majors,
+        IList<SubjectId> majors,
         bool isVerified = false)
     {
         var tutor = new Tutor
@@ -117,7 +118,7 @@ public class Tutor : AuditedAggregateRoot<TutorId>
 
     public void SetTutorStatus(TutorStatus tutorStatus) => TutorStatus = tutorStatus;
 
-    public Result Update(string university, AcademicLevel academicLevel, IList<Major> updateMajors)
+    public Result Update(string university, AcademicLevel academicLevel, IList<SubjectId> updateMajors)
     {
         var result = DomainValidation.Sequentially(
             () => SetUniversity(university),
@@ -155,19 +156,19 @@ public class Tutor : AuditedAggregateRoot<TutorId>
         return Result.Success();
     }
 
-    private Result SetMajors(IList<Major> updateMajors)
+    private Result SetMajors(IList<SubjectId> updateMajors)
     {
         if (updateMajors.Count is < MinMajorsCount or > MaxMajorsCount)
             return Result.Fail($"Majors count must be between {MinMajorsCount} and {MaxMajorsCount}");
 
         // Get the new majors that are not in the tutor majors
-        var newMajors = updateMajors.Where(m => _majors.All(tm => tm.SubjectId != m.SubjectId));
+        var newMajors = updateMajors.Where(m => _majors.All(tm => tm != m));
 
         // Add the new majors to the tutor majors
         _majors.AddRange(newMajors);
 
         // Remove tutor majors that are not in the new list
-        _majors.RemoveAll(tm => updateMajors.All(m => m.SubjectId != tm.SubjectId));
+        _majors.RemoveAll(tm => updateMajors.All(m => m != tm));
 
         return Result.Success();
     }

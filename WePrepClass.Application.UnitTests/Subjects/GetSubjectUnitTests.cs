@@ -42,7 +42,7 @@ public class GetSubjectUnitTests
         var result = await _getSubjectQueryHandler.Handle(getSubjectQuery, CancellationToken.None);
 
         // Assert
-        result.IsFailure.Should().BeTrue();
+        result.IsFailed.Should().BeTrue();
         result.Error.Code.Should().NotBeEmpty();
     }
 

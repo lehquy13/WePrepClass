@@ -34,13 +34,13 @@ public class UpsertSubjectCommandHandler(
         {
             var result = SetSubject(request, subject);
 
-            if (result.IsFailure) return result.Error;
+            if (result.IsFailed) return result.Error;
         }
         else
         {
             var newSubject = Subject.Create(request.SubjectDto.Name, request.SubjectDto.Description);
 
-            if (newSubject.IsFailure) return newSubject.Error;
+            if (newSubject.IsFailed) return newSubject.Error;
 
             await subjectRepository.InsertAsync(newSubject.Value);
         }
@@ -55,8 +55,8 @@ public class UpsertSubjectCommandHandler(
         var setDescriptionResult = subject.SetDescription(request.SubjectDto.Description);
         var setNameResult = subject.SetName(request.SubjectDto.Name);
         
-        if (setDescriptionResult.IsFailure) return setDescriptionResult.Error;
-        if (setNameResult.IsFailure) return setNameResult.Error;
+        if (setDescriptionResult.IsFailed) return setDescriptionResult.Error;
+        if (setNameResult.IsFailed) return setNameResult.Error;
         
         return Result.Success();
     }

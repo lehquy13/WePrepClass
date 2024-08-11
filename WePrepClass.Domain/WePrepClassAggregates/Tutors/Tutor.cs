@@ -64,7 +64,7 @@ public class Tutor : AuditedAggregateRoot<TutorId>
             () => tutor.SetMajors(majors)
         );
 
-        if (result.IsFailure) return result.Error;
+        if (result.IsFailed) return result.Error;
 
         tutor.DomainEvents.Add(new TutorProfileCreatedDomainEvent(tutor));
 
@@ -75,7 +75,7 @@ public class Tutor : AuditedAggregateRoot<TutorId>
     {
         var verificationChange = VerificationChange.Create(Id, urls);
 
-        if (verificationChange.IsFailure) return verificationChange.Error;
+        if (verificationChange.IsFailed) return verificationChange.Error;
 
         if (_verifications.Count == 0)
         {
@@ -125,7 +125,7 @@ public class Tutor : AuditedAggregateRoot<TutorId>
             () => SetMajors(updateMajors)
         );
 
-        if (result.IsFailure) return result.Error;
+        if (result.IsFailed) return result.Error;
 
         AcademicLevel = academicLevel;
         IsVerified = false;

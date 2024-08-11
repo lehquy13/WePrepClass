@@ -42,7 +42,6 @@ public class TutorUnitTests
         _validTutor2.SetProfileAsVerified();
     }
 
-
     [Fact]
     public void CreateTutorProfile_WhenWithValidData_ShouldCreateTutorProfile()
     {
@@ -84,7 +83,7 @@ public class TutorUnitTests
         var tutorCreationResult = Tutor.Create(userId, expectedAcademicLevel, expectedUniversity, majors);
 
         // Assert
-        tutorCreationResult.IsFailure.Should().BeTrue();
+        tutorCreationResult.IsFailed.Should().BeTrue();
         tutorCreationResult.Error.Should().NotBeNull();
     }
 
@@ -104,7 +103,7 @@ public class TutorUnitTests
         var tutorCreationResult = Tutor.Create(userId, expectedAcademicLevel, expectedUniversity, majors);
 
         // Assert
-        tutorCreationResult.IsFailure.Should().BeTrue();
+        tutorCreationResult.IsFailed.Should().BeTrue();
         tutorCreationResult.Error.Should().NotBeNull();
     }
 
@@ -121,7 +120,7 @@ public class TutorUnitTests
         var tutorCreationResult = Tutor.Create(userId, expectedAcademicLevel, expectedUniversity, []);
 
         // Assert
-        tutorCreationResult.IsFailure.Should().BeTrue();
+        tutorCreationResult.IsFailed.Should().BeTrue();
         tutorCreationResult.Error.Should().NotBeNull();
     }
 
@@ -147,7 +146,7 @@ public class TutorUnitTests
         var tutorCreationResult = Tutor.Create(userId, expectedAcademicLevel, expectedUniversity, majors);
 
         // Assert
-        tutorCreationResult.IsFailure.Should().BeTrue();
+        tutorCreationResult.IsFailed.Should().BeTrue();
         tutorCreationResult.Error.Should().NotBeNull();
     }
 
@@ -155,7 +154,7 @@ public class TutorUnitTests
     public void UpdateTutorProfile_WhenWithValidData_ShouldUpdateTutorProfile()
     {
         // Arrange
-        const AcademicLevel newAcademicLevel = AcademicLevel.Graduate;
+        const AcademicLevel newAcademicLevel = AcademicLevel.Graduated;
         const string newUniversity = "University of Ibadan";
         var newMajors = new List<SubjectId> { _subjects[1].Id };
 
@@ -174,7 +173,7 @@ public class TutorUnitTests
     public void UpdateTutorProfile_WhenWithUniversityNameIsTooShort_ShouldNotUpdateTutorProfile()
     {
         // Arrange
-        const AcademicLevel newAcademicLevel = AcademicLevel.Graduate;
+        const AcademicLevel newAcademicLevel = AcademicLevel.Graduated;
         const string newUniversity = "Lo";
         var newMajors = new List<SubjectId> { _subjects[1].Id };
 
@@ -182,7 +181,7 @@ public class TutorUnitTests
         var tutorUpdateResult = _validTutor.Update(newUniversity, newAcademicLevel, newMajors);
 
         // Assert
-        tutorUpdateResult.IsFailure.Should().BeTrue();
+        tutorUpdateResult.IsFailed.Should().BeTrue();
         tutorUpdateResult.Error.Should().NotBeNull();
     }
 
@@ -190,14 +189,14 @@ public class TutorUnitTests
     public void UpdateTutorProfile_WhenWithMajorIsEmpty_ShouldNotUpdateTutorProfile()
     {
         // Arrange
-        const AcademicLevel newAcademicLevel = AcademicLevel.Graduate;
+        const AcademicLevel newAcademicLevel = AcademicLevel.Graduated;
         const string newUniversity = "Lorem ";
 
         // Act
         var tutorUpdateResult = _validTutor.Update(newUniversity, newAcademicLevel, []);
 
         // Assert
-        tutorUpdateResult.IsFailure.Should().BeTrue();
+        tutorUpdateResult.IsFailed.Should().BeTrue();
         tutorUpdateResult.Error.Should().NotBeNull();
     }
 
@@ -225,7 +224,7 @@ public class TutorUnitTests
         var rateResult = _validTutor.SetRate(expectedRate);
 
         // Assert
-        rateResult.IsFailure.Should().BeTrue();
+        rateResult.IsFailed.Should().BeTrue();
         rateResult.Error.Should().NotBeNull();
     }
 
@@ -239,7 +238,7 @@ public class TutorUnitTests
         var rateResult = _validTutor.SetRate(expectedRate);
 
         // Assert
-        rateResult.IsFailure.Should().BeTrue();
+        rateResult.IsFailed.Should().BeTrue();
         rateResult.Error.Should().NotBeNull();
     }
 
@@ -313,7 +312,7 @@ public class TutorUnitTests
         var verificationResult = _validTutor.ChangeVerification(urls);
 
         // Assert
-        verificationResult.IsFailure.Should().BeTrue();
+        verificationResult.IsFailed.Should().BeTrue();
         verificationResult.Error.Should().NotBeNull();
     }
 
@@ -327,7 +326,7 @@ public class TutorUnitTests
         var verificationResult = _validTutor.ChangeVerification(urls);
 
         // Assert
-        verificationResult.IsFailure.Should().BeTrue();
+        verificationResult.IsFailed.Should().BeTrue();
         verificationResult.Error.Should().NotBeNull();
     }
 
@@ -375,7 +374,7 @@ public class TutorUnitTests
         var verificationResult = _validTutor.VerifyVerificationChange(true);
 
         // Assert
-        verificationResult.IsFailure.Should().BeTrue();
+        verificationResult.IsFailed.Should().BeTrue();
         verificationResult.Error.Should().NotBeNull();
     }
 }

@@ -21,8 +21,7 @@ public class VerificationChange : AuditedEntity<VerificationChangeId>
 
     public static Result<VerificationChange> Create(TutorId tutorId, List<string> urls)
     {
-        if (urls.Count is 0)
-            return Result.Fail(DomainErrorConstants.Tutor.VerificationChangeCantBeEmpty);
+        if (urls.Count is 0) return DomainErrors.Tutor.VerificationChangeCantBeEmpty;
 
         var verificationChanges = new VerificationChange
         {
@@ -34,7 +33,7 @@ public class VerificationChange : AuditedEntity<VerificationChangeId>
         foreach (var verificationChangeDetail in urls.Select(url =>
                      VerificationChangeDetail.Create(verificationChanges.Id, url)))
         {
-            if (verificationChangeDetail.IsFailure) return verificationChangeDetail.Error;
+            if (verificationChangeDetail.IsFailed) return verificationChangeDetail.Error;
 
             verificationChanges._verificationChangeDetails.Add(verificationChangeDetail.Value);
         }

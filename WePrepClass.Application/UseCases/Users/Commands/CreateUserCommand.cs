@@ -80,7 +80,7 @@ public class CreateUserCommandHandler(
     {
         var address = Address.Create(command.City, command.District, command.DetailAddress);
 
-        if (address.IsFailure) return Result.Fail(address.Error);
+        if (address.IsFailed) return Result.Fail(address.Error);
 
         var result = await identityService.CreateAsync(
             command.Username,

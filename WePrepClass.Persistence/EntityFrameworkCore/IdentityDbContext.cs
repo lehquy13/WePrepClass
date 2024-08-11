@@ -1,13 +1,13 @@
-﻿using WePrepClass.Domain.Commons.Enums;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
+using WePrepClass.Domain.Commons.Enums;
 
 namespace WePrepClass.Persistence.EntityFrameworkCore;
 
 public class IdentityDbContext(DbContextOptions<IdentityDbContext> options)
-    : IdentityDbContext<IdentityUser, IdentityRole, string>(options)    
+    : IdentityDbContext<IdentityUser, IdentityRole, string>(options)
 {
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
@@ -20,28 +20,19 @@ public class IdentityDbContext(DbContextOptions<IdentityDbContext> options)
 
         modelBuilder.Entity<IdentityRole>(builder =>
         {
-            builder.HasData(
-                [
+            var id = 1;
+
+            foreach (var role in EnumProvider.Roles)
+            {
+                builder.HasData(
                     new IdentityRole
                     {
-                        Id = "1",
-                        Name = Role.BaseUser.ToString(),
-                        NormalizedName = Role.BaseUser.ToString().ToUpper()
-                    },
-                    new IdentityRole
-                    {
-                        Id = "2",
-                        Name = Role.Tenant.ToString(),
-                        NormalizedName = Role.Tenant.ToString().ToUpper()
-                    },
-                    new IdentityRole
-                    {
-                        Id = "3",
-                        Name = Role.Admin.ToString(),
-                        NormalizedName = Role.Admin.ToString().ToUpper()
+                        Id = id++.ToString(),
+                        Name = role,
+                        NormalizedName = role.ToUpper()
                     }
-                ]
-            );
+                );
+            }
         });
     }
 }

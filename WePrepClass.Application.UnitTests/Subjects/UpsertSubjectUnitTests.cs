@@ -146,7 +146,7 @@ public class UpsertSubjectUnitTests
         var result = await _upsertSubjectCommandHandler.Handle(upsertSubjectCommand, CancellationToken.None);
 
         // Assert
-        result.IsFailure.Should().BeTrue();
+        result.IsFailed.Should().BeTrue();
         result.Error.Code.Should().NotBeEmpty();
     }
 }

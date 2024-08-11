@@ -39,7 +39,7 @@ public class DeleteSubjectUnitTests
         var result = await _deleteSubjectCommandHandler.Handle(deleteSubjectCommand, CancellationToken.None);
 
         // Assert
-        result.IsFailure.Should().BeTrue();
+        result.IsFailed.Should().BeTrue();
         result.Error.Code.Should().NotBeEmpty();
     }
 
@@ -64,7 +64,7 @@ public class DeleteSubjectUnitTests
         var result = await _deleteSubjectCommandHandler.Handle(deleteSubjectCommand, CancellationToken.None);
 
         // Assert
-        result.IsFailure.Should().BeTrue();
+        result.IsFailed.Should().BeTrue();
         result.Error.Code.Should().NotBeEmpty();
     }
 

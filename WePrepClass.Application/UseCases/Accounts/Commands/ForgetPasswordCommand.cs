@@ -28,7 +28,7 @@ public class ForgetPasswordCommandHandler(
     {
         var result = await identityService.ForgetPasswordAsync(command.Email);
 
-        return result.IsFailure || await UnitOfWork.SaveChangesAsync(cancellationToken) <= 0
+        return result.IsFailed || await UnitOfWork.SaveChangesAsync(cancellationToken) <= 0
             ? Result.Fail(AuthenticationErrorConstants.ResetPasswordFail)
             : Result.Success();
     }

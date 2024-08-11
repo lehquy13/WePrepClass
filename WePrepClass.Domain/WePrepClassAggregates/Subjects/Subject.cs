@@ -29,7 +29,7 @@ public class Subject : FullAuditedAggregateRoot<SubjectId>
             () => subject.SetDescription(description)
         );
 
-        if (result.IsFailure) return result.Error;
+        if (result.IsFailed) return result.Error;
 
         return subject;
     }

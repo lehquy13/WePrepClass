@@ -93,7 +93,7 @@ public class RegisterCommandHandler(
     {
         var address = Address.Create(command.City, command.Country, command.DetailAddress);
 
-        if (address.IsFailure)
+        if (address.IsFailed)
         {
             return Result.Fail(address.Error);
         }

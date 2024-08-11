@@ -64,7 +64,7 @@ public class GetUserByIdQueryHandlerUnitTests
         var result = await _sut.Handle(query, default);
 
         // Assert
-        result.IsFailure.Should().BeTrue();
+        result.IsFailed.Should().BeTrue();
         result.Error.Code.Should().NotBeEmpty();
     }
 }

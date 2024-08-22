@@ -21,7 +21,7 @@ public class VerificationChange : AuditedEntity<VerificationChangeId>
 
     public static Result<VerificationChange> Create(TutorId tutorId, List<string> urls)
     {
-        if (urls.Count is 0) return DomainErrors.Tutor.VerificationChangeCantBeEmpty;
+        if (urls.Count is 0) return DomainErrors.Tutors.VerificationChangeCantBeEmpty;
 
         var verificationChanges = new VerificationChange
         {

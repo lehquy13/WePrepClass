@@ -27,20 +27,20 @@ public class Review : ValueObject, IAuditedObject
     {
         if (rate is < MinRate or > MaxRate)
         {
-            return Result.Fail(DomainErrors.Course.InvalidReviewRate);
+            return Result.Fail(DomainErrors.Courses.InvalidReviewRate);
         }
 
         if (detail.Length > MaxDetailLength)
         {
-            return Result.Fail(DomainErrors.Course.InvalidDetailLength);
+            return Result.Fail(DomainErrors.Courses.InvalidDetailLength);
         }
 
         return new Review()
         {
             Rate = rate,
             Detail = detail,
-            CreationTime = DateTime.UtcNow,
-            LastModificationTime = DateTime.UtcNow
+            CreationTime = DateTime.Now,
+            LastModificationTime = DateTime.Now
         };
     }
 

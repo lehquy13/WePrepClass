@@ -16,7 +16,7 @@ public class VerificationChangeDetail : Entity<VerificationChangeDetailId>
 
     public static Result<VerificationChangeDetail> Create(VerificationChangeId verificationChangeId, string imageUrl)
     {
-        if (imageUrl.Length is 0) return DomainErrors.Tutor.InvalidImageUrl;
+        if (imageUrl.Length is 0) return DomainErrors.Tutors.InvalidImageUrl;
 
         return new VerificationChangeDetail
         {

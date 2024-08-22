@@ -4,7 +4,7 @@ namespace WePrepClass.Domain;
 
 public static class DomainErrors
 {
-    public static class Tutor
+    public static class Tutors
     {
         public static readonly Error InvalidImageUrl = new("InvalidImageUrl", "Invalid image url format");
 
@@ -12,7 +12,7 @@ public static class DomainErrors
             new("VerificationChangesCantBeEmpty", "At least one verification change is required");
     }
 
-    public static class User
+    public static class Users
     {
         public static readonly Error InvalidPhoneNumber = new("InvalidPhoneNumber", "Invalid phone number format");
         public static readonly Error InvalidBirthYear = new("InvalidBirthYear", "Birth year is invalid");
@@ -22,7 +22,7 @@ public static class DomainErrors
         public static readonly Error EmailIsRequired = new("EmailIsRequired", "Email is required");
     }
 
-    public static class Course
+    public static class Courses
     {
         public static readonly Error InvalidDetailLength =
             new("InvalidDetailLength", "Detail length should be less than 500");
@@ -36,7 +36,8 @@ public static class DomainErrors
         public static readonly Error SessionPerWeekOutOfRange =
             new("SessionPerWeekOutOfRange", "Session per week should be between 1 and 7");
 
-        public static readonly Error TitleTooShort = new("TitleTooShort", "Title should be at least 50 characters");
+        public static readonly Error CourseTitleTooShort =
+            new("TitleTooShort", "Title should be at least 50 characters");
 
         public static readonly Error CourseNotBeenConfirmed =
             new("CourseNotBeenConfirmed", "Course has not been confirmed");
@@ -50,7 +51,10 @@ public static class DomainErrors
         public static readonly Error CourseStatusInvalidForUnassignment = new("CourseStatusInvalidForUnassignment",
             "Course can not unassign tutor due to having been cancelled or completed");
 
-        public static readonly Error UnavailableForConfirmation = new("UnavailableForConfirmation",
+        public static readonly Error CourseNotBeenAssigned = new("UnavailableForConfirmation",
             "Course is not available for confirmation");
+
+        public static readonly Error ReviewNotAllowedYet = new("CourseReviewNotAllowedYet",
+            "Course review is not allowed yet");
     }
 }

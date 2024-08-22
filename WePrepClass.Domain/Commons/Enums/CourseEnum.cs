@@ -38,10 +38,18 @@ public enum LearningMode
     Hybrid
 }
 
-public enum DurationType
+public enum DurationUnit
 {
     Minute,
     Hour
+}
+
+public enum SessionFrequency
+{
+    Daily,
+    Weekly,
+    Monthly,
+    Custom
 }
 
 public enum RequestStatus

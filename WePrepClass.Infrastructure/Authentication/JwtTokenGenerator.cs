@@ -82,6 +82,6 @@ internal class JwtTokenGenerator(IOptions<JwtSettings> options) : IJwtTokenGener
 
     private static bool IsTokenExpired(SecurityToken jwtToken)
     {
-        return jwtToken.ValidTo < DateTime.UtcNow;
+        return jwtToken.ValidTo < DateTime.Now;
     }
 }

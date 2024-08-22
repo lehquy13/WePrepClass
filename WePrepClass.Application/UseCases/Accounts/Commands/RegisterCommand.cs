@@ -61,7 +61,7 @@ public class RegisterCommandValidator : AbstractValidator<RegisterCommand>
             .WithMessage("Last name must not exceed 50 characters.");
 
         RuleFor(x => x.BirthYear)
-            .InclusiveBetween(1900, DateTime.UtcNow.Year)
+            .InclusiveBetween(1900, DateTime.Now.Year)
             .WithMessage("Invalid birth year.");
 
         RuleFor(x => x.City)

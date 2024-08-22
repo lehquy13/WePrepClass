@@ -51,12 +51,12 @@ public class User : FullAuditedAggregateRoot<UserId>
         Role role)
     {
         var result = DomainValidation.Sequentially(
-            () => IsBirthYearValid(birthYear) ? Result.Success() : DomainErrors.User.InvalidBirthYear,
-            () => IsNameValid(firstName) ? Result.Success() : DomainErrors.User.FirstNameIsRequired,
-            () => IsNameValid(lastName) ? Result.Success() : DomainErrors.User.LastNameIsRequired,
-            () => IsDescriptionValid(description, role) ? Result.Success() : DomainErrors.User.DescriptionIsRequired,
-            () => IsEmailValid(email) ? Result.Success() : DomainErrors.User.EmailIsRequired,
-            () => IsPhoneNumberValid(phoneNumber) ? Result.Success() : DomainErrors.User.InvalidPhoneNumber
+            () => IsBirthYearValid(birthYear) ? Result.Success() : DomainErrors.Users.InvalidBirthYear,
+            () => IsNameValid(firstName) ? Result.Success() : DomainErrors.Users.FirstNameIsRequired,
+            () => IsNameValid(lastName) ? Result.Success() : DomainErrors.Users.LastNameIsRequired,
+            () => IsDescriptionValid(description, role) ? Result.Success() : DomainErrors.Users.DescriptionIsRequired,
+            () => IsEmailValid(email) ? Result.Success() : DomainErrors.Users.EmailIsRequired,
+            () => IsPhoneNumberValid(phoneNumber) ? Result.Success() : DomainErrors.Users.InvalidPhoneNumber
         );
 
         if (result.IsFailed) return result.Error;

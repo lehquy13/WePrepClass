@@ -5,7 +5,7 @@ using WePrepClass.Domain.WePrepClassAggregates.Tutors.ValueObjects;
 
 namespace WePrepClass.Domain.WePrepClassAggregates.Courses.Entities;
 
-public class CourseRequest : AuditedEntity<CourseRequestId>
+public class TeachingRequest : AuditedEntity<CourseRequestId>
 {
     public TutorId TutorId { get; private set; } = null!;
     public CourseId CourseId { get; private set; } = null!;
@@ -13,11 +13,11 @@ public class CourseRequest : AuditedEntity<CourseRequestId>
 
     public RequestStatus CourseRequestStatus { get; private set; } = RequestStatus.InProgress;
 
-    private CourseRequest()
+    private TeachingRequest()
     {
     }
 
-    public static CourseRequest Create(TutorId tutorId, CourseId courseId) => new()
+    public static TeachingRequest Create(TutorId tutorId, CourseId courseId) => new()
     {
         Id = CourseRequestId.Create(),
         TutorId = tutorId,

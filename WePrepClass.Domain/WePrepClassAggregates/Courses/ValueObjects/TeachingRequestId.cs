@@ -2,19 +2,16 @@
 
 namespace WePrepClass.Domain.WePrepClassAggregates.Courses.ValueObjects;
 
-public class CourseRequestId : ValueObject
+public class TeachingRequestId : ValueObject
 {
     public Guid Value { get; private set; }
 
-    private CourseRequestId(Guid value)
+    private TeachingRequestId(Guid value)
     {
         Value = value;
     }
 
-    public static CourseRequestId Create(Guid value = default)
-    {
-        return new(value == Guid.Empty ? Guid.NewGuid() : value);
-    }
+    public static TeachingRequestId Create(Guid value = default) => new(value == Guid.Empty ? Guid.NewGuid() : value);
 
     public override IEnumerable<object> GetEqualityComponents()
     {

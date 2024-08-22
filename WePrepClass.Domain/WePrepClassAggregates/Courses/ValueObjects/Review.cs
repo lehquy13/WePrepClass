@@ -1,29 +1,27 @@
 using Matt.Auditing;
 using Matt.ResultObject;
+using Matt.SharedKernel.Domain.Interfaces;
 using Matt.SharedKernel.Domain.Primitives;
 
 namespace WePrepClass.Domain.WePrepClassAggregates.Courses.ValueObjects;
 
-public class Review : ValueObject, IAuditedObject
+public class Review : ValueObject, IHasModificationTime
 {
     private const short MinRate = 1;
     private const short MaxRate = 5;
     private const int MaxDetailLength = 500;
 
-    public short Rate { get; private set; }
-    public string Detail { get; private set; } = null!;
+    public short Rate { get; private init; }
+    public string Detail { get; private init; } = null!;
 
-
-    public DateTime CreationTime { get; private set; }
-    public string? CreatorId { get; private set; }
-    public DateTime? LastModificationTime { get; private set; }
+    public DateTime? LastModificationTime { get; private init; }
     public string? LastModifierId { get; private set; }
 
     private Review()
     {
     }
 
-    public static Result<Review> Create(short rate, string detail, CourseId courseId)
+    public static Result<Review> Create(short rate, string detail)
     {
         if (rate is < MinRate or > MaxRate)
         {
@@ -35,12 +33,11 @@ public class Review : ValueObject, IAuditedObject
             return Result.Fail(DomainErrors.Courses.InvalidDetailLength);
         }
 
-        return new Review()
+        return new Review
         {
             Rate = rate,
             Detail = detail,
-            CreationTime = DateTime.Now,
-            LastModificationTime = DateTime.Now
+            LastModificationTime = DateTimeProvider.Now
         };
     }
 

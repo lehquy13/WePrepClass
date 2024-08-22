@@ -116,7 +116,7 @@ public sealed class Course : FullAuditedAggregateRoot<CourseId>
 
         if (ConfirmedDate?.AddDays(30) > DateTimeProvider.Now) return DomainErrors.Courses.ReviewNotAllowedYet;
 
-        var result = Review.Create(rate, detail, Id);
+        var result = Review.Create(rate, detail);
 
         if (result.IsFailed)
         {

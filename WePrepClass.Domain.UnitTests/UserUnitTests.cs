@@ -79,7 +79,7 @@ public class UserUnitTests
         // Assert
         userResult.Should().NotBeNull();
         userResult.IsFailed.Should().BeTrue();
-        userResult.Error.Should().Be(DomainErrors.User.LastNameIsRequired);
+        userResult.Error.Should().Be(DomainErrors.Users.LastNameIsRequired);
     }
 
     [Fact]
@@ -106,7 +106,7 @@ public class UserUnitTests
         // Assert
         userResult.Should().NotBeNull();
         userResult.IsFailed.Should().BeTrue();
-        userResult.Error.Should().Be(DomainErrors.User.LastNameIsRequired);
+        userResult.Error.Should().Be(DomainErrors.Users.LastNameIsRequired);
     }
 
     [Fact]
@@ -133,7 +133,7 @@ public class UserUnitTests
         // Assert
         userResult.Should().NotBeNull();
         userResult.IsFailed.Should().BeTrue();
-        userResult.Error.Should().Be(DomainErrors.User.FirstNameIsRequired);
+        userResult.Error.Should().Be(DomainErrors.Users.FirstNameIsRequired);
     }
 
     [Fact]
@@ -160,7 +160,7 @@ public class UserUnitTests
         // Assert
         userResult.Should().NotBeNull();
         userResult.IsFailed.Should().BeTrue();
-        userResult.Error.Should().Be(DomainErrors.User.FirstNameIsRequired);
+        userResult.Error.Should().Be(DomainErrors.Users.FirstNameIsRequired);
     }
 
     [Fact]
@@ -187,7 +187,7 @@ public class UserUnitTests
         // Assert
         userResult.Should().NotBeNull();
         userResult.IsFailed.Should().BeTrue();
-        userResult.Error.Should().Be(DomainErrors.User.InvalidBirthYear);
+        userResult.Error.Should().Be(DomainErrors.Users.InvalidBirthYear);
     }
 
     [Fact]
@@ -213,7 +213,7 @@ public class UserUnitTests
         // Assert
         userResult.Should().NotBeNull();
         userResult.IsFailed.Should().BeTrue();
-        userResult.Error.Should().Be(DomainErrors.User.InvalidBirthYear);
+        userResult.Error.Should().Be(DomainErrors.Users.InvalidBirthYear);
     }
 
     [Fact]
@@ -241,7 +241,7 @@ public class UserUnitTests
         // Assert
         userResult.Should().NotBeNull();
         userResult.IsFailed.Should().BeTrue();
-        userResult.Error.Should().Be(DomainErrors.User.DescriptionIsRequired);
+        userResult.Error.Should().Be(DomainErrors.Users.DescriptionIsRequired);
     }
 
     [Fact]
@@ -269,7 +269,7 @@ public class UserUnitTests
         // Assert
         userResult.Should().NotBeNull();
         userResult.IsFailed.Should().BeTrue();
-        userResult.Error.Should().Be(DomainErrors.User.DescriptionIsRequired);
+        userResult.Error.Should().Be(DomainErrors.Users.DescriptionIsRequired);
     }
 
     [Fact]
@@ -296,7 +296,7 @@ public class UserUnitTests
         // Assert
         userResult.Should().NotBeNull();
         userResult.IsFailed.Should().BeTrue();
-        userResult.Error.Should().Be(DomainErrors.User.EmailIsRequired);
+        userResult.Error.Should().Be(DomainErrors.Users.EmailIsRequired);
     }
 
     [Fact]
@@ -323,7 +323,7 @@ public class UserUnitTests
         // Assert
         userResult.Should().NotBeNull();
         userResult.IsFailed.Should().BeTrue();
-        userResult.Error.Should().Be(DomainErrors.User.InvalidPhoneNumber);
+        userResult.Error.Should().Be(DomainErrors.Users.InvalidPhoneNumber);
     }
 
     [Fact]
@@ -350,6 +350,6 @@ public class UserUnitTests
         // Assert
         userResult.Should().NotBeNull();
         userResult.IsFailed.Should().BeTrue();
-        userResult.Error.Should().Be(DomainErrors.User.InvalidPhoneNumber);
+        userResult.Error.Should().Be(DomainErrors.Users.InvalidPhoneNumber);
     }
 }

@@ -15,7 +15,7 @@ public class Fee : ValueObject
 
     public static Fee Create(decimal amount, string? currency)
     {
-        return new Fee()
+        return new Fee
         {
             Amount = amount,
             Currency = currency ?? CurrencyCode.VND

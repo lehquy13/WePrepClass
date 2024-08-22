@@ -5,13 +5,13 @@ using WePrepClass.Domain.WePrepClassAggregates.Tutors.ValueObjects;
 
 namespace WePrepClass.Domain.WePrepClassAggregates.Courses.Entities;
 
-public class TeachingRequest : AuditedEntity<CourseRequestId>
+public class TeachingRequest : AuditedEntity<TeachingRequestId>
 {
     public TutorId TutorId { get; private set; } = null!;
     public CourseId CourseId { get; private set; } = null!;
     public string Description { get; private set; } = null!;
 
-    public RequestStatus CourseRequestStatus { get; private set; } = RequestStatus.InProgress;
+    public RequestStatus TeachingRequestStatus { get; private set; } = RequestStatus.InProgress;
 
     private TeachingRequest()
     {
@@ -19,7 +19,7 @@ public class TeachingRequest : AuditedEntity<CourseRequestId>
 
     public static TeachingRequest Create(TutorId tutorId, CourseId courseId) => new()
     {
-        Id = CourseRequestId.Create(),
+        Id = TeachingRequestId.Create(),
         TutorId = tutorId,
         CourseId = courseId,
         Description = "The request is in progress, please wait for the administrator's approval"
@@ -27,13 +27,13 @@ public class TeachingRequest : AuditedEntity<CourseRequestId>
 
     public void Cancel(string description = "The request has been cancelled")
     {
-        CourseRequestStatus = RequestStatus.Denied;
+        TeachingRequestStatus = RequestStatus.Denied;
         Description = description;
     }
 
     public void Approved()
     {
-        CourseRequestStatus = RequestStatus.Approved;
+        TeachingRequestStatus = RequestStatus.Approved;
 
         Description = "The request has been approved. Please check course's contact information as soon as possible";
     }

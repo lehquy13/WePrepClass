@@ -16,6 +16,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <Folder Include="EventHandlers\" />
       <Folder Include="UseCases\Administrator\" />
     </ItemGroup>
 

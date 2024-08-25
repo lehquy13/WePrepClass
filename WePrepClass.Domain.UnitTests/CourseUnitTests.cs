@@ -3,9 +3,9 @@ using Matt.SharedKernel.Domain.Interfaces;
 using Moq;
 using WePrepClass.Domain.Commons.Enums;
 using WePrepClass.Domain.WePrepClassAggregates.Courses;
-using WePrepClass.Domain.WePrepClassAggregates.Courses.Entities;
 using WePrepClass.Domain.WePrepClassAggregates.Courses.ValueObjects;
 using WePrepClass.Domain.WePrepClassAggregates.Subjects.ValueObjects;
+using WePrepClass.Domain.WePrepClassAggregates.TeachingRequests;
 using WePrepClass.Domain.WePrepClassAggregates.Tutors.ValueObjects;
 using WePrepClass.Domain.WePrepClassAggregates.Users.ValueObjects;
 
@@ -95,7 +95,7 @@ public class CourseUnitTests
 
         // Assert
         courseCreationResult.IsFailed.Should().BeTrue();
-        courseCreationResult.Error.Should().Be(DomainErrors.Courses.CourseTitleTooShort);
+        courseCreationResult.Error.Should().Be(DomainErrors.Courses.TitleTooShort);
     }
 
     [Fact]
@@ -119,7 +119,7 @@ public class CourseUnitTests
 
         // Assert
         updateCourseResult.IsFailed.Should().BeTrue();
-        updateCourseResult.Error.Should().Be(DomainErrors.Courses.CourseTitleTooShort);
+        updateCourseResult.Error.Should().Be(DomainErrors.Courses.TitleTooShort);
     }
 
     [Fact]
@@ -186,7 +186,7 @@ public class CourseUnitTests
 
         // Assert
         reviewCourseResult.IsFailed.Should().BeTrue();
-        reviewCourseResult.Error.Should().Be(DomainErrors.Courses.CourseNotBeenConfirmed);
+        reviewCourseResult.Error.Should().Be(DomainErrors.Courses.NotBeenConfirmed);
     }
 
     [Fact]
@@ -344,7 +344,7 @@ public class CourseUnitTests
 
         // Assert
         addTeachingRequestResult.IsFailed.Should().BeTrue();
-        addTeachingRequestResult.Error.Should().Be(DomainErrors.Courses.CourseUnavailable);
+        addTeachingRequestResult.Error.Should().Be(DomainErrors.Courses.Unavailable);
     }
 
     [Fact]
@@ -420,7 +420,7 @@ public class CourseUnitTests
 
         // Assert
         result.IsFailed.Should().BeTrue();
-        result.Error.Should().Be(DomainErrors.Courses.CourseStatusInvalidForUnassignment);
+        result.Error.Should().Be(DomainErrors.Courses.StatusInvalidForUnassignment);
     }
 
     [Fact]
@@ -450,7 +450,7 @@ public class CourseUnitTests
 
         // Assert
         result.IsFailed.Should().BeTrue();
-        result.Error.Should().Be(DomainErrors.Courses.CourseNotBeenAssigned);
+        result.Error.Should().Be(DomainErrors.Courses.HaveNotBeenAssigned);
     }
 
     [Fact]
@@ -480,7 +480,7 @@ public class CourseUnitTests
 
         // Assert
         result.IsFailed.Should().BeTrue();
-        result.Error.Should().Be(DomainErrors.Courses.CourseUnavailable);
+        result.Error.Should().Be(DomainErrors.Courses.Unavailable);
     }
 
     [Fact]

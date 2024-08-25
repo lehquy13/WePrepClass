@@ -2,9 +2,9 @@
 using Matt.SharedKernel.Domain.Interfaces;
 using Matt.SharedKernel.Domain.Primitives.Auditing;
 using WePrepClass.Domain.Commons.Enums;
-using WePrepClass.Domain.WePrepClassAggregates.Courses.Entities;
 using WePrepClass.Domain.WePrepClassAggregates.Courses.ValueObjects;
 using WePrepClass.Domain.WePrepClassAggregates.Subjects.ValueObjects;
+using WePrepClass.Domain.WePrepClassAggregates.TeachingRequests.ValueObjects;
 using WePrepClass.Domain.WePrepClassAggregates.Tutors.ValueObjects;
 using WePrepClass.Domain.WePrepClassAggregates.Users.ValueObjects;
 
@@ -14,7 +14,7 @@ public sealed class Course : FullAuditedAggregateRoot<CourseId>
 {
     private const int MinTitleLength = 50;
 
-    private readonly List<TeachingRequest> _teachingRequests = [];
+    private readonly List<TeachingRequestId> _teachingRequests = [];
 
     public string Title { get; private set; } = null!;
     public string Description { get; private set; } = null!;
@@ -34,7 +34,7 @@ public sealed class Course : FullAuditedAggregateRoot<CourseId>
     public SubjectId SubjectId { get; private set; } = null!;
     public TutorId? TutorId { get; private set; }
 
-    public IReadOnlyCollection<TeachingRequest> TeachingRequests => _teachingRequests.AsReadOnly();
+    public IReadOnlyCollection<TeachingRequestId> TeachingRequestIds => _teachingRequests.AsReadOnly();
 
     private Course()
     {
@@ -52,7 +52,7 @@ public sealed class Course : FullAuditedAggregateRoot<CourseId>
         Address address,
         SubjectId subjectId)
     {
-        if (title.Length < MinTitleLength) return DomainErrors.Courses.CourseTitleTooShort;
+        if (title.Length < MinTitleLength) return DomainErrors.Courses.TitleTooShort;
 
         var course = new Course
         {
@@ -87,7 +87,7 @@ public sealed class Course : FullAuditedAggregateRoot<CourseId>
         Address address,
         SubjectId subjectId)
     {
-        if (title.Length < MinTitleLength) return DomainErrors.Courses.CourseTitleTooShort;
+        if (title.Length < MinTitleLength) return DomainErrors.Courses.TitleTooShort;
 
         Title = title;
         Description = description;
@@ -111,7 +111,7 @@ public sealed class Course : FullAuditedAggregateRoot<CourseId>
     {
         if (Status is not CourseStatus.Confirmed)
         {
-            return DomainErrors.Courses.CourseNotBeenConfirmed;
+            return DomainErrors.Courses.NotBeenConfirmed;
         }
 
         if (ConfirmedDate?.AddDays(30) > DateTimeProvider.Now) return DomainErrors.Courses.ReviewNotAllowedYet;
@@ -130,44 +130,12 @@ public sealed class Course : FullAuditedAggregateRoot<CourseId>
         return Result.Success();
     }
 
-    public Result AddTeachingRequest(TeachingRequest teachingRequestToCreate)
+    public void AssignTutor(TutorId tutorId)
     {
-        if (Status is not CourseStatus.Available) return DomainErrors.Courses.CourseUnavailable;
-
-        if (_teachingRequests.Any(x => x.TutorId == teachingRequestToCreate.TutorId))
-            return Result.Fail(DomainErrors.Courses.TeachingRequestAlreadyExist);
-
-        _teachingRequests.Add(teachingRequestToCreate);
-
-        DomainEvents.Add(new CourseRequestedDomainEvent(this));
-
-        return Result.Success();
-    }
-
-    public Result AssignTutor(TutorId tutorId)
-    {
-        if (LearnerDetail.LearnerId?.Value == tutorId.Value)
-            return DomainErrors.Courses.TutorAndLearnerShouldNotBeTheSame;
-
         Status = CourseStatus.InProgress;
         TutorId = tutorId;
 
-        // Check if there is a request exist before, then approve it and cancel the rest
-        foreach (var courseRequest in _teachingRequests)
-        {
-            if (courseRequest.TutorId == tutorId)
-            {
-                courseRequest.Approved();
-            }
-            else
-            {
-                courseRequest.Cancel();
-            }
-        }
-
         DomainEvents.Add(new TutorAssignedDomainEvent(this));
-
-        return Result.Success();
     }
 
     public void SetCourseStatus(CourseStatus status)
@@ -175,12 +143,9 @@ public sealed class Course : FullAuditedAggregateRoot<CourseId>
         Status = status;
     }
 
-    public Result DissociateTutor(string detailMessage = "")
+    public Result DissociateTutor()
     {
-        if ((short)Status < 3) return DomainErrors.Courses.CourseStatusInvalidForUnassignment;
-
-        // Check if there is a request approved before, then cancel it
-        _teachingRequests.FirstOrDefault(x => x.TutorId == TutorId)?.Cancel(detailMessage);
+        if ((short)Status < 3) return DomainErrors.Courses.StatusInvalidForUnassignment;
 
         TutorId = null;
 
@@ -191,7 +156,7 @@ public sealed class Course : FullAuditedAggregateRoot<CourseId>
 
     public Result ConfirmCourse()
     {
-        if (Status is not CourseStatus.InProgress || TutorId is null) return DomainErrors.Courses.CourseNotBeenAssigned;
+        if (Status is not CourseStatus.InProgress || TutorId is null) return DomainErrors.Courses.HaveNotBeenAssigned;
 
         Status = CourseStatus.Confirmed;
         ConfirmedDate = DateTimeProvider.Now;
@@ -203,7 +168,7 @@ public sealed class Course : FullAuditedAggregateRoot<CourseId>
 
     public Result RefundCourse(string commandNote)
     {
-        if (Status is not CourseStatus.Confirmed) return DomainErrors.Courses.CourseUnavailable;
+        if (Status is not CourseStatus.Confirmed) return DomainErrors.Courses.Unavailable;
 
         Note = commandNote;
         Status = CourseStatus.Refunded;
@@ -222,8 +187,6 @@ public record NewCourseCreatedCourseEvent(Course Course) : IDomainEvent;
 public record CanceledAndRefundedCourseEvent(Course Course) : IDomainEvent;
 
 public record CourseConfirmedDomainEvent(Course Course) : IDomainEvent;
-
-public record CourseRequestedDomainEvent(Course Course) : IDomainEvent;
 
 public record CourseReviewedDomainEvent(Course Course) : IDomainEvent;
 

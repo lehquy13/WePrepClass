@@ -1,10 +1,10 @@
 ﻿using Matt.SharedKernel.Domain.Primitives;
 
-namespace WePrepClass.Domain.WePrepClassAggregates.Courses.ValueObjects;
+namespace WePrepClass.Domain.WePrepClassAggregates.TeachingRequests.ValueObjects;
 
 public class TeachingRequestId : ValueObject
 {
-    public Guid Value { get; private set; }
+    private Guid Value { get; init; }
 
     private TeachingRequestId(Guid value)
     {

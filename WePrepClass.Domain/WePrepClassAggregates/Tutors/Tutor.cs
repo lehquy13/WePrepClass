@@ -52,7 +52,7 @@ public class Tutor : AuditedAggregateRoot<TutorId>
     {
         var tutor = new Tutor
         {
-            Id = TutorId.Create(),
+            Id = TutorId.Create(userId.Value),
             UserId = userId,
             AcademicLevel = academicLevel,
             IsVerified = isVerified,

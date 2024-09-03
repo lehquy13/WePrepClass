@@ -5,11 +5,10 @@ using WePrepClass.Domain.Commons.Enums;
 using WePrepClass.Domain.WePrepClassAggregates.Courses;
 using WePrepClass.Domain.WePrepClassAggregates.Courses.ValueObjects;
 using WePrepClass.Domain.WePrepClassAggregates.Subjects.ValueObjects;
-using WePrepClass.Domain.WePrepClassAggregates.TeachingRequests;
 using WePrepClass.Domain.WePrepClassAggregates.Tutors.ValueObjects;
 using WePrepClass.Domain.WePrepClassAggregates.Users.ValueObjects;
 
-namespace WePrepClass.Domain.UnitTests;
+namespace WePrepClass.Domain.UnitTests.Courses;
 
 public class CourseUnitTests
 {
@@ -223,7 +222,7 @@ public class CourseUnitTests
         // Assert
         reviewCourseResult.IsFailed.Should().BeTrue();
     }
-    
+
     [Fact]
     public void ReviewCourse_WhenRateIsSmallerThan0_ShouldReturnFailedResult()
     {
@@ -292,33 +291,6 @@ public class CourseUnitTests
     }
 
     [Fact]
-    public void AssignTutor_WhenThereIsRequest_ShouldReturnApproveRequestAndDenyOthers()
-    {
-        // Arrange
-        var course = ValidCourse;
-
-        course.SetCourseStatus(CourseStatus.Available);
-
-        var tutorIdToBeApproved = TutorId.Create();
-        var tutorIdToBeDenied = TutorId.Create();
-
-        var teachingRequestToBeApproved = TeachingRequest.Create(tutorIdToBeApproved, course.Id);
-        var teachingRequestToBeDenied = TeachingRequest.Create(tutorIdToBeDenied, course.Id);
-
-        course.AddTeachingRequest(teachingRequestToBeApproved);
-        course.AddTeachingRequest(teachingRequestToBeDenied);
-
-        // Act
-        var assignTutorResult = course.AssignTutor(tutorIdToBeApproved);
-
-        // Assert
-        assignTutorResult.IsSuccess.Should().BeTrue();
-
-        teachingRequestToBeApproved.TeachingRequestStatus.Should().Be(RequestStatus.Approved);
-        teachingRequestToBeDenied.TeachingRequestStatus.Should().Be(RequestStatus.Denied);
-    }
-
-    [Fact]
     public void SetCourseStatus_WhenInputValidData_ShouldSuccess()
     {
         // Arrange
@@ -332,91 +304,16 @@ public class CourseUnitTests
     }
 
     [Fact]
-    public void AddTeachingRequest_WhenCourseIsNotAvailable_ShouldReturnFailedResult()
-    {
-        // Arrange
-        var course = ValidCourse;
-
-        course.SetCourseStatus(CourseStatus.Refunded);
-
-        // Act
-        var addTeachingRequestResult = course.AddTeachingRequest(TeachingRequest.Create(TutorId.Create(), course.Id));
-
-        // Assert
-        addTeachingRequestResult.IsFailed.Should().BeTrue();
-        addTeachingRequestResult.Error.Should().Be(DomainErrors.Courses.Unavailable);
-    }
-
-    [Fact]
-    public void AddTeachingRequest_WhenTutorAlreadyExist_ShouldReturnFailedResult()
-    {
-        // Arrange
-        var course = ValidCourse;
-
-        course.SetCourseStatus(CourseStatus.Available);
-
-        var tutorId = TutorId.Create();
-
-        course.AddTeachingRequest(TeachingRequest.Create(tutorId, course.Id));
-
-        // Act
-        var addTeachingRequestResult = course.AddTeachingRequest(TeachingRequest.Create(tutorId, course.Id));
-
-        // Assert
-        addTeachingRequestResult.IsFailed.Should().BeTrue();
-        addTeachingRequestResult.Error.Should().Be(DomainErrors.Courses.TeachingRequestAlreadyExist);
-    }
-
-    [Fact]
-    public void DissociateTutor_WhenStatusValidAndTutorHasNoTutorRequest_ShouldSuccess()
-    {
-        // Arrange
-        var course = ValidCourse;
-
-        course.AssignTutor(TutorId.Create());
-
-        // Act
-        var result = course.DissociateTutor();
-
-        // Assert
-        course.TutorId.Should().BeNull();
-        result.IsSuccess.Should().BeTrue();
-    }
-
-    [Fact]
-    public void DissociateTutor_WhenStatusValidAndTutorHasTutorRequest_ShouldSuccess()
-    {
-        // Arrange
-        var course = ValidCourse;
-        var tutorId = TutorId.Create();
-        var teachingRequest = TeachingRequest.Create(tutorId, course.Id);
-
-        course.SetCourseStatus(CourseStatus.Available);
-
-        course.AddTeachingRequest(teachingRequest);
-
-        course.AssignTutor(tutorId);
-
-        // Act
-        var result = course.DissociateTutor();
-
-        // Assert
-        course.TutorId.Should().BeNull();
-        result.IsSuccess.Should().BeTrue();
-
-        teachingRequest.TeachingRequestStatus.Should().Be(RequestStatus.Denied);
-    }
-
-    [Fact]
     public void DissociateTutor_WhenStatusInvalid_ShouldReturnFailedResult()
     {
         // Arrange
         var course = ValidCourse;
+        const string note = "This is a valid detail message";
 
         course.SetCourseStatus(CourseStatus.Refunded);
 
         // Act
-        var result = course.DissociateTutor();
+        var result = course.DissociateTutor(note);
 
         // Assert
         result.IsFailed.Should().BeTrue();
@@ -424,18 +321,21 @@ public class CourseUnitTests
     }
 
     [Fact]
-    public void DissociateTutor_WhenInputDetailMessage_ShouldSuccess()
+    public void DissociateTutor_WhenStatusValid_ShouldAddNoteAndSetTutorIdNull()
     {
         // Arrange
         var course = ValidCourse;
+        const string note = "This is a valid detail message";
 
         course.AssignTutor(TutorId.Create());
 
         // Act
-        var result = course.DissociateTutor("This is a valid detail message");
+        var result = course.DissociateTutor(note);
 
         // Assert
         course.TutorId.Should().BeNull();
+        course.Note.Should().Be(note);
+
         result.IsSuccess.Should().BeTrue();
     }
 

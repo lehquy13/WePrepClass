@@ -8,6 +8,7 @@ namespace WePrepClass.Domain.WePrepClassAggregates.Tutors;
 public interface ITutorRepository : IRepository
 {
     Task<List<Tutor>> GetPopularTutors();
-    Task<Tutor?> GetTutorByUserId(UserId userId, CancellationToken cancellationToken = default);
+    Task<Tutor?> GetById(UserId userId, CancellationToken cancellationToken = default);
+    Task<Tutor?> GetById(TutorId userId, CancellationToken cancellationToken = default);
     Task<List<TutorId>> GetTutorsBySubjectId(SubjectId create, CancellationToken cancellationToken = default);
 }

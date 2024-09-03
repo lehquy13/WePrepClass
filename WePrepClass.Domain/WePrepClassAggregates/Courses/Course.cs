@@ -130,24 +130,29 @@ public sealed class Course : FullAuditedAggregateRoot<CourseId>
         return Result.Success();
     }
 
-    public void AssignTutor(TutorId tutorId)
+    public Result AssignTutor(TutorId tutorId)
     {
+        if (LearnerDetail.LearnerId?.Value == tutorId.Value)
+            return DomainErrors.Courses.TutorAndLearnerShouldNotBeTheSame;
+
         Status = CourseStatus.InProgress;
         TutorId = tutorId;
 
         DomainEvents.Add(new TutorAssignedDomainEvent(this));
+
+        return Result.Success();
     }
 
-    public void SetCourseStatus(CourseStatus status)
-    {
-        Status = status;
-    }
+    public void SetCourseStatus(CourseStatus status) => Status = status;
 
-    public Result DissociateTutor()
+    public Result DissociateTutor(string note)
     {
         if ((short)Status < 3) return DomainErrors.Courses.StatusInvalidForUnassignment;
 
+        if (TutorId is null) return DomainErrors.Courses.HaveNotBeenAssigned;
+
         TutorId = null;
+        Note = note;
 
         DomainEvents.Add(new TutorDissociatedDomainEvent(this));
 

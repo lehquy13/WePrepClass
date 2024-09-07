@@ -1,4 +1,5 @@
 ﻿using FluentAssertions;
+using WePrepClass.Domain.Commons.Enums;
 using WePrepClass.Domain.WePrepClassAggregates.TutoringRequests;
 using WePrepClass.Domain.WePrepClassAggregates.Tutors.ValueObjects;
 using WePrepClass.Domain.WePrepClassAggregates.Users.ValueObjects;
@@ -58,5 +59,37 @@ public class TutoringRequestUnitTests
         result.Value.TutorId.Should().Be(tutorId);
         result.Value.CourseId.Should().Be(userId);
         result.Value.Message.Should().Be(message);
+    }
+    
+    [Fact]
+    public void CancelRequest_WhenCalled_ShouldChangeTutorRequestStatusToCancelled()
+    {
+        // Arrange
+        var tutorId = TutorId.Create();
+        var userId = UserId.Create();
+        const string message = "Hello, I need help with my course";
+        var tutoringRequest = TutoringRequest.Create(tutorId, userId, message).Value;
+
+        // Act
+        tutoringRequest.CancelRequest();
+
+        // Assert
+        tutoringRequest.TutorRequestStatus.Should().Be(TutoringRequestStatus.Cancelled);
+    }
+    
+    [Fact]
+    public void CompleteRequest_WhenCalled_ShouldChangeTutorRequestStatusToCompleted()
+    {
+        // Arrange
+        var tutorId = TutorId.Create();
+        var userId = UserId.Create();
+        const string message = "Hello, I need help with my course";
+        var tutoringRequest = TutoringRequest.Create(tutorId, userId, message).Value;
+
+        // Act
+        tutoringRequest.CompleteRequest();
+
+        // Assert
+        tutoringRequest.TutorRequestStatus.Should().Be(TutoringRequestStatus.Completed);
     }
 }

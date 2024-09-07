@@ -3,7 +3,6 @@ using Matt.SharedKernel.Application.Contracts.Interfaces.Infrastructures;
 using Matt.SharedKernel.Domain;
 using Matt.SharedKernel.Domain.Interfaces;
 using WePrepClass.Domain.Commons.Enums;
-using WePrepClass.Domain.WePrepClassAggregates.Courses;
 using WePrepClass.Domain.WePrepClassAggregates.TutoringRequests;
 using WePrepClass.Domain.WePrepClassAggregates.Tutors;
 using WePrepClass.Domain.WePrepClassAggregates.Tutors.ValueObjects;

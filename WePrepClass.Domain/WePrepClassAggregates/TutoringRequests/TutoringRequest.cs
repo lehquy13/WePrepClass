@@ -16,7 +16,7 @@ public class TutoringRequest : AggregateRoot<TutorRequestId>
     public UserId CourseId { get; private set; } = null!;
     public string Message { get; private set; } = null!;
 
-    public RequestStatus TutorRequestStatus { get; private set; } = RequestStatus.InProgress;
+    public TutoringRequestStatus TutorRequestStatus { get; private set; } = TutoringRequestStatus.InProgress;
 
     private TutoringRequest()
     {
@@ -39,6 +39,16 @@ public class TutoringRequest : AggregateRoot<TutorRequestId>
         tutorRequest.DomainEvents.Add(new TutorRequestCreatedDomainEvent(tutorRequest));
 
         return tutorRequest;
+    }
+    
+    public void CancelRequest()
+    {
+        TutorRequestStatus = TutoringRequestStatus.Cancelled;
+    }
+
+    public void CompleteRequest()
+    {
+        TutorRequestStatus = TutoringRequestStatus.Completed;
     }
 }
 

@@ -67,4 +67,10 @@ public static class DomainErrors
         public static readonly Error InvalidMessageLength = new("InvalidMessageLength",
             "Message length should be less than 300");
     }
+
+    public static class Payments
+    {
+        public static readonly Error AmountMustBeGreaterThanZero =
+            new("AmountMustBeGreaterThanZero", "Amount must be greater than zero");
+    }
 }

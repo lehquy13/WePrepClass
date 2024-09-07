@@ -1,4 +1,5 @@
 ﻿using Matt.ResultObject;
+using WePrepClass.Domain.Commons;
 using WePrepClass.Domain.Commons.Enums;
 using WePrepClass.Domain.WePrepClassAggregates.Courses;
 using WePrepClass.Domain.WePrepClassAggregates.Courses.ValueObjects;

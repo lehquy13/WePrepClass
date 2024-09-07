@@ -51,14 +51,14 @@ public class CourseDomainServiceUnitTests
             AcademicLevel.Graduated,
             "University",
             [SubjectId.Create(1), SubjectId.Create(2)],
-            true).Value;
+            TutorStatus.Active).Value;
 
         _invalidTutor = Tutor.Create(
             LearnerId,
             AcademicLevel.Graduated,
             "University",
             [SubjectId.Create(1), SubjectId.Create(2)],
-            true).Value;
+            TutorStatus.Active).Value;
     }
 
     [Fact]

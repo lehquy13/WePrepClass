@@ -30,8 +30,7 @@ public class Tutor : AuditedAggregateRoot<TutorId>
 
     public AcademicLevel AcademicLevel { get; private set; } = AcademicLevel.UnderGraduate;
     public TutorStatus TutorStatus { get; private set; }
-    public string University { get; private set; } = string.Empty;
-    public bool IsVerified { get; private set; }
+    public string University { get; private set; } = null!;
     public decimal? Rate { get; private set; }
 
     public VerificationChange? VerificationChange { get; private set; }
@@ -48,15 +47,14 @@ public class Tutor : AuditedAggregateRoot<TutorId>
         AcademicLevel academicLevel,
         string university,
         IList<SubjectId> majors,
-        bool isVerified = false)
+        TutorStatus tutorStatus = TutorStatus.Unproven)
     {
         var tutor = new Tutor
         {
             Id = TutorId.Create(userId.Value),
             UserId = userId,
             AcademicLevel = academicLevel,
-            IsVerified = isVerified,
-            TutorStatus = TutorStatus.Active
+            TutorStatus = tutorStatus
         };
 
         var result = DomainValidation.Sequentially(
@@ -80,7 +78,7 @@ public class Tutor : AuditedAggregateRoot<TutorId>
         if (_verifications.Count == 0)
         {
             _verifications = urls.Select(url => Verification.Create(url, Id)).ToList();
-            IsVerified = false;
+            TutorStatus = TutorStatus.Unproven;
         }
         else
         {
@@ -114,7 +112,7 @@ public class Tutor : AuditedAggregateRoot<TutorId>
         return Result.Success();
     }
 
-    public void SetProfileAsVerified() => IsVerified = true;
+    public void SetProfileAsVerified() => TutorStatus = TutorStatus.Active;
 
     public void SetTutorStatus(TutorStatus tutorStatus) => TutorStatus = tutorStatus;
 
@@ -128,7 +126,7 @@ public class Tutor : AuditedAggregateRoot<TutorId>
         if (result.IsFailed) return result.Error;
 
         AcademicLevel = academicLevel;
-        IsVerified = false;
+        TutorStatus = TutorStatus.Unproven;
 
         DomainEvents.Add(new TutorUpdatedDomainEvent(this));
 

@@ -5,6 +5,7 @@ using Matt.SharedKernel.Domain.Interfaces;
 using Matt.SharedKernel.Domain.Interfaces.Emails;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.WebUtilities;
+using WePrepClass.Domain.Commons;
 using WePrepClass.Domain.Commons.Enums;
 using WePrepClass.Domain.DomainServices;
 using WePrepClass.Domain.WePrepClassAggregates.Users;

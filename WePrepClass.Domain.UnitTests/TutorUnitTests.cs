@@ -262,7 +262,7 @@ public class TutorUnitTests
         _validTutor.SetProfileAsVerified();
 
         // Assert
-        _validTutor.IsVerified.Should().BeTrue();
+        _validTutor.TutorStatus.Should().Be(TutorStatus.Active);
     }
 
     [Fact]

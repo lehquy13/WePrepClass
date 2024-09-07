@@ -12,6 +12,7 @@ public static class DomainErrors
             new("VerificationChangesCantBeEmpty", "At least one verification change is required");
 
         public static readonly Error NotFound = new("TutorNotFound", "Tutor not found");
+        public static readonly Error NotActive = new("TutorNotActive", "Tutor is not active");
     }
 
     public static class Users

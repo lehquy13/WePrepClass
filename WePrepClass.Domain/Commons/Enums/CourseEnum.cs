@@ -22,7 +22,8 @@ public enum AcademicLevel
 public enum TutorStatus
 {
     Active,
-    InActive
+    InActive,
+    Unproven
 }
 
 public static class CurrencyCode

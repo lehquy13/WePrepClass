@@ -32,7 +32,7 @@ public class LearnerDetail : ValueObject
         };
     }
 
-    public override IEnumerable<object> GetEqualityComponents()
+    protected override IEnumerable<object> GetEqualityComponents()
     {
         yield return LearnerGender;
         yield return LearnerName;

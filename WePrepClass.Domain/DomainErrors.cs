@@ -58,4 +58,13 @@ public static class DomainErrors
 
         public static readonly Error NotFound = new("CourseNotFound", "Course not found");
     }
+
+    public static class TutoringRequests
+    {
+        public static readonly Error CannotRequestTutoringThemselves = new("CannotRequestTutoringThemselves",
+            "Tutor cannot request tutoring themselves");
+
+        public static readonly Error InvalidMessageLength = new("InvalidMessageLength",
+            "Message length should be less than 300");
+    }
 }

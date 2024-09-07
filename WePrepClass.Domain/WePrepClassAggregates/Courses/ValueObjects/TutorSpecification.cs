@@ -21,7 +21,7 @@ public class TutorSpecification : ValueObject
         };
     }
 
-    public override IEnumerable<object> GetEqualityComponents()
+    protected override IEnumerable<object> GetEqualityComponents()
     {
         yield return TutorGender;
         yield return TutorAcademicLevel;

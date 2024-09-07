@@ -32,7 +32,7 @@ public class Session : ValueObject
         };
     }
 
-    public override IEnumerable<object> GetEqualityComponents()
+    protected override IEnumerable<object> GetEqualityComponents()
     {
         yield return Value;
         yield return DurationUnit;

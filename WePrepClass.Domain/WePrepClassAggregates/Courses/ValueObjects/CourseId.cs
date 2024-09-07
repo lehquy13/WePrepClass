@@ -15,7 +15,7 @@ public class CourseId : ValueObject
         return new CourseId { Value = value == default ? Guid.NewGuid() : value };
     }
 
-    public override IEnumerable<object> GetEqualityComponents()
+    protected override IEnumerable<object> GetEqualityComponents()
     {
         yield return Value;
     }

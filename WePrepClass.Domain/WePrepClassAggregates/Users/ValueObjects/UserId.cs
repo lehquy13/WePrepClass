@@ -12,7 +12,7 @@ public class UserId : ValueObject
 
     public static UserId Create(Guid guid = default) => new() { Value = guid == default ? Guid.NewGuid() : guid };
 
-    public override IEnumerable<object> GetEqualityComponents()
+    protected override IEnumerable<object> GetEqualityComponents()
     {
         yield return Value;
     }

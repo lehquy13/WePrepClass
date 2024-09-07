@@ -13,7 +13,7 @@ public class TeachingRequestId : ValueObject
 
     public static TeachingRequestId Create(Guid value = default) => new(value == Guid.Empty ? Guid.NewGuid() : value);
 
-    public override IEnumerable<object> GetEqualityComponents()
+    protected override IEnumerable<object> GetEqualityComponents()
     {
         yield return Value;
     }

@@ -18,7 +18,7 @@ public class TutorId : ValueObject
         };
     }
 
-    public override IEnumerable<object> GetEqualityComponents()
+    protected override IEnumerable<object> GetEqualityComponents()
     {
         yield return Value;
     }

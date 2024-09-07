@@ -17,8 +17,8 @@ public class SubjectId : ValueObject
             Value = value
         };
     }
-    
-    public override IEnumerable<object> GetEqualityComponents()
+
+    protected override IEnumerable<object> GetEqualityComponents()
     {
         yield return Value;
     }

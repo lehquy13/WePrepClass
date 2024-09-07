@@ -41,7 +41,7 @@ public class Review : ValueObject, IHasModificationTime
         };
     }
 
-    public override IEnumerable<object> GetEqualityComponents()
+    protected override IEnumerable<object> GetEqualityComponents()
     {
         yield return Rate;
         yield return Detail;

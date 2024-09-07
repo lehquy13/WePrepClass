@@ -30,7 +30,7 @@ public class Address : ValueObject
 
     public override string ToString() => $"{DetailAddress}, District: {District}, City: {City}";
 
-    public override IEnumerable<object> GetEqualityComponents()
+    protected override IEnumerable<object> GetEqualityComponents()
     {
         yield return City;
         yield return District;

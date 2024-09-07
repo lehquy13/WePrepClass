@@ -2,8 +2,8 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WePrepClass.Api.Commons;
-using WePrepClass.Application.UseCases.Users.Commands;
-using WePrepClass.Application.UseCases.Users.Queries;
+using WePrepClass.Application.UseCases.Administrator.Users.Commands;
+using WePrepClass.Application.UseCases.Administrator.Users.Queries;
 
 namespace WePrepClass.Api.Controllers;
 

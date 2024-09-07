@@ -7,7 +7,7 @@ using Matt.SharedKernel.Domain.Interfaces;
 using WePrepClass.Contracts.Users;
 using WePrepClass.Domain.WePrepClassAggregates.Users;
 
-namespace WePrepClass.Application.UseCases.Users.Queries;
+namespace WePrepClass.Application.UseCases.Administrator.Users.Queries;
 
 public record GetUsersQuery(int PageNumber, int PageSize = 10)
     : IQueryRequest<PaginatedList<UserDto>>, IAuthorizationRequest;

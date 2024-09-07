@@ -1,6 +1,6 @@
 ﻿using Matt.ResultObject;
 
-namespace WePrepClass.Application.UseCases.Users;
+namespace WePrepClass.Application.UseCases.Administrator.Users;
 
 public static class UserAppServiceError
 {

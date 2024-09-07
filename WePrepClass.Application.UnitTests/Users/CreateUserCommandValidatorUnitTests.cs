@@ -1,5 +1,5 @@
 ﻿using FluentAssertions;
-using WePrepClass.Application.UseCases.Users.Commands;
+using WePrepClass.Application.UseCases.Administrator.Users.Commands;
 using WePrepClass.Domain.Commons.Enums;
 
 namespace WePrepClass.Application.UnitTests.Users;

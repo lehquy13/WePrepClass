@@ -3,7 +3,7 @@ using Matt.ResultObject;
 using Matt.SharedKernel.Domain.Interfaces;
 using Moq;
 using WePrepClass.Application.UseCases.Accounts;
-using WePrepClass.Application.UseCases.Users.Commands;
+using WePrepClass.Application.UseCases.Administrator.Users.Commands;
 using WePrepClass.Domain.Commons.Enums;
 using WePrepClass.Domain.WePrepClassAggregates.Users;
 using WePrepClass.Domain.WePrepClassAggregates.Users.ValueObjects;

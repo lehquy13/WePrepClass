@@ -2,7 +2,7 @@
 using MapsterMapper;
 using Matt.SharedKernel.Domain.Interfaces;
 using Moq;
-using WePrepClass.Application.UseCases.Users.Queries;
+using WePrepClass.Application.UseCases.Administrator.Users.Queries;
 using WePrepClass.Domain.WePrepClassAggregates.Users;
 using WePrepClass.UnitTestSetup;
 

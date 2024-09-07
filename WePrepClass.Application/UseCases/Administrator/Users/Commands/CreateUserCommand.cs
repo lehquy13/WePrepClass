@@ -7,7 +7,7 @@ using WePrepClass.Domain.Commons.Enums;
 using WePrepClass.Domain.WePrepClassAggregates.Users;
 using WePrepClass.Domain.WePrepClassAggregates.Users.ValueObjects;
 
-namespace WePrepClass.Application.UseCases.Users.Commands;
+namespace WePrepClass.Application.UseCases.Administrator.Users.Commands;
 
 public record CreateUserCommand(
     string Username,

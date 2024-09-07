@@ -7,7 +7,7 @@ using WePrepClass.Contracts.Users;
 using WePrepClass.Domain.WePrepClassAggregates.Users;
 using WePrepClass.Domain.WePrepClassAggregates.Users.ValueObjects;
 
-namespace WePrepClass.Application.UseCases.Users.Queries;
+namespace WePrepClass.Application.UseCases.Administrator.Users.Queries;
 
 public record GetUserByIdQuery(Guid Id) : IQueryRequest<UserDetailDto>, IAuthorizationRequest;
 

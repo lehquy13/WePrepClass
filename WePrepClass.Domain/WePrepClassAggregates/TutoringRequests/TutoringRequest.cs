@@ -2,11 +2,11 @@
 using Matt.SharedKernel.Domain.Interfaces;
 using Matt.SharedKernel.Domain.Primitives;
 using WePrepClass.Domain.Commons.Enums;
-using WePrepClass.Domain.WePrepClassAggregates.TutorRequests.ValueObjects;
+using WePrepClass.Domain.WePrepClassAggregates.TutoringRequests.ValueObjects;
 using WePrepClass.Domain.WePrepClassAggregates.Tutors.ValueObjects;
 using WePrepClass.Domain.WePrepClassAggregates.Users.ValueObjects;
 
-namespace WePrepClass.Domain.WePrepClassAggregates.TutorRequests;
+namespace WePrepClass.Domain.WePrepClassAggregates.TutoringRequests;
 
 public class TutoringRequest : AggregateRoot<TutorRequestId>
 {

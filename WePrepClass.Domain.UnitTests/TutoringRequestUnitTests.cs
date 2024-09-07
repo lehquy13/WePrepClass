@@ -1,5 +1,5 @@
 ﻿using FluentAssertions;
-using WePrepClass.Domain.WePrepClassAggregates.TutorRequests;
+using WePrepClass.Domain.WePrepClassAggregates.TutoringRequests;
 using WePrepClass.Domain.WePrepClassAggregates.Tutors.ValueObjects;
 using WePrepClass.Domain.WePrepClassAggregates.Users.ValueObjects;
 

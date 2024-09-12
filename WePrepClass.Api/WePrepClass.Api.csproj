@@ -23,7 +23,6 @@
     <ItemGroup>
       <ProjectReference Include="..\WePrepClass.Application\WePrepClass.Application.csproj" />
       <ProjectReference Include="..\WePrepClass.Infrastructure\WePrepClass.Infrastructure.csproj" />
-      <ProjectReference Include="..\WePrepClass.Persistence\WePrepClass.Persistence.csproj" />
     </ItemGroup>
 
 </Project>

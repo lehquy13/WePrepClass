@@ -5,9 +5,9 @@ using Matt.SharedKernel.Domain.Primitives;
 using Matt.SharedKernel.Domain.Primitives.Abstractions;
 using Matt.SharedKernel.Domain.Specifications.Interfaces;
 using Microsoft.EntityFrameworkCore;
-using WePrepClass.Persistence.EntityFrameworkCore;
+using WePrepClass.Infrastructure.EntityFrameworkCore;
 
-namespace WePrepClass.Persistence.Persistence.Repositories;
+namespace WePrepClass.Infrastructure.Persistence.Repositories;
 
 internal class ReadOnlyRepositoryImpl<TEntity, TId>(
     AppDbContext appDbContext,
@@ -48,7 +48,17 @@ internal class ReadOnlyRepositoryImpl<TEntity, TId>(
         return await specificationResult.CountAsync(cancellationToken);
     }
 
-    // Consider to add NoTracking
+    public Task<bool> AnyAsync(ISpecification<TEntity>? spec = null, CancellationToken cancellationToken = default)
+    {
+        var query = AppDbContext.Set<TEntity>().AsQueryable();
+
+        if (spec is not null)
+            query = GetQuery(query, spec);
+
+        return query.AnyAsync(cancellationToken);
+    }
+
+    // Consider to add AsNoTracking
     public IQueryable<TEntity> GetAll()
     {
         try
@@ -87,7 +97,7 @@ internal class ReadOnlyRepositoryImpl<TEntity, TId>(
             .IncludeExpressions
             .Aggregate(query, (current, include) => current.Include(include));
 
-        //Handle then include
+        // Handle then include
         query = specification
             .IncludeStrings
             .Aggregate(query, (current, include) => current.Include(include));
@@ -99,7 +109,8 @@ internal class ReadOnlyRepositoryImpl<TEntity, TId>(
         return query;
     }
 
-    public async Task<TEntity?> GetAsync(ISpecification<TEntity> spec, CancellationToken cancellationToken = default)
+    public async Task<TEntity?> GetAsync(ISpecification<TEntity> spec,
+        CancellationToken cancellationToken = default)
     {
         var specificationResult = GetQuery(AppDbContext.Set<TEntity>(), spec);
 

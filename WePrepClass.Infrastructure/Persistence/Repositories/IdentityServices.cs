@@ -12,7 +12,7 @@ using WePrepClass.Domain.WePrepClassAggregates.Users;
 using WePrepClass.Domain.WePrepClassAggregates.Users.ValueObjects;
 using Role = WePrepClass.Domain.Commons.Enums.Role;
 
-namespace WePrepClass.Persistence.Persistence.Repositories;
+namespace WePrepClass.Infrastructure.Persistence.Repositories;
 
 public class IdentityService(
     SignInManager<IdentityUser> signInManager,

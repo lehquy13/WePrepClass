@@ -1,9 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using WePrepClass.Domain.WePrepClassAggregates.Users;
 using WePrepClass.Domain.WePrepClassAggregates.Users.ValueObjects;
-using WePrepClass.Persistence.EntityFrameworkCore;
+using WePrepClass.Infrastructure.EntityFrameworkCore;
 
-namespace WePrepClass.Persistence.Persistence.Repositories;
+namespace WePrepClass.Infrastructure.Persistence.Repositories;
 
 public class UserRepository(AppDbContext appDbContext) : IUserRepository
 {

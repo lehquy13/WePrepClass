@@ -2,9 +2,9 @@ using Matt.SharedKernel.Domain.EventualConsistency;
 using Matt.SharedKernel.Domain.Interfaces;
 using MediatR;
 using Microsoft.AspNetCore.Http;
-using WePrepClass.Persistence.EntityFrameworkCore;
+using WePrepClass.Infrastructure.EntityFrameworkCore;
 
-namespace WePrepClass.Persistence.Middleware;
+namespace WePrepClass.Infrastructure.Middleware;
 
 public class EventualConsistencyMiddleware(RequestDelegate next)
 {

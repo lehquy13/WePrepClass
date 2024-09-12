@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using WePrepClass.Domain.WePrepClassAggregates.Users;
 using WePrepClass.Domain.WePrepClassAggregates.Users.ValueObjects;
 
-namespace WePrepClass.Persistence.EntityFrameworkCore.Configs;
+namespace WePrepClass.Infrastructure.EntityFrameworkCore.Configs;
 
 internal class CustomerConfiguration : IEntityTypeConfiguration<User>
 {

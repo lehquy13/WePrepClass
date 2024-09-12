@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using WePrepClass.Domain.Commons.Enums;
 
-namespace WePrepClass.Persistence.EntityFrameworkCore;
+namespace WePrepClass.Infrastructure.EntityFrameworkCore;
 
 public class IdentityDbContext(DbContextOptions<IdentityDbContext> options)
     : IdentityDbContext<IdentityUser, IdentityRole, string>(options)

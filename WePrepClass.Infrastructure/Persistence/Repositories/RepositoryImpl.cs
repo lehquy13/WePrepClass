@@ -5,9 +5,9 @@ using Matt.SharedKernel.Domain.Primitives;
 using Matt.SharedKernel.Domain.Primitives.Abstractions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using WePrepClass.Persistence.EntityFrameworkCore;
+using WePrepClass.Infrastructure.EntityFrameworkCore;
 
-namespace WePrepClass.Persistence.Persistence.Repositories;
+namespace WePrepClass.Infrastructure.Persistence.Repositories;
 
 internal class RepositoryImpl<TEntity, TId>(
     AppDbContext appDbContext,

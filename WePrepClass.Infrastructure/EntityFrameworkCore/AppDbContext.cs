@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using WePrepClass.Domain.WePrepClassAggregates.Notifications;
 using WePrepClass.Domain.WePrepClassAggregates.Users;
-using WePrepClass.Persistence.Middleware;
+using WePrepClass.Infrastructure.Middleware;
 
-namespace WePrepClass.Persistence.EntityFrameworkCore;
+namespace WePrepClass.Infrastructure.EntityFrameworkCore;
 
 public class AppDbContext(
     DbContextOptions<AppDbContext> options,

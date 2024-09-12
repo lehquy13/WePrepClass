@@ -2,9 +2,9 @@ using Matt.Auditing;
 using Matt.SharedKernel.Application.Contracts.Interfaces.Infrastructures;
 using Matt.SharedKernel.Domain.Interfaces;
 using Microsoft.EntityFrameworkCore;
-using WePrepClass.Persistence.EntityFrameworkCore;
+using WePrepClass.Infrastructure.EntityFrameworkCore;
 
-namespace WePrepClass.Persistence.Persistence;
+namespace WePrepClass.Infrastructure.Persistence;
 
 internal sealed class UnitOfWork(
     IAppLogger<UnitOfWork> logger,

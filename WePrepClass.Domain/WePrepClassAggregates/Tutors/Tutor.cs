@@ -8,8 +8,6 @@ using WePrepClass.Domain.WePrepClassAggregates.Tutors.Entities;
 using WePrepClass.Domain.WePrepClassAggregates.Tutors.ValueObjects;
 using WePrepClass.Domain.WePrepClassAggregates.Users.ValueObjects;
 
-// ReSharper disable PossibleMultipleEnumeration
-
 namespace WePrepClass.Domain.WePrepClassAggregates.Tutors;
 
 public class Tutor : AuditedAggregateRoot<TutorId>
@@ -24,7 +22,7 @@ public class Tutor : AuditedAggregateRoot<TutorId>
     private const int MaxMajorsCount = 5;
 
     private List<Verification> _verifications = [];
-    private readonly List<SubjectId> _majors = [];
+    private readonly List<Major> _majors = [];
 
     public UserId UserId { get; private set; } = null!;
 
@@ -36,7 +34,7 @@ public class Tutor : AuditedAggregateRoot<TutorId>
     public VerificationChange? VerificationChange { get; private set; }
 
     public IReadOnlyList<Verification> Verifications => _verifications.AsReadOnly();
-    public IReadOnlyList<SubjectId> Majors => _majors.AsReadOnly();
+    public IReadOnlyList<Major> Majors => _majors.AsReadOnly();
 
     private Tutor()
     {
@@ -160,20 +158,22 @@ public class Tutor : AuditedAggregateRoot<TutorId>
             return Result.Fail($"Majors count must be between {MinMajorsCount} and {MaxMajorsCount}");
 
         // Get the new majors that are not in the tutor majors
-        var newMajors = updateMajors.Where(m => _majors.All(tm => tm != m));
+        var newMajors = updateMajors.Where(m => _majors.All(tm => tm.SubjectId != m));
 
         // Add the new majors to the tutor majors
-        _majors.AddRange(newMajors);
+        _majors.AddRange(newMajors.Select(m => Major.Create(Id, m)));
 
         // Remove tutor majors that are not in the new list
-        _majors.RemoveAll(tm => updateMajors.All(m => m != tm));
+        _majors.RemoveAll(tm => updateMajors.All(m => m != tm.SubjectId));
 
         return Result.Success();
     }
 }
 
+// ReSharper disable NotAccessedPositionalProperty.Global
 public record TutorProfileCreatedDomainEvent(Tutor Tutor) : IDomainEvent;
 
 public record TutorUpdatedDomainEvent(Tutor Tutor) : IDomainEvent;
 
 public record VerificationChangeCreatedDomainEvent(Tutor Tutor) : IDomainEvent;
+// ReSharper restore NotAccessedPositionalProperty.Global

@@ -13,7 +13,7 @@ public record ChangePasswordCommand(
     string CurrentPassword,
     string NewPassword,
     string ConfirmedPassword
-) : ICommandRequest, IAuthorizationRequest;
+) : ICommandRequest, IAuthorizationRequired;
 
 public class ChangePasswordCommandValidator : AbstractValidator<ChangePasswordCommand>
 {

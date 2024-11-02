@@ -3,9 +3,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using WePrepClass.Domain.WePrepClassAggregates.Users;
 using WePrepClass.Domain.WePrepClassAggregates.Users.ValueObjects;
 
-namespace WePrepClass.Infrastructure.EntityFrameworkCore.Configs;
+namespace WePrepClass.Infrastructure.Persistence.EntityFrameworkCore.Configs;
 
-internal class CustomerConfiguration : IEntityTypeConfiguration<User>
+internal class UserConfiguration : IEntityTypeConfiguration<User>
 {
     public void Configure(EntityTypeBuilder<User> builder)
     {

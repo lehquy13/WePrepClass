@@ -10,4 +10,9 @@
       <ProjectReference Include="..\WePrepClass.Domain\WePrepClass.Domain.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <PackageReference Include="MockQueryable.Core" Version="7.0.4-beta" />
+      <PackageReference Include="MockQueryable.EntityFrameworkCore" Version="7.0.4-beta" />
+    </ItemGroup>
+
 </Project>

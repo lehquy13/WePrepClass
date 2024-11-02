@@ -36,7 +36,7 @@ public class Address : ValueObject
         yield return District;
     }
 
-    public bool Match(string address) =>
-        City.Contains(address, StringComparison.CurrentCultureIgnoreCase) ||
-        District.Contains(address, StringComparison.CurrentCultureIgnoreCase);
+    public bool Match(string city, string district) =>
+        City.Contains(city, StringComparison.CurrentCultureIgnoreCase) ||
+        District.Contains(district, StringComparison.CurrentCultureIgnoreCase);
 }

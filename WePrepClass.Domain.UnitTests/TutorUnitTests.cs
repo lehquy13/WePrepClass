@@ -302,7 +302,7 @@ public class TutorUnitTests
     public void ChangeVerification_WhenVerificationUrlEmpty_ShouldNotAddVerificationChange()
     {
         // Arrange
-        var urls = new List<string>()
+        var urls = new List<string>
         {
             string.Empty,
             string.Empty

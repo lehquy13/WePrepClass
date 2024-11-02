@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using WePrepClass.Infrastructure.EntityFrameworkCore;
+using WePrepClass.Infrastructure.Persistence.EntityFrameworkCore;
 
 #nullable disable
 

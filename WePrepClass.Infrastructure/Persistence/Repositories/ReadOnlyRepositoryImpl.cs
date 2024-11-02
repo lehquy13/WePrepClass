@@ -5,7 +5,7 @@ using Matt.SharedKernel.Domain.Primitives;
 using Matt.SharedKernel.Domain.Primitives.Abstractions;
 using Matt.SharedKernel.Domain.Specifications.Interfaces;
 using Microsoft.EntityFrameworkCore;
-using WePrepClass.Infrastructure.EntityFrameworkCore;
+using WePrepClass.Infrastructure.Persistence.EntityFrameworkCore;
 
 namespace WePrepClass.Infrastructure.Persistence.Repositories;
 

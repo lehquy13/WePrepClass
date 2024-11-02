@@ -9,7 +9,7 @@ using WePrepClass.Domain.WePrepClassAggregates.Users.ValueObjects;
 
 namespace WePrepClass.Application.UseCases.Administrator.Users.Queries;
 
-public record GetUserByIdQuery(Guid Id) : IQueryRequest<UserDetailDto>, IAuthorizationRequest;
+public record GetUserByIdQuery(Guid Id) : IQueryRequest<UserDetailDto>, IAuthorizationRequired;
 
 public class GetUserByIdQueryHandler(
     IUserRepository userRepository,

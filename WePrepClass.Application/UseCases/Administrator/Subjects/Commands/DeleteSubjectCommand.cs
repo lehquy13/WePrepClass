@@ -18,7 +18,7 @@ public class DeleteSubjectCommandHandler(
     {
         var subjectExists = await subjectRepository.GetAsync(SubjectId.Create(request.SubjectId), cancellationToken);
 
-        if (subjectExists is null) return Result.Fail(AppServiceError.Subject.NotExist);
+        if (subjectExists is null) return Result.Fail(AppServiceError.Subject.NotFound);
 
         subjectExists.SetAsDeleted();
 

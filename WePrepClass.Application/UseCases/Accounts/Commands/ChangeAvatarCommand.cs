@@ -9,7 +9,7 @@ using WePrepClass.Domain.WePrepClassAggregates.Users.ValueObjects;
 
 namespace WePrepClass.Application.UseCases.Accounts.Commands;
 
-public record ChangeAvatarCommand(string Url) : ICommandRequest, IAuthorizationRequest;
+public record ChangeAvatarCommand(string Url) : ICommandRequest, IAuthorizationRequired;
 
 public class ChangeAvatarCommandValidator : AbstractValidator<ChangeAvatarCommand>
 {

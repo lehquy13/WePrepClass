@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using WePrepClass.Domain.WePrepClassAggregates.Notifications;
 
-namespace WePrepClass.Infrastructure.EntityFrameworkCore.Configs;
+namespace WePrepClass.Infrastructure.Persistence.EntityFrameworkCore.Configs;
 
 internal class NotificationConfiguration : IEntityTypeConfiguration<Notification>
 {

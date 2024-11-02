@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
 
-namespace WePrepClass.Infrastructure.Migrations.IdentityDb
+namespace WePrepClass.Infrastructure.Persistence.Migrations.IdentityDb
 {
     /// <inheritdoc />
     public partial class InitialIDbContext : Migration

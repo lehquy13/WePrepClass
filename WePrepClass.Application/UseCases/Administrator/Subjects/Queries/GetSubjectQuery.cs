@@ -30,7 +30,7 @@ public class GetSubjectQueryHandler(
     {
         var subjects = await subjectRepository.GetAsync(SubjectId.Create(getAllUserQuery.Id), cancellationToken);
 
-        if (subjects is null) return Result.Fail(AppServiceError.Subject.NotExist);
+        if (subjects is null) return Result.Fail(AppServiceError.Subject.NotFound);
 
         var subjectDtos = Mapper.Map<SubjectDto>(subjects);
 

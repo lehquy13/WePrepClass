@@ -9,6 +9,7 @@
     <ItemGroup>
       <PackageReference Include="FluentAssertions" Version="7.0.0-alpha.4" />
       <PackageReference Include="MockQueryable.Moq" Version="7.0.1" />
+      <PackageReference Include="Moq.EntityFrameworkCore" Version="7.0.1" />
     </ItemGroup>
 
     <ItemGroup>

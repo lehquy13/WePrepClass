@@ -10,6 +10,8 @@
 
     <ItemGroup>
         <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.1"/>
+        <PackageReference Include="MockQueryable.Core" Version="7.0.4-beta" />
+        <PackageReference Include="MockQueryable.EntityFrameworkCore" Version="7.0.4-beta" />
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0"/>
         <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="6.5.0"/>
     </ItemGroup>

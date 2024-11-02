@@ -14,7 +14,7 @@ using WePrepClass.Domain.WePrepClassAggregates.Users.ValueObjects;
 namespace WePrepClass.Application.UseCases.Accounts.Commands;
 
 public record UpdateBasicProfileCommand(UserProfileUpdateDto UserProfileUpdateDto)
-    : ICommandRequest, IAuthorizationRequest;
+    : ICommandRequest, IAuthorizationRequired;
 
 public class UpdateBasicProfileCommandValidator : AbstractValidator<UpdateBasicProfileCommand>
 {

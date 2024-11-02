@@ -26,8 +26,7 @@ public static class DependencyInjection
     {
         List<Assembly> assemblies =
         [
-            typeof(Infrastructure.DependencyInjection).Assembly,
-            typeof(Persistence.DependencyInjection).Assembly
+            typeof(Infrastructure.DependencyInjection).Assembly
         ];
 
         assemblies.AddRange(Application.DependencyInjection.GetApplicationCoreAssemblies);

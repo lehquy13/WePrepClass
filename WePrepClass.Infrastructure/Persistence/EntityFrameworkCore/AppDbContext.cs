@@ -3,10 +3,11 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using WePrepClass.Domain.WePrepClassAggregates.Notifications;
+using WePrepClass.Domain.WePrepClassAggregates.Tutors;
 using WePrepClass.Domain.WePrepClassAggregates.Users;
 using WePrepClass.Infrastructure.Middleware;
 
-namespace WePrepClass.Infrastructure.EntityFrameworkCore;
+namespace WePrepClass.Infrastructure.Persistence.EntityFrameworkCore;
 
 public class AppDbContext(
     DbContextOptions<AppDbContext> options,
@@ -14,11 +15,11 @@ public class AppDbContext(
 ) : DbContext(options)
 {
     public DbSet<User> Users { get; init; } = null!;
+    public DbSet<Tutor> Tutors { get; init; } = null!;
     public DbSet<Notification> Notifications { get; init; } = null!;
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         => optionsBuilder.EnableSensitiveDataLogging();
-
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

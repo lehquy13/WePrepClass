@@ -10,7 +10,7 @@ using WePrepClass.Domain.WePrepClassAggregates.Users.ValueObjects;
 
 namespace WePrepClass.Application.UseCases.Accounts.Queries;
 
-public record GetUserProfileQuery : IQueryRequest<UserProfileDto>, IAuthorizationRequest;
+public record GetUserProfileQuery : IQueryRequest<UserProfileDto>, IAuthorizationRequired;
 
 public class GetUserProfileQueryHandler(
     IUserRepository userRepository,

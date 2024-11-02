@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using WePrepClass.Domain.WePrepClassAggregates.Users;
 using WePrepClass.Domain.WePrepClassAggregates.Users.ValueObjects;
-using WePrepClass.Infrastructure.EntityFrameworkCore;
+using WePrepClass.Infrastructure.Persistence.EntityFrameworkCore;
 
 namespace WePrepClass.Infrastructure.Persistence.Repositories;
 

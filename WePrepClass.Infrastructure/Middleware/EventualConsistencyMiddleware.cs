@@ -2,7 +2,7 @@ using Matt.SharedKernel.Domain.EventualConsistency;
 using Matt.SharedKernel.Domain.Interfaces;
 using MediatR;
 using Microsoft.AspNetCore.Http;
-using WePrepClass.Infrastructure.EntityFrameworkCore;
+using WePrepClass.Infrastructure.Persistence.EntityFrameworkCore;
 
 namespace WePrepClass.Infrastructure.Middleware;
 

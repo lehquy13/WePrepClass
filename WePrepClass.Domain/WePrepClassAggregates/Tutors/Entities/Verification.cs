@@ -14,7 +14,7 @@ public class Verification : AuditedEntity<VerificationId>
 
     public static Verification Create(string image, TutorId tutorId)
     {
-        return new Verification()
+        return new Verification
         {
             Id = VerificationId.Create(),
             TutorId = tutorId,

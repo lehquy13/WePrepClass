@@ -19,9 +19,9 @@ using WePrepClass.Infrastructure.AppLogger;
 using WePrepClass.Infrastructure.Authentication;
 using WePrepClass.Infrastructure.Cloudinary;
 using WePrepClass.Infrastructure.EmailServices;
-using WePrepClass.Infrastructure.EntityFrameworkCore;
 using WePrepClass.Infrastructure.Middleware;
 using WePrepClass.Infrastructure.Models;
+using WePrepClass.Infrastructure.Persistence.EntityFrameworkCore;
 using WePrepClass.Infrastructure.Persistence.Repositories;
 using IdentityDbContext = Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityDbContext;
 
@@ -79,6 +79,8 @@ public static class DependencyInjection
         services.AddDbContext<AppDbContext>(options =>
             options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"))
         );
+        
+        services.AddScoped<IReadDbContext, ReadDbContext>();
 
         services
             .AddIdentity<IdentityUser, IdentityRole>(options =>

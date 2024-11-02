@@ -2,7 +2,7 @@ using Matt.Auditing;
 using Matt.SharedKernel.Application.Contracts.Interfaces.Infrastructures;
 using Matt.SharedKernel.Domain.Interfaces;
 using Microsoft.EntityFrameworkCore;
-using WePrepClass.Infrastructure.EntityFrameworkCore;
+using WePrepClass.Infrastructure.Persistence.EntityFrameworkCore;
 
 namespace WePrepClass.Infrastructure.Persistence;
 

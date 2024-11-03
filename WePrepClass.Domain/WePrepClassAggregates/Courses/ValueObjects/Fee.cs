@@ -5,9 +5,9 @@ namespace WePrepClass.Domain.WePrepClassAggregates.Courses.ValueObjects;
 
 public class Fee : ValueObject
 {
-    public decimal Amount { get; private set; }
+    public decimal Amount { get; private init; }
 
-    public string Currency { get; private set; } = CurrencyCode.VND;
+    public string Currency { get; private init; } = CurrencyCode.VND;
 
     private Fee()
     {

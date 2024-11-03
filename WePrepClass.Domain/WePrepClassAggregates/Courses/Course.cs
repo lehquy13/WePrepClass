@@ -12,6 +12,9 @@ namespace WePrepClass.Domain.WePrepClassAggregates.Courses;
 public sealed class Course : FullAuditedAggregateRoot<CourseId>
 {
     private const int MinTitleLength = 50;
+    public const int MaxTitleLength = 256;
+    public const int MaxDescriptionLength = 512;
+    public const int MaxNoteLength = 256;
 
     public string Title { get; private set; } = null!;
     public string Description { get; private set; } = null!;
@@ -47,7 +50,15 @@ public sealed class Course : FullAuditedAggregateRoot<CourseId>
         Address address,
         SubjectId subjectId)
     {
-        if (title.Length < MinTitleLength) return DomainErrors.Courses.TitleTooShort;
+        if (title.Length is < MinTitleLength or > MaxTitleLength)
+        {
+            return DomainErrors.Courses.TitleLengthOutOfRange;
+        }
+        
+        if(description.Length > MaxDescriptionLength)
+        {
+            return DomainErrors.Courses.DescriptionLengthOutOfRange;
+        }
 
         var course = new Course
         {
@@ -82,7 +93,15 @@ public sealed class Course : FullAuditedAggregateRoot<CourseId>
         Address address,
         SubjectId subjectId)
     {
-        if (title.Length < MinTitleLength) return DomainErrors.Courses.TitleTooShort;
+        if (title.Length is < MinTitleLength or > MaxTitleLength)
+        {
+            return DomainErrors.Courses.TitleLengthOutOfRange;
+        }
+        
+        if(description.Length > MaxDescriptionLength)
+        {
+            return DomainErrors.Courses.DescriptionLengthOutOfRange;
+        }
 
         Title = title;
         Description = description;

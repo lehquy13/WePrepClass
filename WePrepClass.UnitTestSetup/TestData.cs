@@ -73,16 +73,15 @@ public static class TestData
         {
             get
             {
-                
                 var tutor = Tutor.Create(
                         UserData.UserId,
                         AcademicLevel.UnderGraduate,
                         "University of Science",
                         new List<SubjectId> { SubjectData.Subjects[0].Id })
                     .Value;
-                
+
                 tutor.SetTutorStatus(TutorStatus.Active);
-                
+
                 return tutor;
             }
         }

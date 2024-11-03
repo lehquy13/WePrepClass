@@ -54,10 +54,10 @@ public class UpsertSubjectCommandHandler(
     {
         var setDescriptionResult = subject.SetDescription(request.SubjectDto.Description);
         var setNameResult = subject.SetName(request.SubjectDto.Name);
-        
+
         if (setDescriptionResult.IsFailed) return setDescriptionResult.Error;
         if (setNameResult.IsFailed) return setNameResult.Error;
-        
+
         return Result.Success();
     }
 }

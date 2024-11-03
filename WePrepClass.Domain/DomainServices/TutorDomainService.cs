@@ -33,8 +33,8 @@ public class TutorDomainService(
         var tutor = await tutorRepository.GetById(tutorId, cancellationToken);
 
         if (tutor is null) return DomainErrors.Tutors.NotFound;
-        
-        if(tutor.TutorStatus is not TutorStatus.Active) return DomainErrors.Tutors.NotActive;
+
+        if (tutor.TutorStatus is not TutorStatus.Active) return DomainErrors.Tutors.NotActive;
 
         var tutoringRequest = TutoringRequest.Create(
             tutorId,

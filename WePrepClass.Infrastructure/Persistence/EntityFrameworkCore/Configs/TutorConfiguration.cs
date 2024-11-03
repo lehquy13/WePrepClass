@@ -136,7 +136,10 @@ internal class TutorConfiguration : IEntityTypeConfiguration<Tutor>
                     );
 
                 ownedNavigationBuilder.WithOwner().HasForeignKey(x => x.VerificationChangeId);
-                ownedNavigationBuilder.Property(r => r.ImageUrl).IsRequired();
+                ownedNavigationBuilder
+                    .Property(r => r.ImageUrl)
+                    .HasMaxLength(256)
+                    .IsRequired();
             });
         });
     }

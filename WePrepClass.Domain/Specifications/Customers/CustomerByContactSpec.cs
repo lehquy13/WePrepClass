@@ -3,7 +3,7 @@ using WePrepClass.Domain.WePrepClassAggregates.Users;
 
 namespace WePrepClass.Domain.Specifications.Customers;
 
-public class CustomerByContactSpec: SpecificationBase<User>
+public class CustomerByContactSpec : SpecificationBase<User>
 {
     public CustomerByContactSpec(string contact)
     {

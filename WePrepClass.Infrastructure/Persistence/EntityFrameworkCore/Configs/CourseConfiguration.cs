@@ -30,13 +30,20 @@ internal class CourseConfiguration : IEntityTypeConfiguration<Course>
             );
 
         builder.Property(r => r.Title)
+            .HasMaxLength(Course.MaxTitleLength)
             .IsRequired();
+
         builder.Property(r => r.Description)
+            .HasMaxLength(Course.MaxDescriptionLength)
             .IsRequired();
+
         builder.Property(r => r.Note)
+            .HasMaxLength(Course.MaxNoteLength)
             .IsRequired();
+
         builder.Property(r => r.Status)
             .IsRequired();
+
         builder.Property(r => r.LearningModeRequirement)
             .IsRequired();
 
@@ -95,6 +102,7 @@ internal class CourseConfiguration : IEntityTypeConfiguration<Course>
                 .HasColumnName("SessionFee");
 
             navigationBuilder.Property(fee => fee.Currency)
+                .HasMaxLength(10)
                 .HasColumnName(nameof(Course.SessionFee.Currency));
         });
 
@@ -119,14 +127,59 @@ internal class CourseConfiguration : IEntityTypeConfiguration<Course>
                 .HasMaxLength(Review.MaxDetailLength)
                 .IsRequired();
 
-            navigationBuilder.Property(r => r.CreationTime)
+            navigationBuilder
+                .Property(r => r.CreationTime)
                 .HasColumnName("Review_CreationTime");
-            navigationBuilder.Property(r => r.CreatorId)
+
+            navigationBuilder
+                .Property(r => r.CreatorId)
+                .HasMaxLength(36)
                 .HasColumnName("Review_CreatorId");
-            navigationBuilder.Property(r => r.LastModificationTime)
+
+            navigationBuilder
+                .Property(r => r.LastModificationTime)
                 .HasColumnName("Review_LastModificationTime");
-            navigationBuilder.Property(r => r.LastModifierId)
+
+            navigationBuilder
+                .Property(r => r.LastModifierId)
+                .HasMaxLength(36)
                 .HasColumnName("Review_LastModifierId");
+        });
+
+        builder.OwnsOne(o => o.LearnerDetail, navigationBuilder =>
+        {
+            navigationBuilder.Property(r => r.LearnerGender)
+                .HasColumnName(nameof(LearnerDetail.LearnerGender))
+                .IsRequired();
+
+            navigationBuilder.Property(r => r.LearnerName)
+                .HasColumnName(nameof(LearnerDetail.LearnerName))
+                .HasMaxLength(100)
+                .IsRequired();
+
+            navigationBuilder.Property(r => r.NumberOfLearner)
+                .HasColumnName(nameof(LearnerDetail.NumberOfLearner))
+                .IsRequired();
+
+            navigationBuilder.Property(r => r.ContactNumber)
+                .HasColumnName(nameof(LearnerDetail.ContactNumber))
+                .HasMaxLength(20)
+                .IsRequired();
+
+            navigationBuilder.Property(r => r.LearnerId)
+                .HasColumnName(nameof(LearnerDetail.LearnerId))
+                .IsRequired(false);
+        });
+
+        builder.OwnsOne(o => o.TutorSpecification, navigationBuilder =>
+        {
+            navigationBuilder.Property(r => r.TutorGender)
+                .HasColumnName(nameof(TutorSpecification.TutorGender))
+                .IsRequired();
+
+            navigationBuilder.Property(r => r.TutorAcademicLevel)
+                .HasColumnName(nameof(TutorSpecification.TutorAcademicLevel))
+                .IsRequired();
         });
     }
 }

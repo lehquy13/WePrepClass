@@ -49,7 +49,7 @@ public static class DependencyInjection
         Assembly applicationAssembly)
     {
         var config = TypeAdapterConfig.GlobalSettings;
-            
+
         config.Scan(applicationAssembly, typeof(DependencyInjection).Assembly);
 
         services.AddSingleton(config);

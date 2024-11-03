@@ -5,8 +5,8 @@ namespace WePrepClass.Domain.WePrepClassAggregates.Courses.ValueObjects;
 
 public class TutorSpecification : ValueObject
 {
-    private GenderOption TutorGender { get; init; } = GenderOption.None;
-    private AcademicLevel TutorAcademicLevel { get; init; } = AcademicLevel.Optional;
+    public GenderOption TutorGender { get; init; } = GenderOption.None;
+    public AcademicLevel TutorAcademicLevel { get; init; } = AcademicLevel.Optional;
 
     private TutorSpecification()
     {

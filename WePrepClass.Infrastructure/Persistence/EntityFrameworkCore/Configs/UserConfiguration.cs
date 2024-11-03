@@ -43,7 +43,7 @@ internal class UserConfiguration : IEntityTypeConfiguration<User>
 
         builder.Property(r => r.Description)
             .IsRequired();
-        
+
         builder.Property(r => r.Role)
             .IsRequired();
 

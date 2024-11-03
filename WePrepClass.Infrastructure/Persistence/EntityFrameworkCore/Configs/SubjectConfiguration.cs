@@ -11,7 +11,7 @@ internal class SubjectConfiguration : IEntityTypeConfiguration<Subject>
     {
         builder.ToTable(nameof(Subject));
         builder.HasKey(r => r.Id);
-        
+
         builder.Property(r => r.Id)
             .HasColumnName("Id")
             .ValueGeneratedOnAdd()

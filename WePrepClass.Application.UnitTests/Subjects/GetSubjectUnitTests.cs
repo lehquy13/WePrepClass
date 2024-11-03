@@ -19,7 +19,6 @@ public class GetSubjectUnitTests
 
     public GetSubjectUnitTests()
     {
-        
         _getSubjectQueryHandler = new GetSubjectQueryHandler(
             _subjectRepositoryMock.Object,
             _getSubjectLoggerMock.Object,

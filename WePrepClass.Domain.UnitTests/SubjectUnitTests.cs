@@ -80,7 +80,7 @@ public class SubjectUnitTests
         result.IsFailed.Should().BeTrue();
         result.Error.Code.Should().NotBeEmpty();
     }
-    
+
     [Fact]
     public void SetAsDeleted_WhenCalled_ShouldSetIsDeletedToTrue()
     {

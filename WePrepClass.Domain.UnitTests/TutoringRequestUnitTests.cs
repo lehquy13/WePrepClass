@@ -41,7 +41,7 @@ public class TutoringRequestUnitTests
 
         result.Error.Should().Be(DomainErrors.TutoringRequests.InvalidMessageLength);
     }
-    
+
     [Fact]
     public void CreateTutoringRequest_WhenTutoringRequestIsValid_ShouldReturnTutoringRequest()
     {
@@ -60,7 +60,7 @@ public class TutoringRequestUnitTests
         result.Value.CourseId.Should().Be(userId);
         result.Value.Message.Should().Be(message);
     }
-    
+
     [Fact]
     public void CancelRequest_WhenCalled_ShouldChangeTutorRequestStatusToCancelled()
     {
@@ -76,7 +76,7 @@ public class TutoringRequestUnitTests
         // Assert
         tutoringRequest.TutorRequestStatus.Should().Be(TutoringRequestStatus.Cancelled);
     }
-    
+
     [Fact]
     public void CompleteRequest_WhenCalled_ShouldChangeTutorRequestStatusToCompleted()
     {

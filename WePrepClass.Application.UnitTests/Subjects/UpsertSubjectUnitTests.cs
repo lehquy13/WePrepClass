@@ -24,7 +24,7 @@ public class UpsertSubjectUnitTests
             _unitOfWorkMock.Object,
             _deleteSubjectLoggerMock.Object);
     }
-    
+
     [Fact]
     public async Task UpsertSubjectCommandValidator_WhenSubjectDtoIsNull_ShouldReturnError()
     {
@@ -37,7 +37,7 @@ public class UpsertSubjectUnitTests
         // Assert
         result.IsValid.Should().BeFalse();
     }
-    
+
     [Fact]
     public async Task UpsertSubjectCommandValidator_WhenSubjectDtoNameAndDescriptionAreEmpty_ShouldReturnError()
     {
@@ -60,7 +60,7 @@ public class UpsertSubjectUnitTests
 
         var subjectId = SubjectId.Create(1);
         var subject = Subject.Create("Math", "Mathematics").Value;
-        
+
         var upsertSubjectCommand = new UpsertSubjectCommand(new SubjectDto
         {
             Id = subjectId.Value,
@@ -87,7 +87,7 @@ public class UpsertSubjectUnitTests
         _subjectRepositoryMock.Verify(x => x.GetAsync(subjectId, It.IsAny<CancellationToken>()), Times.Once);
         _unitOfWorkMock.Verify(x => x.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Once);
     }
-    
+
     [Fact]
     public async Task UpsertSubject_WhenSubjectNotExists_ShouldCreateSubject()
     {
@@ -120,7 +120,7 @@ public class UpsertSubjectUnitTests
         _subjectRepositoryMock.Verify(x => x.GetAsync(subjectId, It.IsAny<CancellationToken>()), Times.Once);
         _unitOfWorkMock.Verify(x => x.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Once);
     }
-    
+
     [Fact]
     public async Task UpsertSubject_WhenSavingChangesFailed_ShouldReturnError()
     {

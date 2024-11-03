@@ -7,7 +7,7 @@ public class Notification : AuditedAggregateRoot<int>
 {
     public string Message { get; private set; } = null!;
     public string ObjectId { get; private set; } = null!;
-    
+
     // ReSharper disable once UnusedAutoPropertyAccessor.Local
     public bool IsRead { get; private set; } // TODO: Implement this isRead logic
     public NotificationEventType NotificationEventType { get; private set; }

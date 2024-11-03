@@ -1,11 +1,10 @@
+using Microsoft.AspNetCore.Mvc.ApplicationModels;
+using Microsoft.OpenApi.Models;
+using Serilog;
 using WePrepClass.Api;
 using WePrepClass.Api.Commons;
 using WePrepClass.Application;
 using WePrepClass.Infrastructure;
-using WePrepClass.Persistence;
-using Microsoft.AspNetCore.Mvc.ApplicationModels;
-using Microsoft.OpenApi.Models;
-using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,7 +15,6 @@ var logger = Log.Logger = new LoggerConfiguration()
 
 logger.Information("Starting web host");
 
-// Add services to the container.
 builder.Services.AddControllers(options =>
 {
     options.Conventions.Add(new RouteTokenTransformerConvention(new SlugifyParameterTransformer()));

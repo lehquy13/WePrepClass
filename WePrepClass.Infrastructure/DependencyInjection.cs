@@ -67,7 +67,7 @@ public static class DependencyInjection
         //services.AddHostedService<InfrastructureBackgroundService>();
         return services;
     }
-    
+
     public static IServiceCollection AddPersistence(
         this IServiceCollection services, ConfigurationManager configuration
     )
@@ -79,7 +79,7 @@ public static class DependencyInjection
         services.AddDbContext<AppDbContext>(options =>
             options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"))
         );
-        
+
         services.AddScoped<IReadDbContext, ReadDbContext>();
 
         services

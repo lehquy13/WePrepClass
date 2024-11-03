@@ -94,7 +94,7 @@ public class CourseUnitTests
 
         // Assert
         courseCreationResult.IsFailed.Should().BeTrue();
-        courseCreationResult.Error.Should().Be(DomainErrors.Courses.TitleTooShort);
+        courseCreationResult.Error.Should().Be(DomainErrors.Courses.TitleLengthOutOfRange);
     }
 
     [Fact]
@@ -106,7 +106,7 @@ public class CourseUnitTests
         // Act
         var updateCourseResult = ValidCourse.UpdateCourse(
             title,
-            It.IsAny<string>(),
+            "This is a valid course description.",
             It.IsAny<LearningMode>(),
             It.IsAny<Fee>(),
             It.IsAny<Fee>(),
@@ -118,7 +118,7 @@ public class CourseUnitTests
 
         // Assert
         updateCourseResult.IsFailed.Should().BeTrue();
-        updateCourseResult.Error.Should().Be(DomainErrors.Courses.TitleTooShort);
+        updateCourseResult.Error.Should().Be(DomainErrors.Courses.TitleLengthOutOfRange);
     }
 
     [Fact]
@@ -129,7 +129,7 @@ public class CourseUnitTests
         // Act
         var updateCourseResult = ValidCourse.UpdateCourse(
             ValidTitle,
-            It.IsAny<string>(),
+            "This is a valid course description.",
             It.IsAny<LearningMode>(),
             It.IsAny<Fee>(),
             It.IsAny<Fee>(),
@@ -149,6 +149,7 @@ public class CourseUnitTests
         // Arrange
         const int expectedRate = 4;
         const string expectedComment = "This is a valid review comment";
+        const string reviewer = "Reviewer";
 
         var course = ValidCourse;
 
@@ -161,7 +162,7 @@ public class CourseUnitTests
         DateTimeProvider.Reset();
 
         // Act
-        var reviewCourseResult = course.ReviewCourse(expectedRate, expectedComment);
+        var reviewCourseResult = course.ReviewCourse(expectedRate, expectedComment, reviewer);
 
         // Assert
         reviewCourseResult.IsSuccess.Should().BeTrue();
@@ -181,7 +182,7 @@ public class CourseUnitTests
         course.AssignTutor(tutorId: TutorId.Create());
 
         // Act
-        var reviewCourseResult = course.ReviewCourse(5, "This is a valid review comment");
+        var reviewCourseResult = course.ReviewCourse(5, "This is a valid review comment", "Reviewer");
 
         // Assert
         reviewCourseResult.IsFailed.Should().BeTrue();
@@ -203,7 +204,7 @@ public class CourseUnitTests
         DateTimeProvider.Reset();
 
         // Act
-        var reviewCourseResult = course.ReviewCourse(5, "This is a valid review comment");
+        var reviewCourseResult = course.ReviewCourse(5, "This is a valid review comment", "Reviewer");
 
         // Assert
         reviewCourseResult.IsFailed.Should().BeTrue();
@@ -217,7 +218,7 @@ public class CourseUnitTests
         var course = ValidCourse;
 
         // Act
-        var reviewCourseResult = course.ReviewCourse(8, "This is a valid review comment");
+        var reviewCourseResult = course.ReviewCourse(8, "This is a valid review comment", "Reviewer");
 
         // Assert
         reviewCourseResult.IsFailed.Should().BeTrue();
@@ -230,7 +231,7 @@ public class CourseUnitTests
         var course = ValidCourse;
 
         // Act
-        var reviewCourseResult = course.ReviewCourse(-1, "This is a valid review comment");
+        var reviewCourseResult = course.ReviewCourse(-1, "This is a valid review comment", "Reviewer");
 
         // Assert
         reviewCourseResult.IsFailed.Should().BeTrue();
@@ -243,7 +244,7 @@ public class CourseUnitTests
         var course = ValidCourse;
 
         // Act
-        var reviewCourseResult = course.ReviewCourse(4, "");
+        var reviewCourseResult = course.ReviewCourse(4, "", "Reviewer");
 
         // Assert
         reviewCourseResult.IsFailed.Should().BeTrue();
@@ -256,7 +257,7 @@ public class CourseUnitTests
         var course = ValidCourse;
 
         // Act
-        var reviewCourseResult = course.ReviewCourse(4, new string('a', 501));
+        var reviewCourseResult = course.ReviewCourse(4, new string('a', 501), "Reviewer");
 
         // Assert
         reviewCourseResult.IsFailed.Should().BeTrue();

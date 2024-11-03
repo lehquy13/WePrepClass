@@ -40,7 +40,7 @@ public class TutoringRequest : AggregateRoot<TutorRequestId>
 
         return tutorRequest;
     }
-    
+
     public void CancelRequest()
     {
         TutorRequestStatus = TutoringRequestStatus.Cancelled;

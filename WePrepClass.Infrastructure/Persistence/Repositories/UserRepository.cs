@@ -15,6 +15,10 @@ public class UserRepository(AppDbContext appDbContext) : IUserRepository
         await appDbContext.Set<User>().AddAsync(user, cancellationToken);
 
     public async Task<List<User>> GetPaginatedListAsync(int pageIndex, int pageSize,
-        CancellationToken cancellationToken)
-        => await appDbContext.Set<User>().Skip((pageIndex - 1) * pageSize).Take(pageSize).ToListAsync(cancellationToken);
+        CancellationToken cancellationToken) =>
+        await appDbContext
+            .Set<User>()
+            .Skip((pageIndex - 1) * pageSize)
+            .Take(pageSize)
+            .ToListAsync(cancellationToken);
 }

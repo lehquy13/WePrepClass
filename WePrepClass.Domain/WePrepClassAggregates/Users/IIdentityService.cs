@@ -44,7 +44,7 @@ public interface IIdentityService : IDomainService
         string email,
         string phoneNumber,
         Role role = Role.BaseUser);
-    
+
     /// <summary>
     /// Change password
     /// </summary>
@@ -53,7 +53,7 @@ public interface IIdentityService : IDomainService
     /// <param name="newPassword"></param>
     /// <returns></returns>
     Task<Result> ChangePasswordAsync(UserId userId, string currentPassword, string newPassword);
-    
+
     /// <summary>
     /// 
     /// </summary>
@@ -69,7 +69,7 @@ public interface IIdentityService : IDomainService
     /// <param name="userId"></param>
     /// <returns></returns>
     Task<Result> RemoveAsync(UserId userId);
-    
+
     /// <summary>
     /// 
     /// </summary>

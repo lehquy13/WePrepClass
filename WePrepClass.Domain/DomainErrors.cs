@@ -36,7 +36,7 @@ public static class DomainErrors
         public static readonly Error SessionDurationOutOfRange =
             new("SessionDurationOutOfRange", "Session duration should be at least 60 minutes");
 
-        public static readonly Error TitleTooShort =
+        public static readonly Error TitleLengthOutOfRange =
             new("TitleTooShort", "Title should be at least 50 characters");
 
         public static readonly Error NotBeenConfirmed =
@@ -58,6 +58,9 @@ public static class DomainErrors
             "Course review is not allowed yet");
 
         public static readonly Error NotFound = new("CourseNotFound", "Course not found");
+
+        public static readonly Error DescriptionLengthOutOfRange = new("DescriptionLengthOutOfRange",
+            "Description length should be less than 512");
     }
 
     public static class TutoringRequests

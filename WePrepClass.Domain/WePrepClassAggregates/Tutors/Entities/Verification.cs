@@ -7,7 +7,7 @@ public class Verification : AuditedEntity<VerificationId>
 {
     public TutorId TutorId { get; private set; } = null!;
     public string Image { get; private set; } = null!;
-    
+
     private Verification()
     {
     }

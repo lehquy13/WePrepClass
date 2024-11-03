@@ -7,7 +7,6 @@ using Matt.SharedKernel.Domain.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using WePrepClass.Application.Interfaces;
 using WePrepClass.Contracts.Users;
-using WePrepClass.Domain.WePrepClassAggregates.Users;
 
 namespace WePrepClass.Application.UseCases.Administrator.Users.Queries;
 

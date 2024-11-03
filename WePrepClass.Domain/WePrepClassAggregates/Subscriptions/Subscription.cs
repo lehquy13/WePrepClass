@@ -21,7 +21,7 @@ public class Subscription : AggregateRoot<SubscriptionId>
     }
 
     public static Subscription Create(
-        UserId userId, 
+        UserId userId,
         SubscriptionType subscriptionType,
         SubscriptionPackage subscriptionPackage)
     {
@@ -33,7 +33,7 @@ public class Subscription : AggregateRoot<SubscriptionId>
             SubscriptionPackage = subscriptionPackage
         };
     }
-    
+
     public void ActivateSubscription(PaymentId paymentId)
     {
         PaymentId = paymentId;

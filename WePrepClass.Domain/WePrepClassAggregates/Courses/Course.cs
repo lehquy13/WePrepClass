@@ -4,7 +4,6 @@ using Matt.SharedKernel.Domain.Primitives.Auditing;
 using WePrepClass.Domain.Commons.Enums;
 using WePrepClass.Domain.WePrepClassAggregates.Courses.ValueObjects;
 using WePrepClass.Domain.WePrepClassAggregates.Subjects.ValueObjects;
-using WePrepClass.Domain.WePrepClassAggregates.TeachingRequests.ValueObjects;
 using WePrepClass.Domain.WePrepClassAggregates.Tutors.ValueObjects;
 using WePrepClass.Domain.WePrepClassAggregates.Users.ValueObjects;
 
@@ -13,8 +12,6 @@ namespace WePrepClass.Domain.WePrepClassAggregates.Courses;
 public sealed class Course : FullAuditedAggregateRoot<CourseId>
 {
     private const int MinTitleLength = 50;
-
-    private readonly List<TeachingRequestId> _teachingRequests = [];
 
     public string Title { get; private set; } = null!;
     public string Description { get; private set; } = null!;
@@ -33,8 +30,6 @@ public sealed class Course : FullAuditedAggregateRoot<CourseId>
 
     public SubjectId SubjectId { get; private set; } = null!;
     public TutorId? TutorId { get; private set; }
-
-    public IReadOnlyCollection<TeachingRequestId> TeachingRequestIds => _teachingRequests.AsReadOnly();
 
     private Course()
     {
@@ -107,7 +102,7 @@ public sealed class Course : FullAuditedAggregateRoot<CourseId>
         return Result.Success();
     }
 
-    public Result ReviewCourse(short rate, string detail)
+    public Result ReviewCourse(short rate, string detail, string reviewer)
     {
         if (Status is not CourseStatus.Confirmed)
         {
@@ -116,7 +111,7 @@ public sealed class Course : FullAuditedAggregateRoot<CourseId>
 
         if (ConfirmedDate?.AddDays(30) > DateTimeProvider.Now) return DomainErrors.Courses.ReviewNotAllowedYet;
 
-        var result = Review.Create(rate, detail);
+        var result = Review.Create(rate, detail, reviewer);
 
         if (result.IsFailed)
         {

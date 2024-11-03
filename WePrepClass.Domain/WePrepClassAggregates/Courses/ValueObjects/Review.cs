@@ -5,11 +5,11 @@ using Matt.SharedKernel.Domain.Primitives;
 
 namespace WePrepClass.Domain.WePrepClassAggregates.Courses.ValueObjects;
 
-public class Review : ValueObject, IHasModificationTime
+public class Review : ValueObject, ICreationAuditedObject, IModificationAuditedObject
 {
     private const short MinRate = 1;
     private const short MaxRate = 5;
-    private const int MaxDetailLength = 500;
+    public const int MaxDetailLength = 500;
 
     public short Rate { get; private init; }
     public string Detail { get; private init; } = null!;
@@ -17,11 +17,15 @@ public class Review : ValueObject, IHasModificationTime
     public DateTime? LastModificationTime { get; private init; }
     public string? LastModifierId { get; private set; }
 
+    public DateTime CreationTime { get; private init; }
+
+    public string? CreatorId { get; private init; }
+
     private Review()
     {
     }
 
-    public static Result<Review> Create(short rate, string detail)
+    public static Result<Review> Create(short rate, string detail, string reviewer)
     {
         if (rate is < MinRate or > MaxRate)
         {
@@ -37,7 +41,9 @@ public class Review : ValueObject, IHasModificationTime
         {
             Rate = rate,
             Detail = detail,
-            LastModificationTime = DateTimeProvider.Now
+            CreatorId = reviewer,
+            LastModificationTime = DateTimeProvider.Now,
+            CreationTime = DateTimeProvider.Now
         };
     }
 

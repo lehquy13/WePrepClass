@@ -35,11 +35,15 @@ public class GetTutorsQueryHandlerUnitTests
             mapperMock.Object
         );
 
-        var tutors = new List<Tutor> { TestData.TutorData.Tutor1 }.AsQueryable();
+        var tutor = TestData.TutorData.Tutor1;
+        var tutors = new List<Tutor> { tutor }.AsQueryable();
+
+        var course = TestData.CourseData.Course1;
+        var courses = new List<Course> { course }.AsQueryable();
+
         var users = new List<User> { TestData.UserData.ValidUser }.AsQueryable();
         var subjects = TestData.SubjectData.Subjects.AsQueryable();
         var majors = new List<Major> { TestData.MajorData.Major1 }.AsQueryable();
-        var courses = new List<Course> { TestData.CourseData.Course1 }.AsQueryable();
 
         _dbContextMock.Setup(db => db.Tutors).ReturnsDbSet(tutors);
         _dbContextMock.Setup(db => db.Users).ReturnsDbSet(users);
@@ -49,7 +53,7 @@ public class GetTutorsQueryHandlerUnitTests
     }
 
     [Fact]
-    public async Task Handle_WhenTutorsExistAndUserDoesNotLogin_ShouldReturnPaginatedListOfTutorListDto()
+    public async Task Handle_WhenTutorsExistAndRequestIsNotAuthenticated_ShouldReturnPaginatedListOfTutorListDto()
     {
         // Arrange
         var request = new GetTutorsQuery(new GetTutorsRequest

@@ -48,7 +48,7 @@ public class GetTutorsQueryHandler(
 
         tutors = ApplySearching(request, tutors);
 
-        var totalCount = await dbContext.Tutors.LongCountAsync(cancellationToken);
+        var totalCount = await tutors.LongCountAsync(cancellationToken);
 
         tutors = ApplyUserOrientedSearching(tutors);
 

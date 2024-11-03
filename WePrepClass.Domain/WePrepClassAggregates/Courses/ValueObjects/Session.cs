@@ -8,9 +8,9 @@ public class Session : ValueObject
 {
     private const int MinDuration = 60;
 
-    private decimal Value { get; init; }
-    private DurationUnit DurationUnit { get; init; }
-    private SessionFrequency SessionFrequency { get; init; } = SessionFrequency.Weekly;
+    public decimal Value { get; private init; }
+    public DurationUnit DurationUnit { get; private init; }
+    public SessionFrequency SessionFrequency { get; private init; } = SessionFrequency.Weekly;
 
     public string DisplayValue => SessionFrequency is SessionFrequency.Custom
         ? $"{Value} {DurationUnit}"

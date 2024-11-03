@@ -69,18 +69,29 @@ public static class TestData
 
     public static class TutorData
     {
-        public static Tutor Tutor1 => Tutor.Create(
-                UserData.UserId,
-                AcademicLevel.UnderGraduate,
-                "University of Science",
-                new List<SubjectId> { SubjectData.Subjects[0].Id })
-            .Value;
+        public static Tutor Tutor1
+        {
+            get
+            {
+                
+                var tutor = Tutor.Create(
+                        UserData.UserId,
+                        AcademicLevel.UnderGraduate,
+                        "University of Science",
+                        new List<SubjectId> { SubjectData.Subjects[0].Id })
+                    .Value;
+                
+                tutor.SetTutorStatus(TutorStatus.Active);
+                
+                return tutor;
+            }
+        }
     }
 
     public static class CourseData
     {
         public static Course Course1 => Course.Create(
-                "Course 1",
+                "Course Title With More Than 50 Characters Length To Test The Validation",
                 "Course 1 Description",
                 LearningMode.Hybrid,
                 Fee.Create(10m, CurrencyCode.USD),
@@ -95,7 +106,7 @@ public static class TestData
                     GenderOption.Female,
                     AcademicLevel.Graduated),
                 Session.Create(90m).Value,
-                Address.Create("", "", "").Value,
+                Address.Create("City", "Country", "Detail").Value,
                 SubjectData.Subjects[0].Id
             )
             .Value;

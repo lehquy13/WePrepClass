@@ -56,7 +56,6 @@ internal class UserConfiguration : IEntityTypeConfiguration<User>
                     .HasColumnName(nameof(Address.City));
                 navigationBuilder.Property(address => address.DetailAddress)
                     .HasColumnName(nameof(Address.DetailAddress));
-                    
             });
     }
 }

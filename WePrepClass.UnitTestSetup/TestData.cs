@@ -3,7 +3,12 @@ using MapsterMapper;
 using WePrepClass.Application;
 using WePrepClass.Contracts;
 using WePrepClass.Domain.Commons.Enums;
+using WePrepClass.Domain.WePrepClassAggregates.Courses;
+using WePrepClass.Domain.WePrepClassAggregates.Courses.ValueObjects;
 using WePrepClass.Domain.WePrepClassAggregates.Subjects;
+using WePrepClass.Domain.WePrepClassAggregates.Subjects.ValueObjects;
+using WePrepClass.Domain.WePrepClassAggregates.Tutors;
+using WePrepClass.Domain.WePrepClassAggregates.Tutors.Entities;
 using WePrepClass.Domain.WePrepClassAggregates.Users;
 using WePrepClass.Domain.WePrepClassAggregates.Users.ValueObjects;
 
@@ -18,13 +23,13 @@ public static class TestData
         public const string LastName = "Doe";
         public const string Password = "1q2w3E**";
         public const Gender UserGender = Gender.Female;
-        public const Role UserRole = Role.BaseUser;
+        private const Role UserRole = Role.BaseUser;
         public const string Mail = "johnd@mail.com";
-        public const string PhoneNumber = "0123456789";
+        private const string PhoneNumber = "0123456789";
         public const int BirthYear = 1991;
-        public const string City = "Hanoi";
-        public const string District = "Ba Dinh";
-        public const string Street = "123 Hoang Hoa Tham Street";
+        private const string City = "Hanoi";
+        private const string District = "Ba Dinh";
+        private const string Street = "123 Hoang Hoa Tham Street";
         public static readonly UserId UserId = UserId.Create();
 
         public static readonly User ValidUser =
@@ -53,6 +58,47 @@ public static class TestData
             Subject.Create("Chemistry", "Chemistry Subject").Value,
             Subject.Create("Biology", "Biology Subject").Value,
         ];
+    }
+
+    public static class MajorData
+    {
+        public static Major Major1 => Major.Create(
+            TutorData.Tutor1.Id,
+            SubjectData.Subjects[0].Id);
+    }
+
+    public static class TutorData
+    {
+        public static Tutor Tutor1 => Tutor.Create(
+                UserData.UserId,
+                AcademicLevel.UnderGraduate,
+                "University of Science",
+                new List<SubjectId> { SubjectData.Subjects[0].Id })
+            .Value;
+    }
+
+    public static class CourseData
+    {
+        public static Course Course1 => Course.Create(
+                "Course 1",
+                "Course 1 Description",
+                LearningMode.Hybrid,
+                Fee.Create(10m, CurrencyCode.USD),
+                Fee.Create(10m, CurrencyCode.USD),
+                LearnerDetail.Create(
+                    "John Doe",
+                    Gender.Female,
+                    "0123123123",
+                    2
+                ),
+                TutorSpecification.Create(
+                    GenderOption.Female,
+                    AcademicLevel.Graduated),
+                Session.Create(90m).Value,
+                Address.Create("", "", "").Value,
+                SubjectData.Subjects[0].Id
+            )
+            .Value;
     }
 }
 

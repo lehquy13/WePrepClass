@@ -14,10 +14,6 @@ public class AppDbContext(
     IHttpContextAccessor? httpContextAccessor = null
 ) : DbContext(options)
 {
-    public DbSet<User> Users { get; init; } = null!;
-    public DbSet<Tutor> Tutors { get; init; } = null!;
-    public DbSet<Notification> Notifications { get; init; } = null!;
-
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         => optionsBuilder.EnableSensitiveDataLogging();
 

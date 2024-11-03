@@ -8,7 +8,7 @@ public class Session : ValueObject
 {
     private const int MinDuration = 60;
 
-    private int Value { get; init; }
+    private decimal Value { get; init; }
     private DurationUnit DurationUnit { get; init; }
     private SessionFrequency SessionFrequency { get; init; } = SessionFrequency.Weekly;
 
@@ -20,7 +20,7 @@ public class Session : ValueObject
     {
     }
 
-    public static Result<Session> Create(int value = 90, DurationUnit durationUnit = DurationUnit.Minute)
+    public static Result<Session> Create(decimal value = 90m, DurationUnit durationUnit = DurationUnit.Minute)
     {
         if (durationUnit is DurationUnit.Minute && value < MinDuration)
             return DomainErrors.Courses.SessionDurationOutOfRange;

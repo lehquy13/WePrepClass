@@ -8,13 +8,13 @@ namespace WePrepClass.Infrastructure.Persistence.Repositories;
 public class UserRepository(AppDbContext appDbContext) : IUserRepository
 {
     public async Task<User?> GetByCustomerIdAsync(UserId userId, CancellationToken cancellationToken)
-        => await appDbContext.Users
+        => await appDbContext.Set<User>()
             .FirstOrDefaultAsync(x => x.Id == userId, cancellationToken);
 
     public async Task InsertAsync(User user, CancellationToken cancellationToken) =>
-        await appDbContext.Users.AddAsync(user, cancellationToken);
+        await appDbContext.Set<User>().AddAsync(user, cancellationToken);
 
     public async Task<List<User>> GetPaginatedListAsync(int pageIndex, int pageSize,
         CancellationToken cancellationToken)
-        => await appDbContext.Users.Skip((pageIndex - 1) * pageSize).Take(pageSize).ToListAsync(cancellationToken);
+        => await appDbContext.Set<User>().Skip((pageIndex - 1) * pageSize).Take(pageSize).ToListAsync(cancellationToken);
 }

@@ -15,7 +15,7 @@ public record GetTutorQuery(Guid TutorId) : IQueryRequest<TutorDto>;
 
 public class GetTutorQueryHandler(
     IReadDbContext dbContext,
-    IAppLogger<RequestHandlerBase> logger,
+    IAppLogger<GetTutorQueryHandler> logger,
     IMapper mapper
 ) : QueryHandlerBase<GetTutorQuery, TutorDto>(logger, mapper)
 {

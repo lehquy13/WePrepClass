@@ -1,4 +1,5 @@
 ﻿using Matt.ResultObject;
+using Matt.SharedKernel.Application.Contracts.Interfaces.Infrastructures;
 using WePrepClass.Domain.Commons;
 using WePrepClass.Domain.Commons.Enums;
 using WePrepClass.Domain.WePrepClassAggregates.Courses;
@@ -6,6 +7,7 @@ using WePrepClass.Domain.WePrepClassAggregates.Courses.ValueObjects;
 using WePrepClass.Domain.WePrepClassAggregates.TeachingRequests;
 using WePrepClass.Domain.WePrepClassAggregates.Tutors;
 using WePrepClass.Domain.WePrepClassAggregates.Tutors.ValueObjects;
+using WePrepClass.Domain.WePrepClassAggregates.Users.ValueObjects;
 
 namespace WePrepClass.Domain.DomainServices;
 
@@ -25,12 +27,15 @@ public interface ICourseDomainService
         CourseId courseId,
         string detailMessage = "",
         CancellationToken cancellationToken = default);
+
+    Task<Result> ReviewCourse(CourseId courseId, short rate, string reviewDetail);
 }
 
 public class CourseDomainService(
     ICourseRepository courseRepository,
     ITeachingRequestRepository teachingRequestRepository,
-    ITutorRepository tutorRepository
+    ITutorRepository tutorRepository,
+    ICurrentUserService currentUserService
 ) : DomainServiceBase, ICourseDomainService
 {
     public async Task<Result> CreateTeachingRequest(
@@ -119,5 +124,16 @@ public class CourseDomainService(
         teachingRequest?.Cancel();
 
         return Result.Success();
+    }
+
+    public async Task<Result> ReviewCourse(CourseId courseId, short rate, string reviewDetail)
+    {
+        var course = await courseRepository.GetById(courseId);
+
+        if (course is null) return DomainErrors.Courses.NotFound;
+
+        var reviewResult = course.ReviewCourse(rate, reviewDetail, currentUserService.CurrentUserEmail);
+
+        return reviewResult.IsFailed ? reviewResult : Result.Success();
     }
 }

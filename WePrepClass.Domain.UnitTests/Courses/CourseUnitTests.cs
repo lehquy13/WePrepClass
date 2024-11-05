@@ -18,10 +18,10 @@ public class CourseUnitTests
         ValidTitle,
         "This is a valid course description.",
         LearningMode.Offline,
-        Fee.Create(100, CurrencyCode.VND),
-        Fee.Create(10, CurrencyCode.VND),
+        Fee.Create(100, CurrencyCode.Vnd),
+        Fee.Create(10, CurrencyCode.Vnd),
         LearnerDetail.Create("Learner name", Gender.Female, "contact", 2, UserId.Create()),
-        TutorSpecification.Create(GenderOption.Male, AcademicLevel.Graduated),
+        TutorSpecification.Create(GenderOption.Male, AcademicLevelOption.Graduated),
         Session.Create(60).Value,
         Address.Create("City", "District", "Street").Value,
         SubjectId.Create()
@@ -35,10 +35,10 @@ public class CourseUnitTests
         const string title = "This is a valid course title that is more than 50 characters long";
         const string description = "This is a valid course description.";
         const LearningMode learningMode = LearningMode.Offline;
-        var sessionFee = Fee.Create(100, CurrencyCode.VND);
-        var chargeFee = Fee.Create(10, CurrencyCode.VND);
+        var sessionFee = Fee.Create(100, CurrencyCode.Vnd);
+        var chargeFee = Fee.Create(10, CurrencyCode.Vnd);
         var learnerDetail = LearnerDetail.Create("Learner Name", Gender.Female, "contact");
-        var tutorSpecification = TutorSpecification.Create(GenderOption.Male, AcademicLevel.Graduated);
+        var tutorSpecification = TutorSpecification.Create(GenderOption.Male, AcademicLevelOption.Graduated);
         var sessionDuration = Session.Create(60);
         var address = Address.Create("City", "District", "Street");
         var subjectId = SubjectId.Create();

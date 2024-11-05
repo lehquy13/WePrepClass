@@ -18,10 +18,8 @@ public static class TestData
 {
     public static class UserData
     {
-        public const string UserName = "JohnDoe";
         public const string FirstName = "John";
         public const string LastName = "Doe";
-        public const string Password = "1q2w3E**";
         public const Gender UserGender = Gender.Female;
         private const Role UserRole = Role.BaseUser;
         public const string Mail = "johnd@mail.com";
@@ -93,8 +91,8 @@ public static class TestData
                 "Course Title With More Than 50 Characters Length To Test The Validation",
                 "Course 1 Description",
                 LearningMode.Hybrid,
-                Fee.Create(10m, CurrencyCode.USD),
-                Fee.Create(10m, CurrencyCode.USD),
+                Fee.Create(10m, CurrencyCode.Usd),
+                Fee.Create(10m, CurrencyCode.Usd),
                 LearnerDetail.Create(
                     "John Doe",
                     Gender.Female,
@@ -103,8 +101,8 @@ public static class TestData
                 ),
                 TutorSpecification.Create(
                     GenderOption.Female,
-                    AcademicLevel.Graduated),
-                Session.Create(90m).Value,
+                    AcademicLevelOption.Graduated),
+                Session.Create().Value,
                 Address.Create("City", "Country", "Detail").Value,
                 SubjectData.Subjects[0].Id
             )

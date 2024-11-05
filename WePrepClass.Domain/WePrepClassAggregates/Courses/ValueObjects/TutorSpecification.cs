@@ -6,13 +6,13 @@ namespace WePrepClass.Domain.WePrepClassAggregates.Courses.ValueObjects;
 public class TutorSpecification : ValueObject
 {
     public GenderOption TutorGender { get; init; } = GenderOption.None;
-    public AcademicLevel TutorAcademicLevel { get; init; } = AcademicLevel.Optional;
+    public AcademicLevelOption TutorAcademicLevel { get; init; } = AcademicLevelOption.Optional;
 
     private TutorSpecification()
     {
     }
 
-    public static TutorSpecification Create(GenderOption tutorGender, AcademicLevel tutorAcademicLevel)
+    public static TutorSpecification Create(GenderOption tutorGender, AcademicLevelOption tutorAcademicLevel)
     {
         return new TutorSpecification
         {

@@ -7,7 +7,9 @@ public class Fee : ValueObject
 {
     public decimal Amount { get; private init; }
 
-    public string Currency { get; private init; } = CurrencyCode.VND;
+    public string Currency { get; private init; } = CurrencyCode.Vnd;
+    
+    public string Display => $"{Amount} {Currency}";
 
     private Fee()
     {
@@ -18,7 +20,7 @@ public class Fee : ValueObject
         return new Fee
         {
             Amount = amount,
-            Currency = currency ?? CurrencyCode.VND
+            Currency = currency ?? CurrencyCode.Vnd
         };
     }
 

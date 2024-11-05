@@ -1,4 +1,5 @@
 ﻿using FluentAssertions;
+using Matt.SharedKernel.Application.Contracts.Interfaces.Infrastructures;
 using Moq;
 using WePrepClass.Domain.Commons.Enums;
 using WePrepClass.Domain.DomainServices;
@@ -20,6 +21,7 @@ public class CourseDomainServiceUnitTests
     private readonly Mock<ICourseRepository> _courseRepositoryMock = new();
     private readonly Mock<ITeachingRequestRepository> _teachingRequestRepositoryMock = new();
     private readonly Mock<ITutorRepository> _tutorRepositoryMock = new();
+    private readonly Mock<ICurrentUserService> _currentUserServiceMock = new();
 
     private readonly CourseDomainService _courseDomainService;
 
@@ -27,10 +29,10 @@ public class CourseDomainServiceUnitTests
         "This is a valid course title that is more than 50 characters long",
         "This is a valid course description.",
         LearningMode.Offline,
-        Fee.Create(100, CurrencyCode.VND),
-        Fee.Create(10, CurrencyCode.VND),
+        Fee.Create(100, CurrencyCode.Vnd),
+        Fee.Create(10, CurrencyCode.Vnd),
         LearnerDetail.Create("Learner name", Gender.Female, "contact", 2, LearnerId),
-        TutorSpecification.Create(GenderOption.Male, AcademicLevel.Graduated),
+        TutorSpecification.Create(GenderOption.Male, AcademicLevelOption.Graduated),
         Session.Create(60).Value,
         Address.Create("City", "District", "Street").Value,
         SubjectId.Create()
@@ -44,7 +46,9 @@ public class CourseDomainServiceUnitTests
         _courseDomainService = new CourseDomainService(
             _courseRepositoryMock.Object,
             _teachingRequestRepositoryMock.Object,
-            _tutorRepositoryMock.Object);
+            _tutorRepositoryMock.Object,
+            _currentUserServiceMock.Object
+        );
 
         _validTutor = Tutor.Create(
             ValidUserId,

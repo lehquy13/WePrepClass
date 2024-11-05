@@ -21,8 +21,8 @@ public sealed class Course : FullAuditedAggregateRoot<CourseId>
     public string Note { get; private set; } = null!;
     public CourseStatus Status { get; set; } = CourseStatus.PendingApproval;
     public LearningMode LearningModeRequirement { get; private set; } = LearningMode.Offline;
-    public Fee SessionFee { get; private set; } = Fee.Create(0, CurrencyCode.VND);
-    public Fee ChargeFee { get; private set; } = Fee.Create(0, CurrencyCode.VND);
+    public Fee SessionFee { get; private set; } = Fee.Create(0, CurrencyCode.Vnd);
+    public Fee ChargeFee { get; private set; } = Fee.Create(0, CurrencyCode.Vnd);
     public Session Session { get; private set; } = null!;
     public Address Address { get; private set; } = null!;
     public Review? Review { get; private set; }

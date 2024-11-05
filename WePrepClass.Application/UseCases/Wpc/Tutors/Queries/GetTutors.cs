@@ -111,9 +111,9 @@ public class GetTutorsQueryHandler(
         GetTutorsQuery request,
         IQueryable<(Tutor Tutor, IEnumerable<Subject> Majors, User User, IEnumerable<Course> Courses)> tutors)
     {
-        if (request.TutorParams.Academic?.ToEnum<AcademicLevel>() is { } academicLevel &&
-            academicLevel != AcademicLevel.Optional)
-            tutors = tutors.Where(record => record.Tutor.AcademicLevel == academicLevel);
+        if (request.TutorParams.Academic?.ToEnum<AcademicLevelOption>() is { } academicLevel &&
+            academicLevel != AcademicLevelOption.Optional)
+            tutors = tutors.Where(record => record.Tutor.AcademicLevel.ToString() == academicLevel.ToString());
 
         if (!string.IsNullOrEmpty(request.TutorParams.City) &&
             !string.IsNullOrEmpty(request.TutorParams.District))

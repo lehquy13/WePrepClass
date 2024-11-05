@@ -13,6 +13,13 @@ public enum CourseStatus
 
 public enum AcademicLevel
 {
+    UnderGraduate,
+    Graduated,
+    Lecturer
+}
+
+public enum AcademicLevelOption
+{
     Optional,
     UnderGraduate,
     Graduated,
@@ -28,8 +35,8 @@ public enum TutorStatus
 
 public static class CurrencyCode
 {
-    public static string USD = "USD";
-    public static string VND = "VND";
+    public const string Usd = "USD";
+    public const string Vnd = "VND";
 }
 
 public enum LearningMode

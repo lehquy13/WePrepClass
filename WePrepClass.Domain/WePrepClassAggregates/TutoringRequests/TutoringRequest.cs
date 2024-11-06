@@ -1,6 +1,6 @@
 ﻿using Matt.ResultObject;
 using Matt.SharedKernel.Domain.Interfaces;
-using Matt.SharedKernel.Domain.Primitives;
+using Matt.SharedKernel.Domain.Primitives.Auditing;
 using WePrepClass.Domain.Commons.Enums;
 using WePrepClass.Domain.WePrepClassAggregates.TutoringRequests.ValueObjects;
 using WePrepClass.Domain.WePrepClassAggregates.Tutors.ValueObjects;
@@ -8,12 +8,12 @@ using WePrepClass.Domain.WePrepClassAggregates.Users.ValueObjects;
 
 namespace WePrepClass.Domain.WePrepClassAggregates.TutoringRequests;
 
-public class TutoringRequest : AggregateRoot<TutorRequestId>
+public class TutoringRequest : AuditedAggregateRoot<TutorRequestId>
 {
     private const int MaxMessageLength = 300;
 
     public TutorId TutorId { get; private set; } = null!;
-    public UserId CourseId { get; private set; } = null!;
+    public UserId UserId { get; private set; } = null!;
     public string Message { get; private set; } = null!;
 
     public TutoringRequestStatus TutorRequestStatus { get; private set; } = TutoringRequestStatus.InProgress;
@@ -32,7 +32,7 @@ public class TutoringRequest : AggregateRoot<TutorRequestId>
         {
             Id = TutorRequestId.Create(),
             TutorId = tutorId,
-            CourseId = userId,
+            UserId = userId,
             Message = message
         };
 
@@ -52,4 +52,6 @@ public class TutoringRequest : AggregateRoot<TutorRequestId>
     }
 }
 
+// ReSharper disable NotAccessedPositionalProperty.Global
 public record TutorRequestCreatedDomainEvent(TutoringRequest TutoringRequest) : IDomainEvent;
+// ReSharper restore NotAccessedPositionalProperty.Global

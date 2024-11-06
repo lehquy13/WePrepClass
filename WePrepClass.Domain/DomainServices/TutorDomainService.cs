@@ -3,6 +3,7 @@ using Matt.SharedKernel.Application.Contracts.Interfaces.Infrastructures;
 using Matt.SharedKernel.Domain;
 using Matt.SharedKernel.Domain.Interfaces;
 using WePrepClass.Domain.Commons.Enums;
+using WePrepClass.Domain.WePrepClassAggregates.Subjects.ValueObjects;
 using WePrepClass.Domain.WePrepClassAggregates.TutoringRequests;
 using WePrepClass.Domain.WePrepClassAggregates.Tutors;
 using WePrepClass.Domain.WePrepClassAggregates.Tutors.ValueObjects;
@@ -15,6 +16,14 @@ public interface ITutorDomainService : IDomainService
     Task<Result> CreateTutoringRequest(
         TutorId tutorId,
         string detailMessage = "",
+        CancellationToken cancellationToken = default);
+
+    Task<Result> EnrollAsTutor(
+        UserId userId,
+        AcademicLevel academicLevel,
+        string university,
+        List<SubjectId> majorIds,
+        //List<string> imageFileUrls,
         CancellationToken cancellationToken = default);
 }
 
@@ -45,6 +54,27 @@ public class TutorDomainService(
 
         await tutoringRequestRepository.Insert(tutoringRequest.Value);
 
+        return Result.Success();
+    }
+
+    public async Task<Result> EnrollAsTutor(
+        UserId userId,
+        AcademicLevel academicLevel,
+        string university,
+        List<SubjectId> majorIds,
+        //List<string> imageFileUrls, TODO: update domain event to push notification to update image
+        CancellationToken cancellationToken = default)
+    {
+        var tutor = Tutor.Create(
+            userId,
+            academicLevel,
+            university,
+            majorIds);
+
+        if (tutor.IsFailed) return Result.Fail(tutor.Error);
+
+        tutorRepository.Insert(tutor.Value);
+        
         return Result.Success();
     }
 }

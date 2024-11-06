@@ -4,7 +4,7 @@ namespace WePrepClass.Domain.WePrepClassAggregates.TutoringRequests.ValueObjects
 
 public class TutorRequestId : ValueObject
 {
-    private Guid Value { get; init; }
+    public Guid Value { get; init; }
 
     private TutorRequestId()
     {

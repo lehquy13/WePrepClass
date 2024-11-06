@@ -57,7 +57,7 @@ public class TutoringRequestUnitTests
         result.IsSuccess.Should().BeTrue();
 
         result.Value.TutorId.Should().Be(tutorId);
-        result.Value.CourseId.Should().Be(userId);
+        result.Value.UserId.Should().Be(userId);
         result.Value.Message.Should().Be(message);
     }
 

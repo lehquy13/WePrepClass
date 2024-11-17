@@ -25,10 +25,10 @@ public class GetPopularTutorsQueryHandler(
         CancellationToken cancellationToken)
     {
         var tutorIds =
-            from course in dbContext.Courses
-            where course.Status == CourseStatus.Confirmed &&
-                  course.CreationTime > DateTimeProvider.Now.AddMonths(-1)
-            group course by course.TutorId
+            from assignment in dbContext.TeachingAssignments
+            where assignment.TeachingAssignmentStatus == TeachingAssignmentStatus.Assigned &&
+                  assignment.CreationTime > DateTimeProvider.Now.AddMonths(-1)
+            group assignment by assignment.TutorId
             into tutorGroup
             orderby tutorGroup.Count() descending
             select tutorGroup.Key;

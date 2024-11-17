@@ -2,6 +2,7 @@
 using Matt.SharedKernel.Domain.Interfaces;
 using Matt.SharedKernel.Domain.Primitives.Auditing;
 using WePrepClass.Domain.Commons.Enums;
+using WePrepClass.Domain.WePrepClassAggregates.Courses.Entities;
 using WePrepClass.Domain.WePrepClassAggregates.Courses.ValueObjects;
 using WePrepClass.Domain.WePrepClassAggregates.Subjects.ValueObjects;
 using WePrepClass.Domain.WePrepClassAggregates.Tutors.ValueObjects;
@@ -15,6 +16,9 @@ public sealed class Course : FullAuditedAggregateRoot<CourseId>
     public const int MaxTitleLength = 256;
     public const int MaxDescriptionLength = 512;
     public const int MaxNoteLength = 256;
+
+    private readonly List<TeachingAssignment> _teachingAssignments = [];
+    private readonly List<TeachingRequest> _teachingRequests = [];
 
     public string Title { get; private set; } = null!;
     public string Description { get; private set; } = null!;
@@ -32,7 +36,9 @@ public sealed class Course : FullAuditedAggregateRoot<CourseId>
     public LearnerDetail LearnerDetail { get; private set; } = null!;
 
     public SubjectId SubjectId { get; private set; } = null!;
-    public TutorId? TutorId { get; private set; }
+
+    public IReadOnlyList<TeachingRequest> TeachingRequests => _teachingRequests.AsReadOnly();
+    public IReadOnlyList<TeachingAssignment> TeachingAssignments => _teachingAssignments.AsReadOnly();
 
     private Course()
     {
@@ -54,8 +60,8 @@ public sealed class Course : FullAuditedAggregateRoot<CourseId>
         {
             return DomainErrors.Courses.TitleLengthOutOfRange;
         }
-        
-        if(description.Length > MaxDescriptionLength)
+
+        if (description.Length > MaxDescriptionLength)
         {
             return DomainErrors.Courses.DescriptionLengthOutOfRange;
         }
@@ -97,8 +103,8 @@ public sealed class Course : FullAuditedAggregateRoot<CourseId>
         {
             return DomainErrors.Courses.TitleLengthOutOfRange;
         }
-        
-        if(description.Length > MaxDescriptionLength)
+
+        if (description.Length > MaxDescriptionLength)
         {
             return DomainErrors.Courses.DescriptionLengthOutOfRange;
         }
@@ -146,11 +152,36 @@ public sealed class Course : FullAuditedAggregateRoot<CourseId>
 
     public Result AssignTutor(TutorId tutorId)
     {
-        if (LearnerDetail.LearnerId?.Value == tutorId.Value)
+        if (LearnerDetail.LearnerId != null && LearnerDetail.LearnerId.Value == tutorId.Value)
+        {
             return DomainErrors.Courses.TutorAndLearnerShouldNotBeTheSame;
+        }
+
+        if (_teachingAssignments.Find(x => x.TutorId == tutorId) is { } teachingAssignment)
+        {
+            return teachingAssignment.TeachingAssignmentStatus switch
+            {
+                TeachingAssignmentStatus.Assigned => DomainErrors.Courses.TutorHadBeenAssigned,
+                _ => DomainErrors.Courses.CannotAssignedThisTutorAfterDisassociating
+            };
+        }
+
+        foreach (var teachingRequest in _teachingRequests)
+        {
+            if (teachingRequest.TutorId == tutorId &&
+                teachingRequest.TeachingRequestStatus == RequestStatus.InProgress)
+            {
+                teachingRequest.Approve();
+
+                continue;
+            }
+
+            teachingRequest.Cancel();
+        }
 
         Status = CourseStatus.InProgress;
-        TutorId = tutorId;
+
+        _teachingAssignments.Add(TeachingAssignment.Create(tutorId, Id));
 
         DomainEvents.Add(new TutorAssignedDomainEvent(this));
 
@@ -163,9 +194,16 @@ public sealed class Course : FullAuditedAggregateRoot<CourseId>
     {
         if ((short)Status < 3) return DomainErrors.Courses.StatusInvalidForUnassignment;
 
-        if (TutorId is null) return DomainErrors.Courses.HaveNotBeenAssigned;
+        if (_teachingAssignments.Single(x => x.TeachingAssignmentStatus == TeachingAssignmentStatus.Assigned) is not
+            { } teachingAssignment)
+        {
+            return DomainErrors.Courses.HaveNotBeenAssigned;
+        }
 
-        TutorId = null;
+        teachingAssignment.Dissociate();
+
+        _teachingRequests.Find(x => x.TutorId == teachingAssignment.TutorId)?.Cancel();
+
         Note = note;
 
         DomainEvents.Add(new TutorDissociatedDomainEvent(this));
@@ -175,7 +213,7 @@ public sealed class Course : FullAuditedAggregateRoot<CourseId>
 
     public Result ConfirmCourse()
     {
-        if (Status is not CourseStatus.InProgress || TutorId is null) return DomainErrors.Courses.HaveNotBeenAssigned;
+        if (Status is not CourseStatus.InProgress) return DomainErrors.Courses.HaveNotBeenAssigned;
 
         Status = CourseStatus.Confirmed;
         ConfirmedDate = DateTimeProvider.Now;
@@ -196,6 +234,23 @@ public sealed class Course : FullAuditedAggregateRoot<CourseId>
 
         return Result.Success();
     }
+
+    public Result AddTeachingRequest(TutorId tutorId)
+    {
+        if (Status is not CourseStatus.Available) return DomainErrors.Courses.Unavailable;
+
+        if (_teachingRequests.Find(x => x.TutorId == tutorId)
+            is { TeachingRequestStatus: RequestStatus.InProgress })
+        {
+            return DomainErrors.Courses.TeachingRequestAlreadyExist;
+        }
+
+        _teachingRequests.Add(TeachingRequest.Create(tutorId, Id));
+
+        DomainEvents.Add(new TeachingRequestCreatedDomainEvent(_teachingRequests[^1]));
+
+        return Result.Success();
+    }
 }
 
 // ReSharper disable NotAccessedPositionalProperty.Global
@@ -212,3 +267,5 @@ public record CourseReviewedDomainEvent(Course Course) : IDomainEvent;
 public record TutorAssignedDomainEvent(Course Course) : IDomainEvent;
 
 public record TutorDissociatedDomainEvent(Course Course) : IDomainEvent;
+
+public record TeachingRequestCreatedDomainEvent(TeachingRequest TeachingRequest) : IDomainEvent;

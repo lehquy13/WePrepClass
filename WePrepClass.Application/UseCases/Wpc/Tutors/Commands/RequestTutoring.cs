@@ -1,9 +1,15 @@
 ﻿using Matt.ResultObject;
 using Matt.SharedKernel.Application.Contracts.Interfaces;
+using Matt.SharedKernel.Application.Contracts.Interfaces.Infrastructures;
 using Matt.SharedKernel.Application.Mediators.Commands;
 using Matt.SharedKernel.Domain.Interfaces;
+using WePrepClass.Domain;
+using WePrepClass.Domain.Commons.Enums;
 using WePrepClass.Domain.DomainServices;
+using WePrepClass.Domain.WePrepClassAggregates.TutoringRequests;
+using WePrepClass.Domain.WePrepClassAggregates.Tutors;
 using WePrepClass.Domain.WePrepClassAggregates.Tutors.ValueObjects;
+using WePrepClass.Domain.WePrepClassAggregates.Users.ValueObjects;
 
 namespace WePrepClass.Application.UseCases.Wpc.Tutors.Commands;
 
@@ -13,7 +19,9 @@ public record RequestTutoringCommand(
 ) : ICommandRequest, IAuthorizationRequired;
 
 public class RequestTutoringCommandHandler(
-    ITutorDomainService tutorDomainService,
+    ITutorRepository tutorRepository,
+    ITutoringRequestRepository tutoringRequestRepository,
+    ICurrentUserService currentUserService,
     IUnitOfWork unitOfWork,
     IAppLogger<RequestTutoringCommandHandler> logger
 ) : CommandHandlerBase<RequestTutoringCommand>(unitOfWork, logger)
@@ -21,10 +29,22 @@ public class RequestTutoringCommandHandler(
     public override async Task<Result> Handle(RequestTutoringCommand command,
         CancellationToken cancellationToken)
     {
-        var result = await tutorDomainService.CreateTutoringRequest(
-            TutorId.Create(command.TutorId), command.DetailMessage, cancellationToken);
+        var tutorId = TutorId.Create(command.TutorId);
 
-        if (result.IsFailed) return result.Error;
+        var tutor = await tutorRepository.GetById(tutorId, cancellationToken);
+
+        if (tutor is null) return DomainErrors.Tutors.NotFound;
+
+        if (tutor.TutorStatus is not TutorStatus.Active) return DomainErrors.Tutors.NotActive;
+
+        var tutoringRequest = TutoringRequest.Create(
+            tutorId,
+            UserId.Create(currentUserService.UserId),
+            command.DetailMessage);
+
+        if (tutoringRequest.IsFailed) return tutoringRequest.Error;
+
+        await tutoringRequestRepository.Insert(tutoringRequest.Value);
 
         await UnitOfWork.SaveChangesAsync(cancellationToken);
 

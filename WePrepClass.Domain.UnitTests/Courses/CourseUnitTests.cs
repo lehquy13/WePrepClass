@@ -334,7 +334,8 @@ public class CourseUnitTests
         var result = course.DissociateTutor(note);
 
         // Assert
-        course.TutorId.Should().BeNull();
+        course.TeachingAssignments.Should().AllSatisfy(assignment =>
+            assignment.TeachingAssignmentStatus.Should().Be(TeachingAssignmentStatus.Dissociated));
         course.Note.Should().Be(note);
 
         result.IsSuccess.Should().BeTrue();
@@ -400,5 +401,23 @@ public class CourseUnitTests
         // Assert
         result.IsSuccess.Should().BeTrue();
         course.Status.Should().Be(CourseStatus.Refunded);
+    }
+
+    [Fact]
+    public void AddTeachingRequest_WhenValid_ShouldReturnSuccessResult()
+    {
+        // Arrange
+        var course = ValidCourse;
+        course.SetCourseStatus(CourseStatus.Available);
+
+        var tutorId = TutorId.Create();
+
+        // Act
+        var result = course.AddTeachingRequest(tutorId);
+
+        // Assert
+        result.IsSuccess.Should().BeTrue();
+        course.TeachingRequests.Should().ContainSingle();
+        course.TeachingRequests[0].TutorId.Should().Be(tutorId);
     }
 }

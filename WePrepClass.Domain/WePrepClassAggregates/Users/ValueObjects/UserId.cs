@@ -1,4 +1,5 @@
 ﻿using Matt.SharedKernel.Domain.Primitives;
+using WePrepClass.Domain.WePrepClassAggregates.Tutors.ValueObjects;
 
 namespace WePrepClass.Domain.WePrepClassAggregates.Users.ValueObjects;
 
@@ -6,7 +7,7 @@ public class UserId : ValueObject
 {
     public Guid Value { get; private init; }
 
-    private UserId()
+    protected UserId()
     {
     }
 

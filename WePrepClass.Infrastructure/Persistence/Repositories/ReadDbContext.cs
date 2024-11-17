@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using WePrepClass.Application.Interfaces;
 using WePrepClass.Domain.WePrepClassAggregates.Courses;
+using WePrepClass.Domain.WePrepClassAggregates.Courses.Entities;
 using WePrepClass.Domain.WePrepClassAggregates.Subjects;
 using WePrepClass.Domain.WePrepClassAggregates.TutoringRequests;
 using WePrepClass.Domain.WePrepClassAggregates.Tutors;
@@ -20,6 +21,10 @@ public class ReadDbContext(
     public DbSet<Subject> Subjects => appDbContext.Set<Subject>().AsReadOnly();
     public DbSet<Course> Courses => appDbContext.Set<Course>().AsReadOnly();
     public DbSet<TutoringRequest> TutoringRequests => appDbContext.Set<TutoringRequest>().AsReadOnly();
+    public DbSet<Verification> Verifications => appDbContext.Set<Verification>().AsReadOnly();
+    public DbSet<VerificationChange> VerificationChanges => appDbContext.Set<VerificationChange>().AsReadOnly();
+    public DbSet<TeachingRequest> TeachingRequests => appDbContext.Set<TeachingRequest>().AsReadOnly();
+    public DbSet<TeachingAssignment> TeachingAssignments => appDbContext.Set<TeachingAssignment>().AsReadOnly();
 }
 
 public static class ReadDbContextExtensions

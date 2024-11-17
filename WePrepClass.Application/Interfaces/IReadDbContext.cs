@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using WePrepClass.Domain.WePrepClassAggregates.Courses;
+using WePrepClass.Domain.WePrepClassAggregates.Courses.Entities;
 using WePrepClass.Domain.WePrepClassAggregates.Subjects;
 using WePrepClass.Domain.WePrepClassAggregates.TutoringRequests;
 using WePrepClass.Domain.WePrepClassAggregates.Tutors;
@@ -16,4 +17,8 @@ public interface IReadDbContext
     DbSet<Subject> Subjects { get; }
     DbSet<Course> Courses { get; }
     DbSet<TutoringRequest> TutoringRequests { get; }
+    DbSet<Verification> Verifications { get; }
+    DbSet<VerificationChange> VerificationChanges { get; }
+    DbSet<TeachingRequest> TeachingRequests { get; }
+    DbSet<TeachingAssignment> TeachingAssignments { get; }
 }

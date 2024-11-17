@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using WePrepClass.Domain.WePrepClassAggregates.Courses;
+using WePrepClass.Domain.WePrepClassAggregates.Courses.Entities;
 using WePrepClass.Domain.WePrepClassAggregates.Courses.ValueObjects;
 using WePrepClass.Domain.WePrepClassAggregates.Subjects;
 using WePrepClass.Domain.WePrepClassAggregates.Subjects.ValueObjects;
@@ -80,20 +81,58 @@ internal class CourseConfiguration : IEntityTypeConfiguration<Course>
             .HasForeignKey(nameof(Course.SubjectId))
             .IsRequired();
 
-        builder.Property(r => r.TutorId)
-            .ValueGeneratedNever()
-            .HasConversion(
-                id => id!.Value,
-                value => TutorId.Create(value)
-            );
+        builder.OwnsMany(course => course.TeachingAssignments, navigationBuilder =>
+        {
+            navigationBuilder.ToTable(nameof(TeachingAssignment));
 
-        builder.HasOne<Tutor>()
-            .WithMany()
-            .HasForeignKey(nameof(Course.TutorId))
-            .IsRequired(false)
-            .OnDelete(DeleteBehavior.Cascade);
+            navigationBuilder.HasKey(assignment => assignment.Id);
+            navigationBuilder.Property(assignment => assignment.Id)
+                .HasColumnName(nameof(TeachingAssignment.Id))
+                .ValueGeneratedNever()
+                .HasConversion(
+                    id => id.Value,
+                    value => TeachingAssignmentId.Create(value)
+                );
 
-        //TODO: Create a constant that tutorId must be diff from learnerId
+            navigationBuilder.Property(assignment => assignment.TeachingAssignmentStatus)
+                .HasColumnName(nameof(TeachingAssignment.TeachingAssignmentStatus))
+                .IsRequired();
+        });
+
+        builder.OwnsMany(course => course.TeachingRequests, navigationBuilder =>
+        {
+            navigationBuilder.ToTable(nameof(TeachingRequest));
+
+            navigationBuilder.HasKey(request => request.Id);
+            navigationBuilder.Property(request => request.Id)
+                .HasColumnName(nameof(TeachingRequest.Id))
+                .ValueGeneratedNever()
+                .HasConversion(
+                    id => id.Value,
+                    value => TeachingRequestId.Create(value)
+                );
+
+            navigationBuilder.Property(request => request.TeachingRequestStatus)
+                .HasColumnName(nameof(TeachingRequest.TeachingRequestStatus))
+                .IsRequired();
+
+            navigationBuilder.Property(request => request.Description)
+                .HasColumnName("TeachingRequest_Description")
+                .HasMaxLength(256);
+            
+            navigationBuilder.Property(tr => tr.TutorId)
+                .HasColumnName(nameof(TeachingRequest.TutorId))
+                .ValueGeneratedNever()
+                .HasConversion(
+                    id => id.Value,
+                    value => TutorId.Create(value)
+                );
+
+            builder.HasOne<Tutor>()
+                .WithMany()
+                .HasForeignKey(nameof(TeachingRequest.TutorId))
+                .IsRequired();
+        });
 
         builder.OwnsOne(course => course.SessionFee, navigationBuilder =>
         {

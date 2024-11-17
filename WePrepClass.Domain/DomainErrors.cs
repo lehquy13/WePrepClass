@@ -61,6 +61,12 @@ public static class DomainErrors
 
         public static readonly Error DescriptionLengthOutOfRange = new("DescriptionLengthOutOfRange",
             "Description length should be less than 512");
+
+        public static readonly Error CannotAssignedThisTutorAfterDisassociating = new("TeachingAssignmentNotFound",
+            "Teaching assignment not found");
+        
+        public static readonly Error TutorHadBeenAssigned = new("TeachingAssignmentAlreadyExist",
+            "Teaching assignment already exists");
     }
 
     public static class TutoringRequests

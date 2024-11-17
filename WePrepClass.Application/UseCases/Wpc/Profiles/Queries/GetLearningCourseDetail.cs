@@ -37,7 +37,8 @@ public class GetLearningCourseDetailQueryHandler(
 
         var courseRequestQueryable =
             from course in dbContext.Courses
-            join tutor in dbContext.Tutors on course.TutorId equals tutor.Id
+            join teachingAssignment in dbContext.TeachingAssignments on course.Id equals teachingAssignment.CourseId
+            join tutor in dbContext.Tutors on teachingAssignment.TutorId equals tutor.Id
             join user in dbContext.Users on tutor.UserId equals user.Id
             join subject in dbContext.Subjects on course.SubjectId equals subject.Id
             where course.Id == courseId

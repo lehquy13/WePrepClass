@@ -29,7 +29,7 @@ public enum AcademicLevelOption
 public enum TutorStatus
 {
     Active,
-    InActive,
+    Inactive,
     Unproven
 }
 

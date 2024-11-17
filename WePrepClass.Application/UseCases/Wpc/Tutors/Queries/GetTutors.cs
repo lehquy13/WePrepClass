@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using WePrepClass.Application.Interfaces;
 using WePrepClass.Contracts.Tutors;
 using WePrepClass.Domain.Commons.Enums;
-using WePrepClass.Domain.WePrepClassAggregates.Courses;
+using WePrepClass.Domain.WePrepClassAggregates.Courses.Entities;
 using WePrepClass.Domain.WePrepClassAggregates.Subjects;
 using WePrepClass.Domain.WePrepClassAggregates.Subjects.ValueObjects;
 using WePrepClass.Domain.WePrepClassAggregates.Tutors;
@@ -32,18 +32,20 @@ public class GetTutorsQueryHandler(
         CancellationToken cancellationToken
     )
     {
-        IQueryable<(Tutor Tutor, IEnumerable<Subject> Majors, User User, IEnumerable<Course> Courses)> tutors =
+        IQueryable<(Tutor Tutor, IEnumerable<Subject> Majors, User User, IEnumerable<TeachingAssignment> Courses)> tutors =
             from tutor in dbContext.Tutors
             join major in dbContext.Majors on tutor.Id equals major.TutorId
             join subject in dbContext.Subjects on major.SubjectId equals subject.Id into majors
             join user in dbContext.Users on tutor.UserId equals user.Id
-            join course in dbContext.Courses on tutor.Id equals course.TutorId into assignedCourses
+            join course in dbContext.TeachingAssignments.Where(x =>
+                    x.TeachingAssignmentStatus == TeachingAssignmentStatus.Assigned) on tutor.Id equals course.TutorId
+                into teachingAssignments
             where tutor.TutorStatus == TutorStatus.Active
-            select new ValueTuple<Tutor, IEnumerable<Subject>, User, IEnumerable<Course>>(
+            select new ValueTuple<Tutor, IEnumerable<Subject>, User, IEnumerable<TeachingAssignment>>(
                 tutor,
                 majors,
                 user,
-                assignedCourses
+                teachingAssignments
             );
 
         tutors = ApplySearching(request, tutors);
@@ -82,9 +84,9 @@ public class GetTutorsQueryHandler(
         return result;
     }
 
-    private IQueryable<(Tutor Tutor, IEnumerable<Subject> Majors, User User, IEnumerable<Course> Courses)>
+    private IQueryable<(Tutor Tutor, IEnumerable<Subject> Majors, User User, IEnumerable<TeachingAssignment> Courses)>
         ApplyUserOrientedSearching(
-            IQueryable<(Tutor Tutor, IEnumerable<Subject> Majors, User User, IEnumerable<Course> Courses)> tutors)
+            IQueryable<(Tutor Tutor, IEnumerable<Subject> Majors, User User, IEnumerable<TeachingAssignment> Courses)> tutors)
     {
         if (currentUserService.IsAuthenticated)
         {
@@ -107,9 +109,9 @@ public class GetTutorsQueryHandler(
         return tutors;
     }
 
-    private static IQueryable<(Tutor, IEnumerable<Subject>, User, IEnumerable<Course>)> ApplySearching(
+    private static IQueryable<(Tutor, IEnumerable<Subject>, User, IEnumerable<TeachingAssignment>)> ApplySearching(
         GetTutorsQuery request,
-        IQueryable<(Tutor Tutor, IEnumerable<Subject> Majors, User User, IEnumerable<Course> Courses)> tutors)
+        IQueryable<(Tutor Tutor, IEnumerable<Subject> Majors, User User, IEnumerable<TeachingAssignment> Courses)> tutors)
     {
         if (request.TutorParams.Academic?.ToEnum<AcademicLevelOption>() is { } academicLevel &&
             academicLevel != AcademicLevelOption.Optional)

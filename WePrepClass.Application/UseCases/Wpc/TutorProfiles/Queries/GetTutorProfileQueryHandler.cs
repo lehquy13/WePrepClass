@@ -1,5 +1,4 @@
-﻿using ESCenter.Client.Application.ServiceImpls.TutorProfiles;
-using MapsterMapper;
+﻿using MapsterMapper;
 using Matt.ResultObject;
 using Matt.SharedKernel.Application.Contracts.Interfaces;
 using Matt.SharedKernel.Application.Contracts.Interfaces.Infrastructures;
@@ -10,11 +9,10 @@ using WePrepClass.Application.Interfaces;
 using WePrepClass.Domain;
 using WePrepClass.Domain.Commons.Enums;
 using WePrepClass.Domain.WePrepClassAggregates.Tutors.ValueObjects;
-using WePrepClass.Domain.WePrepClassAggregates.Users.ValueObjects;
 
 namespace WePrepClass.Application.UseCases.Wpc.TutorProfiles.Queries;
 
-public record GetTutorProfileQuery() : IQueryRequest<TutorForProfileDto>, IAuthorizationRequired;
+public record GetTutorProfileQuery : IQueryRequest<TutorForProfileDto>, IAuthorizationRequired;
 
 public class GetTutorProfileQueryHandler(
     IReadDbContext dbContext,

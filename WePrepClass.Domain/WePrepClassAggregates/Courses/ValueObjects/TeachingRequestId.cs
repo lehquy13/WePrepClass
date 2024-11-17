@@ -1,6 +1,6 @@
 ﻿using Matt.SharedKernel.Domain.Primitives;
 
-namespace WePrepClass.Domain.WePrepClassAggregates.TeachingRequests.ValueObjects;
+namespace WePrepClass.Domain.WePrepClassAggregates.Courses.ValueObjects;
 
 public class TeachingRequestId : ValueObject
 {

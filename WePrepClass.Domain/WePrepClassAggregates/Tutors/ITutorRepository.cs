@@ -5,6 +5,6 @@ namespace WePrepClass.Domain.WePrepClassAggregates.Tutors;
 
 public interface ITutorRepository : IRepository
 {
-    Task<Tutor?> GetById(TutorId userId, CancellationToken cancellationToken = default);
+    Task<Tutor?> GetById(TutorId tutorId, CancellationToken cancellationToken = default);
     void Insert(Tutor tutorValue);
 }

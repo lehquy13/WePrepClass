@@ -27,7 +27,7 @@ public class ReviewCourseCommandHandler(
         var result = course.ReviewCourse(
             command.Rate,
             command.Detail,
-            currentUserService.CurrentUserEmail);
+            currentUserService.Email);
 
         if (result.IsFailed) return result;
 

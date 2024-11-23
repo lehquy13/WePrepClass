@@ -1,6 +1,6 @@
 using Matt.ResultObject;
 
-namespace ESCenter.Admin.Application.ServiceImpls.Tutors;
+namespace WePrepClass.Application.UseCases.Administrator.Tutors;
 
 public static class TutorAppServiceError
 {

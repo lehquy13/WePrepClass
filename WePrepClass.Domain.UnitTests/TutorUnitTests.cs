@@ -277,8 +277,8 @@ public class TutorUnitTests
 
         // Assert
         verificationResult.IsSuccess.Should().BeTrue();
-        _validTutor2.VerificationChanges.Should().BeEmpty();
-        _validTutor2.VerificationChanges.First().ChangeVerificationRequestDetails.Count.Should().Be(2);
+        _validTutor2.VerificationChanges.Should().NotBeEmpty();
+        _validTutor2.VerificationChanges[0].ChangeVerificationRequestDetails.Count.Should().Be(2);
     }
 
     [Fact]
@@ -293,7 +293,7 @@ public class TutorUnitTests
         // Assert
         verificationResult.IsSuccess.Should().BeTrue();
 
-        _validTutor.VerificationChanges.Should().BeNull();
+        _validTutor.VerificationChanges.Should().BeEmpty();
         _validTutor.Verifications.Count.Should().Be(2);
         _validTutor.Verifications.All(v => urls.Contains(v.Image)).Should().BeTrue();
     }

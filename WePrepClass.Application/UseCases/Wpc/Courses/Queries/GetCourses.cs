@@ -74,7 +74,7 @@ public class GetCoursesQueryHandler(
         if (currentUserService.IsAuthenticated && currentUserService.Roles.Contains(WpcConstantValue.TutorRole))
         {
             // TODO: add list of majors into token
-            List<int> tutor = [];
+            //List<int> tutor = [];
 
             // TODO: Get taught courses
 

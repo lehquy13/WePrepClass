@@ -84,7 +84,7 @@ public class CreateCourseRequestCommandHandlerUnitTests
         _courseRepositoryMock.Setup(x => x.GetById(course.Id, It.IsAny<CancellationToken>()))
             .ReturnsAsync(course);
         _tutorRepositoryMock.Setup(x => x.GetById(It.IsAny<TutorId>(), It.IsAny<CancellationToken>()))
-            .ReturnsAsync((Tutor)null);
+            .ReturnsAsync(null as Tutor);
 
         // Act
         var result = await _handler.Handle(command, CancellationToken.None);

@@ -8,7 +8,6 @@ using Microsoft.EntityFrameworkCore;
 using WePrepClass.Application.Interfaces;
 using WePrepClass.Contracts.Courses;
 using WePrepClass.Domain.Commons;
-using WePrepClass.Domain.Commons.Enums;
 using WePrepClass.Domain.WePrepClassAggregates.Courses;
 using WePrepClass.Domain.WePrepClassAggregates.Subjects;
 
@@ -72,7 +71,7 @@ public class GetCoursesQueryHandler(
         if (currentUserService.IsAuthenticated && currentUserService.Roles.Contains(WpcConstantValue.TutorRole))
         {
             // TODO: add list of majors into token
-            List<int> tutor = [];
+            //List<int> tutor = [];
 
             // TODO: Get taught courses
 

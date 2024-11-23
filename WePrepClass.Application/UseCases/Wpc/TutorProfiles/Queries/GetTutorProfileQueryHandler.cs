@@ -24,52 +24,53 @@ public class GetTutorProfileQueryHandler(
     public override async Task<Result<TutorForProfileDto>> Handle(GetTutorProfileQuery request,
         CancellationToken cancellationToken)
     {
-       var tutorQueryable =
-    from tutor in dbContext.Tutors
-    join user in dbContext.Users on tutor.UserId equals user.Id
-    join major in dbContext.Majors on tutor.Id equals major.TutorId
-    join subject in dbContext.Subjects on major.SubjectId equals subject.Id 
-    join verification in dbContext.Verifications on tutor.Id equals verification.TutorId into verifications
-    join verificationChange in dbContext.VerificationChanges on tutor.Id equals verificationChange.TutorId into verificationChanges
-    where tutor.Id == TutorId.Create(currentUserService.UserId)
-    select new TutorForProfileDto
-    {
-        FirstName = user.FirstName,
-        LastName = user.LastName,
-        Description = user.Description,
-        University = tutor.University,
-        AcademicLevel = tutor.AcademicLevel.ToString(),
-        IsVerified = tutor.TutorStatus == TutorStatus.Active,
-        Rate = tutor.Rate,
-        VerificationDtos = verifications
-            .Select(v => new VerificationDto
+        var tutorQueryable =
+            from tutor in dbContext.Tutors
+            join user in dbContext.Users on tutor.UserId equals user.Id
+            join major in dbContext.Majors on tutor.Id equals major.TutorId
+            join subject in dbContext.Subjects on major.SubjectId equals subject.Id into majors
+            join verification in dbContext.Verifications on tutor.Id equals verification.TutorId into verifications
+            join verificationChange in dbContext.VerificationChanges on tutor.Id equals verificationChange.TutorId into
+                verificationChanges
+            where tutor.Id == TutorId.Create(currentUserService.UserId)
+            select new TutorForProfileDto
             {
-                Id = v.Id.Value,
-                Image = v.Image,
-                CreationTime = v.CreationTime,
-                LastModificationTime = v.LastModificationTime
-            })
-            .ToList(),
-        Majors = dbContext.Majors
-            .Where(m => m.TutorId == tutor.Id)
-            .Select(m => new TutorMajorDto
-            {
-                IsMajored = true,
-                SubjectId = m.SubjectId.Value,
-                SubjectName = dbContext.Subjects.FirstOrDefault(s => s.Id == m.SubjectId).Name
-            })
-            .ToList(),
-        ChangeVerificationRequestDtos = verificationChanges
-            .Select(x => new ChangeVerificationRequestDto
-            {
-                Id = x.Id.Value,
-                RequestStatus = x.VerificationChangeStatus.ToString(),
-                ChangeVerificationRequestDetails = x.ChangeVerificationRequestDetails
-                    .Select(y => y.ImageUrl)
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Description = user.Description,
+                University = tutor.University,
+                AcademicLevel = tutor.AcademicLevel.ToString(),
+                IsVerified = tutor.TutorStatus == TutorStatus.Active,
+                Rate = tutor.Rate,
+                VerificationDtos = verifications
+                    .Select(v => new VerificationDto
+                    {
+                        Id = v.Id.Value,
+                        Image = v.Image,
+                        CreationTime = v.CreationTime,
+                        LastModificationTime = v.LastModificationTime
+                    })
+                    .ToList(),
+                Majors = dbContext.Majors
+                    .Where(m => m.TutorId == tutor.Id)
+                    .Select(m => new TutorMajorDto
+                    {
+                        IsMajored = true,
+                        SubjectId = m.SubjectId.Value,
+                        SubjectName = dbContext.Subjects.First(s => s.Id == m.SubjectId).Name
+                    })
+                    .ToList(),
+                ChangeVerificationRequestDtos = verificationChanges
+                    .Select(x => new ChangeVerificationRequestDto
+                    {
+                        Id = x.Id.Value,
+                        RequestStatus = x.VerificationChangeStatus.ToString(),
+                        ChangeVerificationRequestDetails = x.ChangeVerificationRequestDetails
+                            .Select(y => y.ImageUrl)
+                            .ToList()
+                    })
                     .ToList()
-            })
-            .ToList()
-    };
+            };
 
         var tutorResult = await tutorQueryable.FirstOrDefaultAsync(cancellationToken);
 

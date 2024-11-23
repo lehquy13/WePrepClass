@@ -1,5 +1,4 @@
 ﻿using Matt.SharedKernel.Domain.Primitives;
-using WePrepClass.Domain.WePrepClassAggregates.Tutors.ValueObjects;
 
 namespace WePrepClass.Domain.WePrepClassAggregates.Users.ValueObjects;
 

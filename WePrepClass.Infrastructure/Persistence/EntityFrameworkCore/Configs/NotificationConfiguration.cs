@@ -10,8 +10,14 @@ internal class NotificationConfiguration : IEntityTypeConfiguration<Notification
     {
         builder.ToTable(nameof(Notification));
         builder.HasKey(r => r.Id);
-        builder.Property(r => r.ObjectId).IsRequired();
         builder.Property(r => r.IsRead).IsRequired();
-        builder.Property(r => r.Message).IsRequired();
+
+        builder.Property(r => r.ObjectId)
+            .HasMaxLength(50)
+            .IsRequired();
+
+        builder.Property(r => r.Message)
+            .HasMaxLength(50)
+            .IsRequired();
     }
 }

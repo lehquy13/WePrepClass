@@ -4,12 +4,9 @@ using Matt.SharedKernel.Domain.Interfaces;
 using Moq;
 using WePrepClass.Application.UseCases.Wpc.Courses.Commands;
 using WePrepClass.Domain;
-using WePrepClass.Domain.Commons.Enums;
 using WePrepClass.Domain.WePrepClassAggregates.Courses;
 using WePrepClass.Domain.WePrepClassAggregates.Courses.ValueObjects;
-using WePrepClass.Domain.WePrepClassAggregates.Subjects.ValueObjects;
 using WePrepClass.Domain.WePrepClassAggregates.Tutors.ValueObjects;
-using WePrepClass.Domain.WePrepClassAggregates.Users.ValueObjects;
 using WePrepClass.UnitTestSetup;
 
 namespace WePrepClass.Application.UnitTests.Wpcs;
@@ -86,7 +83,7 @@ public class ReviewCourseCommandHandlerUnitTests
         var command = new ReviewCourseCommand(course.Id.Value, "Detail message", 4);
         _courseRepositoryMock.Setup(x => x.GetById(course.Id, It.IsAny<CancellationToken>()))
             .ReturnsAsync(course);
-        _currentUserServiceMock.Setup(x => x.CurrentUserEmail).Returns("user@example.com");
+        _currentUserServiceMock.Setup(x => x.Email).Returns("user@example.com");
 
         // Act
         var result = await _handler.Handle(command, CancellationToken.None);

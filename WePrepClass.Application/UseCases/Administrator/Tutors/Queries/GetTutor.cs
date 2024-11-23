@@ -4,7 +4,6 @@ using Matt.SharedKernel.Application.Mediators.Queries;
 using Matt.SharedKernel.Domain.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using WePrepClass.Application.Interfaces;
-using WePrepClass.Contracts.Subjects;
 using WePrepClass.Contracts.Tutors;
 using WePrepClass.Domain;
 using WePrepClass.Domain.Commons.Enums;

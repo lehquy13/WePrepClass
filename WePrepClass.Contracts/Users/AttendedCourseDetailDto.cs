@@ -4,7 +4,6 @@ namespace WePrepClass.Contracts.Users;
 
 public class AttendedCourseDetailDto : BasicAuditedEntityDto<Guid>
 {
-    //Basic Information
     public string Title { get; set; } = string.Empty;
     public string Description { get; set; } = string.Empty;
     public string Status { get; set; } = CourseStatus.PendingApproval.ToString();
@@ -15,8 +14,8 @@ public class AttendedCourseDetailDto : BasicAuditedEntityDto<Guid>
     public string Address { get; set; } = string.Empty;
     public string SubjectName { get; set; } = string.Empty;
 
-    public string Detail { get; set; } = string.Empty;
-    public short Rate { get; set; }
+    public string? Detail { get; set; }
+    public decimal? Rate { get; set; }
 
     public Guid TutorId { get; set; }
     public string TutorName { get; set; } = string.Empty;

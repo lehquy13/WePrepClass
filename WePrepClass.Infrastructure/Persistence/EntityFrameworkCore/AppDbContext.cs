@@ -2,9 +2,6 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
-using WePrepClass.Domain.WePrepClassAggregates.Notifications;
-using WePrepClass.Domain.WePrepClassAggregates.Tutors;
-using WePrepClass.Domain.WePrepClassAggregates.Users;
 using WePrepClass.Infrastructure.Middleware;
 
 namespace WePrepClass.Infrastructure.Persistence.EntityFrameworkCore;

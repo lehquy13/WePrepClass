@@ -1,8 +1,6 @@
-﻿using Matt.SharedKernel.Application.Mediators.Commands;
+﻿namespace WePrepClass.Application.UseCases.Wpc.Profiles.Commands;
 
-namespace WePrepClass.Application.UseCases.Wpc.Profiles.Commands;
-
-public record AddOrResetDiscoveryCommand(Guid UserId, List<Guid> DiscoveryIds) : ICommandRequest;
+//public record AddOrResetDiscoveryCommand(Guid UserId, List<Guid> DiscoveryIds) : ICommandRequest;
 //
 // public class AddOrResetDiscoveryCommandHandler(
 //     IUnitOfWork unitOfWork,

@@ -1,6 +1,4 @@
-﻿using Matt.ResultObject;
-using Matt.SharedKernel.Domain.Interfaces.Repositories;
-using WePrepClass.Domain.WePrepClassAggregates.Courses.Entities;
+﻿using Matt.SharedKernel.Domain.Interfaces.Repositories;
 using WePrepClass.Domain.WePrepClassAggregates.Courses.ValueObjects;
 using WePrepClass.Domain.WePrepClassAggregates.Users.ValueObjects;
 

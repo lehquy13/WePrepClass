@@ -5,7 +5,6 @@ using Matt.SharedKernel.Application.Mediators.Commands;
 using Matt.SharedKernel.Domain.Interfaces;
 using WePrepClass.Domain;
 using WePrepClass.Domain.Commons.Enums;
-using WePrepClass.Domain.DomainServices;
 using WePrepClass.Domain.WePrepClassAggregates.TutoringRequests;
 using WePrepClass.Domain.WePrepClassAggregates.Tutors;
 using WePrepClass.Domain.WePrepClassAggregates.Tutors.ValueObjects;

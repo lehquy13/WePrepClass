@@ -15,9 +15,10 @@ internal sealed class UnitOfWork(
 {
     public async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
     {
+        logger.LogInformation("Updating auditable entities...");
         UpdateAuditableEntities();
 
-        logger.LogInformation("On save changes...");
+        logger.LogInformation("Saving changes...");
 
         var appSaved = await appDbContext.SaveChangesAsync(cancellationToken);
         var identitySaved = await identityDbContext.SaveChangesAsync(cancellationToken);
@@ -27,19 +28,29 @@ internal sealed class UnitOfWork(
 
     private void UpdateAuditableEntities()
     {
+        UpdateCreationTimeEntities();
+        UpdateModificationTimeEntities();
+    }
+
+    private void UpdateCreationTimeEntities()
+    {
         var hasCreationTimeEntries = appDbContext.ChangeTracker.Entries<IHasCreationTime>();
 
         foreach (var entityEntry in hasCreationTimeEntries)
-            if (entityEntry.State == EntityState.Added)
-            {
-                entityEntry.Property(e => e.CreationTime).CurrentValue = DateTime.Now;
+        {
+            if (entityEntry.State != EntityState.Added) continue;
 
-                // If the entity is type of ICreationAuditedObject<T>, we should set CreatorId
-                if (entityEntry.Entity is ICreationAuditedObject)
-                    entityEntry.Property(nameof(ICreationAuditedObject.CreatorId)).CurrentValue =
-                        currentUserService.UserId.ToString();
-            }
+            entityEntry.Property(e => e.CreationTime).CurrentValue = DateTimeProvider.Now;
 
+            // If the entity is type of ICreationAuditedObject<T>, we should set CreatorId
+            if (entityEntry.Entity is ICreationAuditedObject)
+                entityEntry.Property(nameof(ICreationAuditedObject.CreatorId)).CurrentValue =
+                    currentUserService.UserId.ToString();
+        }
+    }
+
+    private void UpdateModificationTimeEntities()
+    {
         var hasModificationTimeEntries = appDbContext.ChangeTracker.Entries<IHasModificationTime>();
 
         foreach (var entityEntry in hasModificationTimeEntries)

@@ -21,9 +21,11 @@ internal class SubjectConfiguration : IEntityTypeConfiguration<Subject>
             );
 
         builder.Property(r => r.Name)
+            .HasMaxLength(30)
             .IsRequired();
 
         builder.Property(r => r.Description)
+            .HasMaxLength(100)
             .IsRequired();
     }
 }

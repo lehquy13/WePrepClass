@@ -1,14 +1,11 @@
-﻿using Mapster;
-using MapsterMapper;
+﻿using MapsterMapper;
 using Matt.ResultObject;
-using Matt.SharedKernel.Application.Contracts.Interfaces;
 using Matt.SharedKernel.Application.Mediators;
 using Matt.SharedKernel.Application.Mediators.Queries;
 using Matt.SharedKernel.Domain.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using WePrepClass.Application.Interfaces;
 using WePrepClass.Contracts.Tutors;
-using WePrepClass.Domain.Commons;
 using WePrepClass.Domain.Commons.Enums;
 
 namespace WePrepClass.Application.UseCases.Wpc.Courses.Queries;

@@ -4,6 +4,7 @@ using System.Text;
 using Matt.ResultObject;
 using Matt.SharedKernel;
 using Matt.SharedKernel.Application.Authorizations;
+using Matt.SharedKernel.Domain.Interfaces;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using WePrepClass.Application.Interfaces;
@@ -18,16 +19,14 @@ internal class JwtTokenGenerator(IOptions<JwtSettings> options) : IJwtTokenGener
     public string GenerateToken(IdentityDto identityDto)
     {
         var signingCredential = new SigningCredentials(
-            new SymmetricSecurityKey(
-                Encoding.UTF8.GetBytes(_jwtSettings.Secret)
-            ),
+            new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtSettings.Secret)),
             SecurityAlgorithms.HmacSha256
         );
 
         List<Claim> claims =
         [
-            new Claim(ClaimTypes.Sid, Guid.NewGuid().ToString()),
-            new Claim(ClaimTypes.NameIdentifier, identityDto.Id.ToString())
+            new(ClaimTypes.Sid, Guid.NewGuid().ToString()),
+            new(ClaimTypes.NameIdentifier, identityDto.Id.ToString())
         ];
 
         identityDto.Roles.ForEach(role => claims.Add(new Claim(ClaimTypes.Role, role)));
@@ -47,41 +46,29 @@ internal class JwtTokenGenerator(IOptions<JwtSettings> options) : IJwtTokenGener
         return new JwtSecurityTokenHandler().WriteToken(securityToken);
     }
 
-    public Result<IEnumerable<Claim>> ValidateToken(string token)
+    public IEnumerable<Claim> ValidateToken(string token)
     {
         var symmetricSecurityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtSettings.Secret));
         var tokenHandler = new JwtSecurityTokenHandler();
 
-        try
+        tokenHandler.ValidateToken(token, new TokenValidationParameters
         {
-            tokenHandler.ValidateToken(token, new TokenValidationParameters
-            {
-                ValidateIssuerSigningKey = true,
-                IssuerSigningKey = symmetricSecurityKey,
-                ValidateIssuer = true,
-                ValidateAudience = true,
-                ValidIssuer = _jwtSettings.Issuer,
-                ValidAudience = _jwtSettings.Audience,
-                ValidateLifetime = true
-                // ClockSkew = TimeSpan.Zero // zero tolerance for the token lifetime expiration time
-            }, out var validatedToken);
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey = symmetricSecurityKey,
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidIssuer = _jwtSettings.Issuer,
+            ValidAudience = _jwtSettings.Audience,
+            ValidateLifetime = true,
+            ClockSkew = TimeSpan.Zero // zero tolerance for the token lifetime expiration time
+        }, out var validatedToken);
 
-            var jwtToken = (JwtSecurityToken)validatedToken;
+        var jwtToken = validatedToken as JwtSecurityToken;
 
-            // token is expired, redirect to authentication page
-            // token is still valid, navigate to home page
-            return IsTokenExpired(jwtToken)
-                ? Result.Fail("Token is expired")
-                : Result<IEnumerable<Claim>>.Success(jwtToken.Claims);
-        }
-        catch
-        {
-            return Result.Fail("Token is invalid");
-        }
+        return jwtToken is null || IsTokenExpired(jwtToken)
+            ? []
+            : jwtToken.Claims;
     }
 
-    private static bool IsTokenExpired(SecurityToken jwtToken)
-    {
-        return jwtToken.ValidTo < DateTime.Now;
-    }
+    private static bool IsTokenExpired(SecurityToken jwtToken) => jwtToken.ValidTo < DateTimeProvider.Now;
 }

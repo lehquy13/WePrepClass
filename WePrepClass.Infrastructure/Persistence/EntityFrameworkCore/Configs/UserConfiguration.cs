@@ -22,15 +22,22 @@ internal class UserConfiguration : IEntityTypeConfiguration<User>
             );
 
         builder.Property(r => r.FirstName)
+            .HasMaxLength(50)
             .IsRequired();
 
         builder.Property(r => r.LastName)
+            .HasMaxLength(50)
+            .IsRequired();
+
+        builder.Property(r => r.Email)
+            .HasMaxLength(30)
             .IsRequired();
 
         builder.HasIndex(r => r.Email)
             .IsUnique();
 
-        builder.Property(r => r.PhoneNumber);
+        builder.Property(r => r.PhoneNumber)
+            .HasMaxLength(30);
 
         builder.Property(r => r.Gender)
             .IsRequired();
@@ -39,23 +46,29 @@ internal class UserConfiguration : IEntityTypeConfiguration<User>
             .IsRequired();
 
         builder.Property(r => r.Avatar)
+            .HasMaxLength(256)
             .IsRequired();
 
         builder.Property(r => r.Description)
+            .HasMaxLength(256)
             .IsRequired();
 
         builder.Property(r => r.Role)
             .IsRequired();
 
-        builder.OwnsOne(user => user.Address,
-            navigationBuilder =>
-            {
-                navigationBuilder.Property(address => address.District)
-                    .HasColumnName(nameof(Address.District));
-                navigationBuilder.Property(address => address.City)
-                    .HasColumnName(nameof(Address.City));
-                navigationBuilder.Property(address => address.DetailAddress)
-                    .HasColumnName(nameof(Address.DetailAddress));
-            });
+        builder.OwnsOne(user => user.Address, navigationBuilder =>
+        {
+            navigationBuilder.Property(address => address.District)
+                .HasMaxLength(50)
+                .HasColumnName(nameof(Address.District));
+
+            navigationBuilder.Property(address => address.City)
+                .HasMaxLength(50)
+                .HasColumnName(nameof(Address.City));
+
+            navigationBuilder.Property(address => address.DetailAddress)
+                .HasMaxLength(100)
+                .HasColumnName(nameof(Address.DetailAddress));
+        });
     }
 }

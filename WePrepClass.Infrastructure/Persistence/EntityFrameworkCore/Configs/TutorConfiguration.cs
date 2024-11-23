@@ -160,7 +160,10 @@ internal class TutorConfiguration : IEntityTypeConfiguration<Tutor>
                     value => VerificationId.Create(value)
                 );
             ib.WithOwner().HasForeignKey(x => x.TutorId);
-            ib.Property(x => x.Image).IsRequired();
+
+            ib.Property(x => x.Image)
+                .HasMaxLength(256)
+                .IsRequired();
         });
     }
 }

@@ -7,6 +7,8 @@ using WePrepClass.Domain.WePrepClassAggregates.Subjects;
 using WePrepClass.Domain.WePrepClassAggregates.Subjects.ValueObjects;
 using WePrepClass.Domain.WePrepClassAggregates.Tutors;
 using WePrepClass.Domain.WePrepClassAggregates.Tutors.ValueObjects;
+using WePrepClass.Domain.WePrepClassAggregates.Users;
+using WePrepClass.Domain.WePrepClassAggregates.Users.ValueObjects;
 
 namespace WePrepClass.Infrastructure.Persistence.EntityFrameworkCore.Configs;
 
@@ -22,8 +24,9 @@ internal class CourseConfiguration : IEntityTypeConfiguration<Course>
         builder.ToTable(nameof(Course));
 
         builder.HasKey(r => r.Id);
+
         builder.Property(r => r.Id)
-            .HasColumnName("Id")
+            .HasColumnName(nameof(Course.Id))
             .ValueGeneratedNever()
             .HasConversion(
                 id => id.Value,
@@ -51,6 +54,7 @@ internal class CourseConfiguration : IEntityTypeConfiguration<Course>
         builder.OwnsOne(course => course.Session, navigationBuilder =>
         {
             navigationBuilder.Property(session => session.Value)
+                .HasPrecision(2, 2)
                 .HasColumnName("SessionValue");
             navigationBuilder.Property(session => session.DurationUnit)
                 .HasColumnName("SessionDurationUnit");
@@ -97,6 +101,22 @@ internal class CourseConfiguration : IEntityTypeConfiguration<Course>
             navigationBuilder.Property(assignment => assignment.TeachingAssignmentStatus)
                 .HasColumnName(nameof(TeachingAssignment.TeachingAssignmentStatus))
                 .IsRequired();
+
+            navigationBuilder.Property(assignment => assignment.CourseId)
+                .HasColumnName(nameof(TeachingAssignment.CourseId))
+                .ValueGeneratedNever()
+                .HasConversion(
+                    id => id.Value,
+                    value => CourseId.Create(value)
+                );
+
+            navigationBuilder.Property(assignment => assignment.TutorId)
+                .HasColumnName(nameof(TeachingAssignment.TutorId))
+                .ValueGeneratedNever()
+                .HasConversion(
+                    id => id.Value,
+                    value => TutorId.Create(value)
+                );
         });
 
         builder.OwnsMany(course => course.TeachingRequests, navigationBuilder =>
@@ -119,7 +139,7 @@ internal class CourseConfiguration : IEntityTypeConfiguration<Course>
             navigationBuilder.Property(request => request.Description)
                 .HasColumnName("TeachingRequest_Description")
                 .HasMaxLength(256);
-            
+
             navigationBuilder.Property(tr => tr.TutorId)
                 .HasColumnName(nameof(TeachingRequest.TutorId))
                 .ValueGeneratedNever()
@@ -132,6 +152,14 @@ internal class CourseConfiguration : IEntityTypeConfiguration<Course>
                 .WithMany()
                 .HasForeignKey(nameof(TeachingRequest.TutorId))
                 .IsRequired();
+
+            navigationBuilder.Property(tr => tr.CourseId)
+                .HasColumnName(nameof(TeachingRequest.CourseId))
+                .ValueGeneratedNever()
+                .HasConversion(
+                    id => id.Value,
+                    value => CourseId.Create(value)
+                );
         });
 
         builder.OwnsOne(course => course.SessionFee, navigationBuilder =>
@@ -142,7 +170,7 @@ internal class CourseConfiguration : IEntityTypeConfiguration<Course>
 
             navigationBuilder.Property(fee => fee.Currency)
                 .HasMaxLength(10)
-                .HasColumnName(nameof(Course.SessionFee.Currency));
+                .HasColumnName($"{nameof(Course.SessionFee)}.{nameof(Course.SessionFee.Currency)}");
         });
 
         builder.OwnsOne(course => course.ChargeFee, navigationBuilder =>
@@ -152,13 +180,14 @@ internal class CourseConfiguration : IEntityTypeConfiguration<Course>
                 .HasColumnName("ChargeFee");
 
             navigationBuilder.Property(fee => fee.Currency)
-                .HasColumnName(nameof(Course.ChargeFee.Currency));
+                .HasColumnName($"{nameof(Course.ChargeFee)}.{nameof(Course.ChargeFee.Currency)}");
         });
 
         builder.OwnsOne(o => o.Review, navigationBuilder =>
         {
             navigationBuilder.Property(r => r.Rate)
                 .HasColumnName(nameof(Review.Rate))
+                .HasPrecision(2, 1)
                 .IsRequired();
 
             navigationBuilder.Property(r => r.Detail)
@@ -168,21 +197,21 @@ internal class CourseConfiguration : IEntityTypeConfiguration<Course>
 
             navigationBuilder
                 .Property(r => r.CreationTime)
-                .HasColumnName("Review_CreationTime");
+                .HasColumnName($"{nameof(Review)}_{nameof(Review.CreationTime)}");
 
             navigationBuilder
                 .Property(r => r.CreatorId)
                 .HasMaxLength(36)
-                .HasColumnName("Review_CreatorId");
+                .HasColumnName($"{nameof(Review)}_{nameof(Review.CreatorId)}");
 
             navigationBuilder
                 .Property(r => r.LastModificationTime)
-                .HasColumnName("Review_LastModificationTime");
+                .HasColumnName($"{nameof(Review)}_{nameof(Review.LastModificationTime)}");
 
             navigationBuilder
                 .Property(r => r.LastModifierId)
                 .HasMaxLength(36)
-                .HasColumnName("Review_LastModifierId");
+                .HasColumnName($"{nameof(Review)}_{nameof(Review.LastModifierId)}");
         });
 
         builder.OwnsOne(o => o.LearnerDetail, navigationBuilder =>
@@ -207,6 +236,15 @@ internal class CourseConfiguration : IEntityTypeConfiguration<Course>
 
             navigationBuilder.Property(r => r.LearnerId)
                 .HasColumnName(nameof(LearnerDetail.LearnerId))
+                .ValueGeneratedNever()
+                .HasConversion(
+                    id => id!.Value,
+                    value => UserId.Create(value)
+                );
+
+            navigationBuilder.HasOne<User>()
+                .WithMany()
+                .HasForeignKey(nameof(Course.LearnerDetail.LearnerId))
                 .IsRequired(false);
         });
 

@@ -53,7 +53,10 @@ internal class TutorConfiguration : IEntityTypeConfiguration<Tutor>
             .IsRequired();
         builder.Property(r => r.AcademicLevel).IsRequired();
         builder.Property(r => r.TutorStatus).IsRequired();
-        builder.Property(r => r.Rate).IsRequired();
+
+        builder.Property(r => r.Rate)
+            .HasPrecision(2, 1)
+            .IsRequired();
 
         builder.HasIndex(p => p.AcademicLevel); // Note: disable this index when seeding data
         builder.HasIndex(p => p.Rate);
@@ -159,11 +162,18 @@ internal class TutorConfiguration : IEntityTypeConfiguration<Tutor>
                     id => id.Value,
                     value => VerificationId.Create(value)
                 );
-            ib.WithOwner().HasForeignKey(x => x.TutorId);
 
             ib.Property(x => x.Image)
                 .HasMaxLength(256)
                 .IsRequired();
+
+            ib.Property(r => r.TutorId)
+                .HasColumnName(nameof(Verification.TutorId))
+                .ValueGeneratedNever()
+                .HasConversion(
+                    id => id.Value,
+                    value => TutorId.Create(value)
+                );
         });
     }
 }

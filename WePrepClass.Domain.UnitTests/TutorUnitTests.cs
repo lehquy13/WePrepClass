@@ -277,8 +277,8 @@ public class TutorUnitTests
 
         // Assert
         verificationResult.IsSuccess.Should().BeTrue();
-        _validTutor2.VerificationChange.Should().NotBeNull();
-        _validTutor2.VerificationChange.ChangeVerificationRequestDetails.Count.Should().Be(2);
+        _validTutor2.VerificationChanges.Should().BeEmpty();
+        _validTutor2.VerificationChanges.First().ChangeVerificationRequestDetails.Count.Should().Be(2);
     }
 
     [Fact]
@@ -293,7 +293,7 @@ public class TutorUnitTests
         // Assert
         verificationResult.IsSuccess.Should().BeTrue();
 
-        _validTutor.VerificationChange.Should().BeNull();
+        _validTutor.VerificationChanges.Should().BeNull();
         _validTutor.Verifications.Count.Should().Be(2);
         _validTutor.Verifications.All(v => urls.Contains(v.Image)).Should().BeTrue();
     }
@@ -342,9 +342,10 @@ public class TutorUnitTests
 
         // Assert
         verificationResult.IsSuccess.Should().BeTrue();
-        _validTutor2.VerificationChange.Should().NotBeNull();
+        _validTutor2.VerificationChanges.Should().NotBeNull();
         _validTutor2.Verifications.Count.Should().Be(2);
-        _validTutor2.VerificationChange.VerificationChangeStatus.Should().Be(VerificationChangeStatus.Approved);
+        _validTutor2.VerificationChanges.First().VerificationChangeStatus.Should()
+            .Be(VerificationChangeStatus.Approved);
         _validTutor2.Verifications.All(v => urls.Contains(v.Image)).Should().BeTrue();
     }
 
@@ -362,8 +363,9 @@ public class TutorUnitTests
 
         // Assert
         verificationResult.IsSuccess.Should().BeTrue();
-        _validTutor2.VerificationChange.Should().NotBeNull();
-        _validTutor2.VerificationChange.VerificationChangeStatus.Should().Be(VerificationChangeStatus.Rejected);
+        _validTutor2.VerificationChanges.First().Should().NotBeNull();
+        _validTutor2.VerificationChanges.First().VerificationChangeStatus.Should()
+            .Be(VerificationChangeStatus.Rejected);
         _validTutor2.Verifications.Should().BeEquivalentTo(oldVerifications);
     }
 

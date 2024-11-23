@@ -32,3 +32,16 @@ public class CourseDto : BasicAuditedEntityDto<Guid>
     public int SubjectId { get; init; }
     public string SubjectName { get; init; } = string.Empty;
 }
+
+public class CourseWithTeachingRequestsDto : CourseDto
+{
+    public List<TeachingRequestDto> TeachingRequests { get; init; } = [];
+}
+
+public class TeachingRequestDto
+{
+    public Guid Id { get; set; } = Guid.Empty;
+    public string Description { get; set; } = null!;
+
+    public string TeachingRequestStatus { get; set; } = RequestStatus.InProgress.ToString();
+}

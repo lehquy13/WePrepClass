@@ -9,7 +9,7 @@ public class UserProfileDto : BasicAuditedEntityDto<Guid>
 {
     public string FirstName { get; set; } = string.Empty;
     public string LastName { get; set; } = string.Empty;
-    public Gender Gender { get; set; }
+    public string Gender { get; set; } = string.Empty;
     public int BirthYear { get; set; } = 1960;
     public string DetailAddress { get; set; } = string.Empty;
     public string Country { get; set; } = string.Empty;

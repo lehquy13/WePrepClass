@@ -33,14 +33,13 @@ public class GetTutorsQueryHandler(
     )
     {
         IQueryable<(Tutor Tutor, IEnumerable<Subject> Majors, User User, IEnumerable<TeachingAssignment> Courses)> tutors =
-            from tutor in dbContext.Tutors
+            from tutor in dbContext.Tutors.Where(x => x.TutorStatus == TutorStatus.Active)
             join major in dbContext.Majors on tutor.Id equals major.TutorId
             join subject in dbContext.Subjects on major.SubjectId equals subject.Id into majors
             join user in dbContext.Users on tutor.UserId equals user.Id
             join course in dbContext.TeachingAssignments.Where(x =>
                     x.TeachingAssignmentStatus == TeachingAssignmentStatus.Assigned) on tutor.Id equals course.TutorId
                 into teachingAssignments
-            where tutor.TutorStatus == TutorStatus.Active
             select new ValueTuple<Tutor, IEnumerable<Subject>, User, IEnumerable<TeachingAssignment>>(
                 tutor,
                 majors,

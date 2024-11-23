@@ -23,6 +23,7 @@ public class Tutor : AuditedAggregateRoot<TutorId>
 
     private List<Verification> _verifications = [];
     private readonly List<Major> _majors = [];
+    private readonly List<VerificationChange> _verificationChanges = [];
 
     public UserId UserId { get; private set; } = null!;
 
@@ -31,8 +32,7 @@ public class Tutor : AuditedAggregateRoot<TutorId>
     public string University { get; private set; } = null!;
     public decimal? Rate { get; private set; }
 
-    public VerificationChange? VerificationChange { get; private set; }
-
+    public IReadOnlyList<VerificationChange> VerificationChanges => _verificationChanges.AsReadOnly();
     public IReadOnlyList<Verification> Verifications => _verifications.AsReadOnly();
     public IReadOnlyList<Major> Majors => _majors.AsReadOnly();
 
@@ -80,7 +80,7 @@ public class Tutor : AuditedAggregateRoot<TutorId>
         }
         else
         {
-            VerificationChange = verificationChange.Value;
+            _verificationChanges.Add(verificationChange.Value);
         }
 
         DomainEvents.Add(new VerificationChangeCreatedDomainEvent(this));
@@ -90,22 +90,24 @@ public class Tutor : AuditedAggregateRoot<TutorId>
 
     public Result VerifyVerificationChange(bool commandIsApproved)
     {
-        if (VerificationChange is null) return Result.Fail("There is no change verification request");
+        if (_verificationChanges.Find(x => x.VerificationChangeStatus == VerificationChangeStatus.Pending)
+            is not { } verificationChange)
+        {
+            return Result.Fail("There is no change verification request");
+        }
 
         if (commandIsApproved is false)
         {
-            VerificationChange.Reject();
+            verificationChange.Reject();
 
             return Result.Success();
         }
 
-        var verificationInfos = VerificationChange.ChangeVerificationRequestDetails
+        _verifications = verificationChange.ChangeVerificationRequestDetails
             .Select(id => Verification.Create(id.ImageUrl, Id))
             .ToList();
 
-        _verifications = verificationInfos;
-
-        VerificationChange.Approve();
+        verificationChange.Approve();
 
         return Result.Success();
     }

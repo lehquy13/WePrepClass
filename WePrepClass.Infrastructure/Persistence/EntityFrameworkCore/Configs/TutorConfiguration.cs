@@ -48,8 +48,10 @@ internal class TutorConfiguration : IEntityTypeConfiguration<Tutor>
             .IsRequired()
             .OnDelete(DeleteBehavior.Cascade);
 
+        builder.Property(r => r.University)
+            .HasMaxLength(100)
+            .IsRequired();
         builder.Property(r => r.AcademicLevel).IsRequired();
-        builder.Property(r => r.University).IsRequired();
         builder.Property(r => r.TutorStatus).IsRequired();
         builder.Property(r => r.Rate).IsRequired();
 
@@ -99,7 +101,7 @@ internal class TutorConfiguration : IEntityTypeConfiguration<Tutor>
 
     private static void ConfigureVerificationChange(EntityTypeBuilder<Tutor> builder)
     {
-        builder.OwnsOne(o => o.VerificationChange, ib =>
+        builder.OwnsMany(o => o.VerificationChanges, ib =>
         {
             ib.ToTable(nameof(VerificationChange));
 

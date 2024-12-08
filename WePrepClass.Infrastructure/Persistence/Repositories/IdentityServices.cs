@@ -96,7 +96,7 @@ public class IdentityService(
 
 #pragma warning disable
 
-        emailSender.SendEmail(email, "Demo email",
+        emailSender.Send(email, "Demo email",
             $"This email will use to confirm your email using the code {code}");
 
 #pragma warning restore
@@ -234,7 +234,7 @@ public class IdentityService(
         //     "Reset Password",
         //     $"Please reset your password by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
 
-        await emailSender.SendEmail(
+        await emailSender.Send(
             email,
             "Reset Password but just a demo",
             $"Please reset your password by this mail by using this {code}.");

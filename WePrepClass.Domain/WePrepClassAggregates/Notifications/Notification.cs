@@ -1,15 +1,17 @@
-﻿using Matt.SharedKernel.Domain.Primitives.Auditing;
+﻿using Matt.SharedKernel.Domain.Primitives.Abstractions;
+using Matt.SharedKernel.Domain.Primitives.Auditing;
 using WePrepClass.Domain.Commons.Enums;
 
 namespace WePrepClass.Domain.WePrepClassAggregates.Notifications;
 
-public class Notification : AuditedAggregateRoot<int>
+public class Notification : AuditedAggregateRoot<Guid>
 {
     public string Message { get; private set; } = null!;
     public string ObjectId { get; private set; } = null!;
 
-    // ReSharper disable once UnusedAutoPropertyAccessor.Local
-    public bool IsRead { get; private set; } // TODO: Implement this isRead logic
+    public bool IsRead { get; private set; }
+    public Guid? To { get; private set; }
+
     public NotificationEventType NotificationEventType { get; private set; }
 
     private Notification()
@@ -19,13 +21,20 @@ public class Notification : AuditedAggregateRoot<int>
     public static Notification Create(
         string message,
         string objectId,
+        Guid? to,
         NotificationEventType notificationEventType)
-    {
-        return new Notification
+        => new()
         {
             Message = message,
             ObjectId = objectId,
+            To = to,
             NotificationEventType = notificationEventType
         };
-    }
+
+    public void MarkAsRead() => IsRead = true;
+}
+
+public static class NotificationRecipientConstants
+{
+    public static readonly Guid? Center = null;
 }

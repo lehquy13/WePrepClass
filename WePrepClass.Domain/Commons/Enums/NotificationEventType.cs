@@ -3,5 +3,8 @@
 public enum NotificationEventType
 {
     Tutor,
-    Learner
+    Learner,
+    TeachingRequest,
+    Course,
+    TutoringRequest
 }

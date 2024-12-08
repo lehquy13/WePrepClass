@@ -82,7 +82,7 @@ public sealed class Course : FullAuditedAggregateRoot<CourseId>
             Note = string.Empty
         };
 
-        course.DomainEvents.Add(new NewCourseCreatedCourseEvent(course));
+        course.DomainEvents.Add(new CourseCreatedCourseDomainEvent(course));
 
         return course;
     }
@@ -225,12 +225,18 @@ public sealed class Course : FullAuditedAggregateRoot<CourseId>
 
     public Result RefundCourse(string commandNote)
     {
-        if (Status is not CourseStatus.Confirmed) return DomainErrors.Courses.Unavailable;
+        if (Status is not CourseStatus.Confirmed ||
+            GetApprovedTeachingAssignment() is not { } approvedTeachingAssignment)
+        {
+            return DomainErrors.Courses.HaveNotBeenAssigned;
+        }
 
         Note = commandNote;
         Status = CourseStatus.Refunded;
 
-        DomainEvents.Add(new CanceledAndRefundedCourseEvent(this));
+        approvedTeachingAssignment.Dissociate();
+
+        DomainEvents.Add(new CourseWasRefundedDomainEvent(this, approvedTeachingAssignment));
 
         return Result.Success();
     }
@@ -251,14 +257,17 @@ public sealed class Course : FullAuditedAggregateRoot<CourseId>
 
         return Result.Success();
     }
+
+    public TeachingAssignment? GetApprovedTeachingAssignment()
+        => _teachingAssignments.Find(x => x.TeachingAssignmentStatus == TeachingAssignmentStatus.Assigned);
 }
 
 // ReSharper disable NotAccessedPositionalProperty.Global
 public record CourseRequirementUpdatedDomainEvent(Course Course) : IDomainEvent;
 
-public record NewCourseCreatedCourseEvent(Course Course) : IDomainEvent;
+public record CourseCreatedCourseDomainEvent(Course Course) : IDomainEvent;
 
-public record CanceledAndRefundedCourseEvent(Course Course) : IDomainEvent;
+public record CourseWasRefundedDomainEvent(Course Course, TeachingAssignment approvedTeachingAssignment) : IDomainEvent;
 
 public record CourseConfirmedDomainEvent(Course Course) : IDomainEvent;
 

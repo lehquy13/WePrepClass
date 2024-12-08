@@ -12,7 +12,7 @@ internal class EmailSender(IOptions<EmailSettingNames> options) : IEmailSender
 {
     private readonly EmailSettingNames _emailSettingNames = options.Value;
 
-    public async Task SendEmail(string email, string subject, string message)
+    public async Task Send(string email, string subject, string message)
     {
         var senderMail = _emailSettingNames.Email;
         var pw = _emailSettingNames.Password;
@@ -34,7 +34,7 @@ internal class EmailSender(IOptions<EmailSettingNames> options) : IEmailSender
             .SendAsync();
     }
 
-    public async Task SendHtmlEmail(string email, string subject, string template)
+    public async Task SendHtml(string email, string subject, string template)
     {
         var senderMail = _emailSettingNames.Email;
         var pw = _emailSettingNames.Password;

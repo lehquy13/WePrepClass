@@ -18,8 +18,4 @@
       <PackageReference Include="MockQueryable.EntityFrameworkCore" Version="7.0.4-beta" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="EventHandlers\" />
-    </ItemGroup>
-
 </Project>

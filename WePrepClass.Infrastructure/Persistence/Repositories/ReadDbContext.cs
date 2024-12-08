@@ -29,6 +29,5 @@ public class ReadDbContext(
 
 public static class ReadDbContextExtensions
 {
-    public static DbSet<T> AsReadOnly<T>(this DbSet<T> dbSet) where T : class
-        => (DbSet<T>)dbSet.AsNoTracking().AsSplitQuery();
+    public static DbSet<T> AsReadOnly<T>(this DbSet<T> dbSet) where T : class => (DbSet<T>)dbSet.AsNoTracking();
 }

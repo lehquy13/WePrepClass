@@ -1,11 +1,10 @@
-﻿using MapsterMapper;
-using Matt.ResultObject;
-using Matt.SharedKernel.Application.Contracts.Interfaces;
+﻿using Matt.SharedKernel.Application.Contracts.Interfaces;
 using Matt.SharedKernel.Application.Contracts.Interfaces.Infrastructures;
 using Matt.SharedKernel.Application.Mediators.Queries;
-using Matt.SharedKernel.Domain.Interfaces;
+using Matt.SharedKernel.Results;
 using Microsoft.EntityFrameworkCore;
 using WePrepClass.Application.Interfaces;
+using WePrepClass.Contracts.Tutors;
 using WePrepClass.Domain;
 using WePrepClass.Domain.Commons.Enums;
 using WePrepClass.Domain.WePrepClassAggregates.Tutors.ValueObjects;
@@ -16,10 +15,8 @@ public record GetTutorProfileQuery : IQueryRequest<TutorForProfileDto>, IAuthori
 
 public class GetTutorProfileQueryHandler(
     IReadDbContext dbContext,
-    ICurrentUserService currentUserService,
-    IMapper mapper,
-    IAppLogger<GetTutorProfileQueryHandler> logger)
-    : QueryHandlerBase<GetTutorProfileQuery, TutorForProfileDto>(logger, mapper)
+    ICurrentUserService currentUserService
+) : QueryHandlerBase<GetTutorProfileQuery, TutorForProfileDto>
 {
     public override async Task<Result<TutorForProfileDto>> Handle(GetTutorProfileQuery request,
         CancellationToken cancellationToken)
@@ -79,9 +76,7 @@ public class GetTutorProfileQueryHandler(
         foreach (var subject in dbContext.Subjects.ToList())
         {
             if (tutorResult.Majors.Any(x => x.SubjectId == subject.Id.Value))
-            {
                 tutorResult.Majors.First(x => x.SubjectId == subject.Id.Value).SubjectName = subject.Name;
-            }
 
             tutorResult.Majors.Add(new TutorMajorDto
             {

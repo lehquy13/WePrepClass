@@ -11,7 +11,6 @@ namespace WePrepClass.Application.UnitTests.Subjects;
 public class UpsertSubjectUnitTests
 {
     private readonly Mock<IUnitOfWork> _unitOfWorkMock = new();
-    private readonly Mock<IAppLogger<UpsertSubjectCommandHandler>> _deleteSubjectLoggerMock = new();
     private readonly Mock<ISubjectRepository> _subjectRepositoryMock = new();
 
     private readonly UpsertSubjectCommandValidator _upsertSubjectCommandValidator = new();
@@ -21,8 +20,7 @@ public class UpsertSubjectUnitTests
     {
         _upsertSubjectCommandHandler = new UpsertSubjectCommandHandler(
             _subjectRepositoryMock.Object,
-            _unitOfWorkMock.Object,
-            _deleteSubjectLoggerMock.Object);
+            _unitOfWorkMock.Object);
     }
 
     [Fact]

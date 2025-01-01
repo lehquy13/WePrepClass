@@ -1,6 +1,6 @@
 ﻿using FluentAssertions;
-using Matt.ResultObject;
 using Matt.SharedKernel.Domain.Interfaces;
+using Matt.SharedKernel.Results;
 using Moq;
 using WePrepClass.Application.UseCases.Accounts;
 using WePrepClass.Application.UseCases.Administrator.Users.Commands;
@@ -15,7 +15,6 @@ public class CreateUserHandlerUnitTests
     private readonly Mock<IUserRepository> _userRepositoryMock = new();
     private readonly Mock<IIdentityService> _identityServiceMock = new();
     private readonly Mock<IUnitOfWork> _unitOfWorkMock = new();
-    private readonly Mock<IAppLogger<CreateUserCommandHandler>> _userMapperMock = new();
 
     private const string UserName = "JohnDoe";
     private const string FirstName = "John";
@@ -37,7 +36,7 @@ public class CreateUserHandlerUnitTests
     public CreateUserHandlerUnitTests()
     {
         _handler = new CreateUserCommandHandler(_identityServiceMock.Object, _userRepositoryMock.Object,
-            _unitOfWorkMock.Object, _userMapperMock.Object);
+            _unitOfWorkMock.Object);
 
         _validUser = User.Create(
             UserId.Create(),

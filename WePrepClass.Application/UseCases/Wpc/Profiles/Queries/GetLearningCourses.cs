@@ -1,9 +1,7 @@
-﻿using MapsterMapper;
-using Matt.ResultObject;
-using Matt.SharedKernel.Application.Contracts.Interfaces;
+﻿using Matt.SharedKernel.Application.Contracts.Interfaces;
 using Matt.SharedKernel.Application.Contracts.Interfaces.Infrastructures;
 using Matt.SharedKernel.Application.Mediators.Queries;
-using Matt.SharedKernel.Domain.Interfaces;
+using Matt.SharedKernel.Results;
 using Microsoft.EntityFrameworkCore;
 using WePrepClass.Application.Interfaces;
 using WePrepClass.Contracts.Users;
@@ -15,10 +13,8 @@ public record GetLearningCoursesQuery : IQueryRequest<IEnumerable<AttendedCourse
 
 public class GetLearningCoursesQueryHandler(
     IReadDbContext dbContext,
-    ICurrentUserService currentUserService,
-    IAppLogger<GetLearningCoursesQueryHandler> logger,
-    IMapper mapper)
-    : QueryHandlerBase<GetLearningCoursesQuery, IEnumerable<AttendedCourseListDto>>(logger, mapper)
+    ICurrentUserService currentUserService
+) : QueryHandlerBase<GetLearningCoursesQuery, IEnumerable<AttendedCourseListDto>>
 {
     public override async Task<Result<IEnumerable<AttendedCourseListDto>>> Handle(GetLearningCoursesQuery request,
         CancellationToken cancellationToken)

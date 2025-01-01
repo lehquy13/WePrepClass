@@ -1,6 +1,6 @@
-﻿using Matt.ResultObject;
-using Matt.SharedKernel.Application.Authorizations;
+﻿using Matt.SharedKernel.Application.Authorizations;
 using Matt.SharedKernel.Domain.Interfaces;
+using Matt.SharedKernel.Results;
 using WePrepClass.Domain.Commons.Enums;
 using WePrepClass.Domain.WePrepClassAggregates.Users.ValueObjects;
 using Role = WePrepClass.Domain.Commons.Enums.Role;

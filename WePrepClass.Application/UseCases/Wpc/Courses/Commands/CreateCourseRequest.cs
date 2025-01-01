@@ -1,8 +1,9 @@
-﻿using Matt.ResultObject;
+﻿
 using Matt.SharedKernel.Application.Contracts.Interfaces;
 using Matt.SharedKernel.Application.Contracts.Interfaces.Infrastructures;
 using Matt.SharedKernel.Application.Mediators.Commands;
 using Matt.SharedKernel.Domain.Interfaces;
+using Matt.SharedKernel.Results;
 using WePrepClass.Domain;
 using WePrepClass.Domain.Commons.Enums;
 using WePrepClass.Domain.WePrepClassAggregates.Courses;
@@ -18,9 +19,8 @@ public class CreateCourseRequestCommandHandler(
     ICourseRepository courseRepository,
     ITutorRepository tutorRepository,
     ICurrentUserService currentUserService,
-    IUnitOfWork unitOfWork,
-    IAppLogger<CreateCourseRequestCommandHandler> logger
-) : CommandHandlerBase<CreateCourseRequestCommand>(unitOfWork, logger)
+    IUnitOfWork unitOfWork
+) : CommandHandlerBase<CreateCourseRequestCommand>(unitOfWork)
 {
     public override async Task<Result> Handle(CreateCourseRequestCommand command, CancellationToken cancellationToken)
     {

@@ -3,7 +3,7 @@
 public enum PaymentStatus
 {
     Paid = 1,
-    Failed = 2
+    Refunded = 2
 }
 
 public enum PaymentMethod

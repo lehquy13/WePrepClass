@@ -1,16 +1,13 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>net8.0</TargetFramework>
+        <TargetFramework>net9.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Matt.SharedKernel\Matt.SharedKernel.csproj" />
-    </ItemGroup>
-
-    <ItemGroup>
+      <PackageReference Include="Matt.SharedKernel" Version="1.1.0.1" />
       <PackageReference Include="MockQueryable.Core" Version="7.0.4-beta" />
       <PackageReference Include="MockQueryable.EntityFrameworkCore" Version="7.0.4-beta" />
     </ItemGroup>

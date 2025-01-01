@@ -25,14 +25,12 @@ public class RequestTutoringCommandHandlerUnitTests
         _tutoringRequestRepositoryMock = new Mock<ITutoringRequestRepository>();
         _currentUserServiceMock = new Mock<ICurrentUserService>();
         _unitOfWorkMock = new Mock<IUnitOfWork>();
-        var loggerMock = new Mock<IAppLogger<RequestTutoringCommandHandler>>();
 
         _handler = new RequestTutoringCommandHandler(
             _tutorRepositoryMock.Object,
             _tutoringRequestRepositoryMock.Object,
             _currentUserServiceMock.Object,
-            _unitOfWorkMock.Object,
-            loggerMock.Object
+            _unitOfWorkMock.Object
         );
     }
 

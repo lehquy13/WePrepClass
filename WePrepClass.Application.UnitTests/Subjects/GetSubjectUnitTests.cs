@@ -1,6 +1,5 @@
 ﻿using FluentAssertions;
 using MapsterMapper;
-using Matt.SharedKernel.Domain.Interfaces;
 using Moq;
 using WePrepClass.Application.UseCases.Administrator.Subjects.Queries;
 using WePrepClass.Domain.WePrepClassAggregates.Subjects;
@@ -11,7 +10,6 @@ namespace WePrepClass.Application.UnitTests.Subjects;
 
 public class GetSubjectUnitTests
 {
-    private readonly Mock<IAppLogger<GetSubjectQueryHandler>> _getSubjectLoggerMock = new();
     private readonly Mock<ISubjectRepository> _subjectRepositoryMock = new();
 
     private readonly IMapper _mapperMock = MapsterProfile.Get;
@@ -21,7 +19,6 @@ public class GetSubjectUnitTests
     {
         _getSubjectQueryHandler = new GetSubjectQueryHandler(
             _subjectRepositoryMock.Object,
-            _getSubjectLoggerMock.Object,
             _mapperMock);
     }
 

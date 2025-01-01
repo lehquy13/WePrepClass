@@ -1,8 +1,9 @@
-﻿using Matt.ResultObject;
+﻿
 using Matt.SharedKernel.Application.Contracts.Interfaces;
 using Matt.SharedKernel.Application.Contracts.Interfaces.Infrastructures;
 using Matt.SharedKernel.Application.Mediators.Commands;
 using Matt.SharedKernel.Domain.Interfaces;
+using Matt.SharedKernel.Results;
 using WePrepClass.Domain;
 using WePrepClass.Domain.WePrepClassAggregates.Courses;
 using WePrepClass.Domain.WePrepClassAggregates.Courses.ValueObjects;
@@ -14,9 +15,8 @@ public record ReviewCourseCommand(Guid CourseId, string Detail, short Rate) : IC
 public class ReviewCourseCommandHandler(
     ICourseRepository courseRepository,
     ICurrentUserService currentUserService,
-    IUnitOfWork unitOfWork,
-    IAppLogger<ReviewCourseCommandHandler> logger
-) : CommandHandlerBase<ReviewCourseCommand>(unitOfWork, logger)
+    IUnitOfWork unitOfWork
+) : CommandHandlerBase<ReviewCourseCommand>(unitOfWork)
 {
     public override async Task<Result> Handle(ReviewCourseCommand command, CancellationToken cancellationToken)
     {

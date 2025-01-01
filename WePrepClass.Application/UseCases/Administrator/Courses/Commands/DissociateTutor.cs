@@ -1,6 +1,6 @@
-﻿using Matt.ResultObject;
-using Matt.SharedKernel.Application.Mediators.Commands;
+﻿using Matt.SharedKernel.Application.Mediators.Commands;
 using Matt.SharedKernel.Domain.Interfaces;
+using Matt.SharedKernel.Results;
 using WePrepClass.Domain;
 using WePrepClass.Domain.WePrepClassAggregates.Courses;
 using WePrepClass.Domain.WePrepClassAggregates.Courses.ValueObjects;
@@ -11,9 +11,8 @@ public record DissociateTutorCommand(Guid CourseId, string DetailMessage) : ICom
 
 public class DissociateTutorCommandHandler(
     ICourseRepository courseRepository,
-    IUnitOfWork unitOfWork,
-    IAppLogger<DissociateTutorCommandHandler> logger
-) : CommandHandlerBase<DissociateTutorCommand>(unitOfWork, logger)
+    IUnitOfWork unitOfWork
+) : CommandHandlerBase<DissociateTutorCommand>(unitOfWork)
 {
     public override async Task<Result> Handle(DissociateTutorCommand command, CancellationToken cancellationToken)
     {

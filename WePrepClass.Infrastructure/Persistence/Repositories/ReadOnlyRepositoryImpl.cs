@@ -1,23 +1,22 @@
-﻿using Matt.AutoDI;
-using Matt.SharedKernel.Domain.Interfaces;
-using Matt.SharedKernel.Domain.Interfaces.Repositories;
+﻿using Matt.SharedKernel.Domain.Interfaces.Repositories;
 using Matt.SharedKernel.Domain.Primitives;
 using Matt.SharedKernel.Domain.Primitives.Abstractions;
 using Matt.SharedKernel.Domain.Specifications.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using WePrepClass.Infrastructure.Persistence.EntityFrameworkCore;
 
 namespace WePrepClass.Infrastructure.Persistence.Repositories;
 
 internal class ReadOnlyRepositoryImpl<TEntity, TId>(
     AppDbContext appDbContext,
-    IAppLogger<ReadOnlyRepositoryImpl<TEntity, TId>> logger)
-    : IReadOnlyRepository<TEntity, TId>, IOpenGenericService<IReadOnlyRepository<TEntity, TId>>
+    ILogger<ReadOnlyRepositoryImpl<TEntity, TId>> logger
+) : IReadOnlyRepository<TEntity, TId>
     where TEntity : Entity<TId>, IEntity<TId>
     where TId : notnull
 {
     protected readonly AppDbContext AppDbContext = appDbContext;
-    protected readonly IAppLogger<ReadOnlyRepositoryImpl<TEntity, TId>> Logger = logger;
+    protected readonly ILogger<ReadOnlyRepositoryImpl<TEntity, TId>> Logger = logger;
     protected const string ErrorMessage = "{Message} with exception: {Ex}";
 
     public async Task<List<TEntity>> GetListAsync(IPaginatedGetListSpecification<TEntity> spec,

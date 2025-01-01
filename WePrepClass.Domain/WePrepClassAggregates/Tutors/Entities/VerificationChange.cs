@@ -1,5 +1,5 @@
-﻿using Matt.ResultObject;
-using Matt.SharedKernel.Domain.Primitives.Auditing;
+﻿using Matt.SharedKernel.Domain.Primitives.Auditing;
+using Matt.SharedKernel.Results;
 using WePrepClass.Domain.Commons.Enums;
 using WePrepClass.Domain.WePrepClassAggregates.Tutors.ValueObjects;
 

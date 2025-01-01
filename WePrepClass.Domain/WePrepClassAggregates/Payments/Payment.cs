@@ -1,5 +1,5 @@
-﻿using Matt.ResultObject;
-using Matt.SharedKernel.Domain.Primitives;
+﻿using Matt.SharedKernel.Domain.Primitives;
+using Matt.SharedKernel.Results;
 using WePrepClass.Domain.Commons.Enums;
 using WePrepClass.Domain.WePrepClassAggregates.Payments.ValueObjects;
 

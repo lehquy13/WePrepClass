@@ -1,6 +1,6 @@
 ﻿using CloudinaryDotNet;
 using CloudinaryDotNet.Actions;
-using Matt.SharedKernel.Domain.Interfaces;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using WePrepClass.Application.Interfaces;
 using WePrepClass.Infrastructure.Models;
@@ -9,7 +9,7 @@ namespace WePrepClass.Infrastructure.Cloudinary;
 
 internal class BlobStorageServices(
     IOptions<CloudinarySetting> cloudinarySetting,
-    IAppLogger<BlobStorageServices> logger
+    ILogger<BlobStorageServices> logger
 ) : IBlobStorageServices
 {
     private CloudinaryDotNet.Cloudinary Cloudinary { get; set; }

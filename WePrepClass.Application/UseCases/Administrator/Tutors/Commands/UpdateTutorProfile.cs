@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
-using Matt.ResultObject;
 using Matt.SharedKernel.Application.Mediators.Commands;
 using Matt.SharedKernel.Domain.Interfaces;
+using Matt.SharedKernel.Results;
 using WePrepClass.Contracts.Tutors;
 using WePrepClass.Domain;
 using WePrepClass.Domain.Commons.Enums;
@@ -24,9 +24,8 @@ public class UpdateTutorProfileCommandValidator : AbstractValidator<UpdateTutorP
 
 public class UpdateTutorProfileCommandHandler(
     ITutorRepository tutorRepository,
-    IUnitOfWork unitOfWork,
-    IAppLogger<UpdateTutorProfileCommandHandler> logger
-) : CommandHandlerBase<UpdateTutorProfileCommand>(unitOfWork, logger)
+    IUnitOfWork unitOfWork
+) : CommandHandlerBase<UpdateTutorProfileCommand>(unitOfWork)
 {
     public override async Task<Result> Handle(UpdateTutorProfileCommand command,
         CancellationToken cancellationToken)

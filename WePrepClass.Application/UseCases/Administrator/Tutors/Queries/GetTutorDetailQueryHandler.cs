@@ -1,7 +1,5 @@
-﻿using MapsterMapper;
-using Matt.ResultObject;
-using Matt.SharedKernel.Application.Mediators.Queries;
-using Matt.SharedKernel.Domain.Interfaces;
+﻿using Matt.SharedKernel.Application.Mediators.Queries;
+using Matt.SharedKernel.Results;
 using Microsoft.EntityFrameworkCore;
 using WePrepClass.Application.Interfaces;
 using WePrepClass.Contracts.Tutors;
@@ -13,10 +11,8 @@ namespace WePrepClass.Application.UseCases.Administrator.Tutors.Queries;
 public record GetTutorDetailQuery(Guid TutorId) : IQueryRequest<TutorDetailDto>;
 
 public class GetTutorDetailQueryHandler(
-    IReadDbContext dbContext,
-    IAppLogger<GetTutorDetailQueryHandler> logger,
-    IMapper mapper
-) : QueryHandlerBase<GetTutorDetailQuery, TutorDetailDto>(logger, mapper)
+    IReadDbContext dbContext
+) : QueryHandlerBase<GetTutorDetailQuery, TutorDetailDto>
 {
     public override async Task<Result<TutorDetailDto>> Handle(GetTutorDetailQuery request,
         CancellationToken cancellationToken)
@@ -42,7 +38,7 @@ public class GetTutorDetailQueryHandler(
                 Majors = majors.Select(x => new MajorDto
                 {
                     Name = x.Name,
-                    IsSelected = true,
+                    IsSelected = true
                 }).ToList(),
                 Verifications = tutor.Verifications.Select(x => new VerificationDto
                 {
@@ -57,7 +53,7 @@ public class GetTutorDetailQueryHandler(
                 }).ToList()
             };
 
-        var tutorForDetailDto = await tutorDetailAsQueryable.FirstOrDefaultAsync(cancellationToken: cancellationToken);
+        var tutorForDetailDto = await tutorDetailAsQueryable.FirstOrDefaultAsync(cancellationToken);
 
         if (tutorForDetailDto == null) return Result.NotFound();
 

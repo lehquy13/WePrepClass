@@ -1,20 +1,17 @@
-﻿using Matt.AutoDI;
-using Matt.SharedKernel.Domain.Interfaces;
-using Matt.SharedKernel.Domain.Interfaces.Repositories;
+﻿using Matt.SharedKernel.Domain.Interfaces.Repositories;
 using Matt.SharedKernel.Domain.Primitives;
 using Matt.SharedKernel.Domain.Primitives.Abstractions;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
+using Microsoft.Extensions.Logging;
 using WePrepClass.Infrastructure.Persistence.EntityFrameworkCore;
 
 namespace WePrepClass.Infrastructure.Persistence.Repositories;
 
 internal class RepositoryImpl<TEntity, TId>(
     AppDbContext appDbContext,
-    IAppLogger<RepositoryImpl<TEntity, TId>> logger)
-    : ReadOnlyRepositoryImpl<TEntity, TId>(appDbContext, logger),
-        IRepository<TEntity, TId>,
-        IOpenGenericService<IRepository<TEntity, TId>>
+    ILogger<RepositoryImpl<TEntity, TId>> logger
+) : ReadOnlyRepositoryImpl<TEntity, TId>(appDbContext, logger),
+    IRepository<TEntity, TId>
     where TEntity : Entity<TId>, IAggregateRoot<TId>
     where TId : notnull
 {
@@ -57,10 +54,7 @@ internal class RepositoryImpl<TEntity, TId>(
         await Task.CompletedTask;
         var entityArray = entities.ToArray();
 
-        if (entityArray.IsNullOrEmpty())
-        {
-            return;
-        }
+        if (entityArray.Length == 0) return;
 
         AppDbContext.Set<TEntity>().UpdateRange(entityArray);
     }
@@ -81,7 +75,7 @@ internal class RepositoryImpl<TEntity, TId>(
         catch (Exception ex)
         {
             Logger.LogError(ErrorMessage, "GetAllListAsync", ex.Message);
-            return new bool();
+            return false;
         }
     }
 

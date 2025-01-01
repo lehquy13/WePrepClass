@@ -1,5 +1,5 @@
-﻿using Matt.ResultObject;
-using Matt.SharedKernel.Domain.Primitives;
+﻿using Matt.SharedKernel.Domain.Primitives;
+using Matt.SharedKernel.Results;
 
 namespace WePrepClass.Domain.WePrepClassAggregates.Users.ValueObjects;
 

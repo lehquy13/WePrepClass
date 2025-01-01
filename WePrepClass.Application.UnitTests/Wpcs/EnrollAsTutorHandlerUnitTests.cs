@@ -20,13 +20,11 @@ public class EnrollAsTutorHandlerUnitTests
         _tutorRepositoryMock = new Mock<ITutorRepository>();
         _currentUserServiceMock = new Mock<ICurrentUserService>();
         _unitOfWorkMock = new Mock<IUnitOfWork>();
-        var loggerMock = new Mock<IAppLogger<EnrollAsTutorHandler>>();
 
         _handler = new EnrollAsTutorHandler(
             _tutorRepositoryMock.Object,
             _currentUserServiceMock.Object,
-            _unitOfWorkMock.Object,
-            loggerMock.Object
+            _unitOfWorkMock.Object
         );
     }
 

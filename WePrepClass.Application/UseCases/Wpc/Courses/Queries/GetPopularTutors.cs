@@ -1,8 +1,6 @@
-﻿using MapsterMapper;
-using Matt.ResultObject;
-using Matt.SharedKernel.Application.Mediators;
-using Matt.SharedKernel.Application.Mediators.Queries;
-using Matt.SharedKernel.Domain.Interfaces;
+﻿using Matt.SharedKernel.Application.Mediators.Queries;
+using Matt.SharedKernel.Domain;
+using Matt.SharedKernel.Results;
 using Microsoft.EntityFrameworkCore;
 using WePrepClass.Application.Interfaces;
 using WePrepClass.Contracts.Tutors;
@@ -13,10 +11,8 @@ namespace WePrepClass.Application.UseCases.Wpc.Courses.Queries;
 public record GetPopularTutorsQuery : IQueryRequest<IEnumerable<TutorListDto>>;
 
 public class GetPopularTutorsQueryHandler(
-    IReadDbContext dbContext,
-    IAppLogger<RequestHandlerBase> logger,
-    IMapper mapper
-) : QueryHandlerBase<GetPopularTutorsQuery, IEnumerable<TutorListDto>>(logger, mapper)
+    IReadDbContext dbContext
+) : QueryHandlerBase<GetPopularTutorsQuery, IEnumerable<TutorListDto>>
 {
     public override async Task<Result<IEnumerable<TutorListDto>>> Handle(GetPopularTutorsQuery request,
         CancellationToken cancellationToken)

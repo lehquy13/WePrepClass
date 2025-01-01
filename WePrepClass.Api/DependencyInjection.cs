@@ -1,5 +1,5 @@
 ﻿using System.Reflection;
-using Matt.AutoDI;
+using Matt.SharedKernel.DependencyInjections;
 using WePrepClass.Api.Middlewares;
 
 namespace WePrepClass.Api;

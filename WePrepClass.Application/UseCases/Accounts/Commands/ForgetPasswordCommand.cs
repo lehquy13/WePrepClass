@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
-using Matt.ResultObject;
 using Matt.SharedKernel.Application.Mediators.Commands;
 using Matt.SharedKernel.Domain.Interfaces;
+using Matt.SharedKernel.Results;
 using WePrepClass.Domain.WePrepClassAggregates.Users;
 
 namespace WePrepClass.Application.UseCases.Accounts.Commands;
@@ -20,9 +20,8 @@ public class ForgetPasswordCommandValidator : AbstractValidator<ForgetPasswordCo
 
 public class ForgetPasswordCommandHandler(
     IIdentityService identityService,
-    IUnitOfWork unitOfWork,
-    IAppLogger<ForgetPasswordCommandHandler> logger
-) : CommandHandlerBase<ForgetPasswordCommand>(unitOfWork, logger)
+    IUnitOfWork unitOfWork
+) : CommandHandlerBase<ForgetPasswordCommand>(unitOfWork)
 {
     public override async Task<Result> Handle(ForgetPasswordCommand command, CancellationToken cancellationToken)
     {

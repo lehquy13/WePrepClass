@@ -1,8 +1,9 @@
-﻿using Matt.ResultObject;
+﻿
 using Matt.SharedKernel.Application.Contracts.Interfaces;
 using Matt.SharedKernel.Application.Contracts.Interfaces.Infrastructures;
 using Matt.SharedKernel.Application.Mediators.Commands;
 using Matt.SharedKernel.Domain.Interfaces;
+using Matt.SharedKernel.Results;
 using WePrepClass.Domain.Commons.Enums;
 using WePrepClass.Domain.WePrepClassAggregates.Subjects.ValueObjects;
 using WePrepClass.Domain.WePrepClassAggregates.Tutors;
@@ -20,9 +21,8 @@ public record EnrollAsTutor(
 public class EnrollAsTutorHandler(
     ITutorRepository tutorRepository,
     ICurrentUserService currentUserService,
-    IUnitOfWork unitOfWork,
-    IAppLogger<EnrollAsTutorHandler> logger
-) : CommandHandlerBase<EnrollAsTutor>(unitOfWork, logger)
+    IUnitOfWork unitOfWork
+) : CommandHandlerBase<EnrollAsTutor>(unitOfWork)
 {
     public override async Task<Result> Handle(EnrollAsTutor command, CancellationToken cancellationToken)
     {

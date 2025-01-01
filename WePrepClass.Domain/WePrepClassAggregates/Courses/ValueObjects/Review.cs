@@ -1,7 +1,7 @@
-using Matt.Auditing;
-using Matt.ResultObject;
-using Matt.SharedKernel.Domain.Interfaces;
+using Matt.SharedKernel.Auditing;
+using Matt.SharedKernel.Domain;
 using Matt.SharedKernel.Domain.Primitives;
+using Matt.SharedKernel.Results;
 
 namespace WePrepClass.Domain.WePrepClassAggregates.Courses.ValueObjects;
 

@@ -33,14 +33,14 @@ public class CourseWasRefundedDomainEventHandler(
 
 public class MailTutorWhenCourseWasRefundedDomainEventHandler(
     ILogger<CourseWasRefundedDomainEventHandler> logger,
-    IEmailSender emailSender,
+    IEmailService emailSender,
     IReadDbContext readDbContext
 ) : INotificationHandler<CourseWasRefundedDomainEvent>
 {
     public async Task Handle(CourseWasRefundedDomainEvent notification, CancellationToken cancellationToken)
     {
         var tutorInfo = await readDbContext.Users
-            .Where(t => t.Id.Value == notification.approvedTeachingAssignment.TutorId.Value)
+            .Where(t => t.Id.Value == notification.ApprovedTeachingAssignment.TutorId.Value)
             .FirstOrDefaultAsync(cancellationToken);
 
         if (tutorInfo == null)

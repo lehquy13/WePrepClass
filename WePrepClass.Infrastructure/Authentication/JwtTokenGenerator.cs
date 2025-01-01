@@ -1,10 +1,9 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using Matt.ResultObject;
 using Matt.SharedKernel;
 using Matt.SharedKernel.Application.Authorizations;
-using Matt.SharedKernel.Domain.Interfaces;
+using Matt.SharedKernel.Domain;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using WePrepClass.Application.Interfaces;

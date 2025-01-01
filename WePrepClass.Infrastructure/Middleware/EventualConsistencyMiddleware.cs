@@ -2,6 +2,7 @@ using Matt.SharedKernel.Domain.EventualConsistency;
 using Matt.SharedKernel.Domain.Interfaces;
 using MediatR;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
 using WePrepClass.Infrastructure.Persistence.EntityFrameworkCore;
 
 namespace WePrepClass.Infrastructure.Middleware;
@@ -14,7 +15,7 @@ public class EventualConsistencyMiddleware(RequestDelegate next)
         HttpContext context,
         IPublisher publisher,
         AppDbContext dbContext,
-        IAppLogger<EventualConsistencyMiddleware> logger
+        ILogger<EventualConsistencyMiddleware> logger
     )
     {
         var transaction = await dbContext.Database.BeginTransactionAsync();

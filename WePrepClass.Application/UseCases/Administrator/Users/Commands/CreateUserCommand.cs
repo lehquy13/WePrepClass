@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
-using Matt.ResultObject;
 using Matt.SharedKernel.Application.Mediators.Commands;
 using Matt.SharedKernel.Domain.Interfaces;
+using Matt.SharedKernel.Results;
 using WePrepClass.Application.UseCases.Accounts;
 using WePrepClass.Domain.Commons.Enums;
 using WePrepClass.Domain.WePrepClassAggregates.Users;
@@ -72,9 +72,8 @@ public class CreateUserCommandValidator : AbstractValidator<CreateUserCommand>
 public class CreateUserCommandHandler(
     IIdentityService identityService,
     IUserRepository userRepository,
-    IUnitOfWork unitOfWork,
-    IAppLogger<CreateUserCommandHandler> logger
-) : CommandHandlerBase<CreateUserCommand>(unitOfWork, logger)
+    IUnitOfWork unitOfWork
+) : CommandHandlerBase<CreateUserCommand>(unitOfWork)
 {
     public override async Task<Result> Handle(CreateUserCommand command, CancellationToken cancellationToken)
     {

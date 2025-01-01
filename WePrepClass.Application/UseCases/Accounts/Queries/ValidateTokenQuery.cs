@@ -1,7 +1,5 @@
-﻿using MapsterMapper;
-using Matt.ResultObject;
-using Matt.SharedKernel.Application.Mediators.Queries;
-using Matt.SharedKernel.Domain.Interfaces;
+﻿using Matt.SharedKernel.Application.Mediators.Queries;
+using Matt.SharedKernel.Results;
 using WePrepClass.Application.Interfaces;
 
 namespace WePrepClass.Application.UseCases.Accounts.Queries;
@@ -9,13 +7,13 @@ namespace WePrepClass.Application.UseCases.Accounts.Queries;
 public record ValidateTokenQuery(string ValidateToken) : IQueryRequest;
 
 public class ValidateTokenQueryHandler(
-    IAppLogger<ValidateTokenQueryHandler> logger,
-    IMapper mapper,
     IJwtTokenGenerator jwtTokenGenerator
-) : QueryHandlerBase<ValidateTokenQuery>(logger, mapper)
+) : QueryHandlerBase<ValidateTokenQuery>
 {
-    public override Task<Result> Handle(ValidateTokenQuery request, CancellationToken cancellationToken) =>
-        Task.FromResult(jwtTokenGenerator.ValidateToken(request.ValidateToken).Any()
+    public override Task<Result> Handle(ValidateTokenQuery request, CancellationToken cancellationToken)
+    {
+        return Task.FromResult(jwtTokenGenerator.ValidateToken(request.ValidateToken).Any()
             ? Result.Success()
             : Result.Fail("Token is invalid."));
+    }
 }

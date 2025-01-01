@@ -1,19 +1,19 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>net8.0</TargetFramework>
+        <TargetFramework>net9.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="FluentAssertions" Version="7.0.0-alpha.4" />
-      <PackageReference Include="MockQueryable.Moq" Version="7.0.1" />
-      <PackageReference Include="Moq.EntityFrameworkCore" Version="7.0.1" />
+        <PackageReference Include="FluentAssertions" Version="8.0.0-alpha.1"/>
+        <PackageReference Include="MockQueryable.Moq" Version="7.0.4-beta"/>
+        <PackageReference Include="Moq.EntityFrameworkCore" Version="8.0.1.2"/>
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\WePrepClass.Api\WePrepClass.Api.csproj" />
+        <ProjectReference Include="..\WePrepClass.Api\WePrepClass.Api.csproj"/>
     </ItemGroup>
 
 </Project>

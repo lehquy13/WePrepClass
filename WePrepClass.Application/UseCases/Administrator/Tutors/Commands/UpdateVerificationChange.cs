@@ -1,7 +1,6 @@
-﻿using Matt.ResultObject;
-using Matt.SharedKernel.Application.Mediators;
-using Matt.SharedKernel.Application.Mediators.Commands;
+﻿using Matt.SharedKernel.Application.Mediators.Commands;
 using Matt.SharedKernel.Domain.Interfaces;
+using Matt.SharedKernel.Results;
 using WePrepClass.Domain;
 using WePrepClass.Domain.WePrepClassAggregates.Tutors;
 using WePrepClass.Domain.WePrepClassAggregates.Tutors.ValueObjects;
@@ -12,9 +11,8 @@ public record UpdateVerificationChangeCommand(Guid TutorId, bool IsApproved) : I
 
 public class UpdateChangeVerificationCommandHandler(
     ITutorRepository tutorRepository,
-    IUnitOfWork unitOfWork,
-    IAppLogger<RequestHandlerBase> logger
-) : CommandHandlerBase<UpdateVerificationChangeCommand>(unitOfWork, logger)
+    IUnitOfWork unitOfWork
+) : CommandHandlerBase<UpdateVerificationChangeCommand>(unitOfWork)
 {
     public override async Task<Result> Handle(UpdateVerificationChangeCommand command,
         CancellationToken cancellationToken)

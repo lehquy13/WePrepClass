@@ -2,11 +2,11 @@
 
 using FluentValidation;
 using MapsterMapper;
-using Matt.ResultObject;
 using Matt.SharedKernel.Application.Contracts.Interfaces;
 using Matt.SharedKernel.Application.Contracts.Interfaces.Infrastructures;
 using Matt.SharedKernel.Application.Mediators.Commands;
 using Matt.SharedKernel.Domain.Interfaces;
+using Matt.SharedKernel.Results;
 using WePrepClass.Contracts.Users;
 using WePrepClass.Domain.WePrepClassAggregates.Users;
 using WePrepClass.Domain.WePrepClassAggregates.Users.ValueObjects;
@@ -29,9 +29,8 @@ public class UpdateUserProfileCommandHandler(
     IUserRepository userRepository,
     ICurrentUserService currentUserService,
     IUnitOfWork unitOfWork,
-    IMapper mapper,
-    IAppLogger<UpdateUserProfileCommandHandler> logger
-) : CommandHandlerBase<UpdateBasicProfileCommand>(unitOfWork, logger)
+    IMapper mapper
+) : CommandHandlerBase<UpdateBasicProfileCommand>(unitOfWork)
 {
     public override async Task<Result> Handle(UpdateBasicProfileCommand command,
         CancellationToken cancellationToken)

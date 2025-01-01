@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
-using Matt.ResultObject;
 using Matt.SharedKernel.Application.Mediators.Commands;
 using Matt.SharedKernel.Domain.Interfaces;
+using Matt.SharedKernel.Results;
 using WePrepClass.Domain.Commons.Enums;
 using WePrepClass.Domain.WePrepClassAggregates.Users;
 using WePrepClass.Domain.WePrepClassAggregates.Users.ValueObjects;
@@ -85,18 +85,14 @@ public class RegisterCommandValidator : AbstractValidator<RegisterCommand>
 public class RegisterCommandHandler(
     IUnitOfWork unitOfWork,
     IIdentityService identityService,
-    IUserRepository userRepository,
-    IAppLogger<RegisterCommandHandler> logger
-) : CommandHandlerBase<RegisterCommand>(unitOfWork, logger)
+    IUserRepository userRepository
+) : CommandHandlerBase<RegisterCommand>(unitOfWork)
 {
     public override async Task<Result> Handle(RegisterCommand command, CancellationToken cancellationToken)
     {
         var address = Address.Create(command.City, command.Country, command.DetailAddress);
 
-        if (address.IsFailed)
-        {
-            return Result.Fail(address.Error);
-        }
+        if (address.IsFailed) return Result.Fail(address.Error);
 
         var result = await identityService.CreateAsync(
             command.Username,

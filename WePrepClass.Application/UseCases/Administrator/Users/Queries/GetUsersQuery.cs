@@ -1,9 +1,7 @@
-﻿using MapsterMapper;
-using Matt.Paginated;
-using Matt.ResultObject;
-using Matt.SharedKernel.Application.Contracts.Interfaces;
+﻿using Matt.SharedKernel.Application.Contracts.Interfaces;
 using Matt.SharedKernel.Application.Mediators.Queries;
-using Matt.SharedKernel.Domain.Interfaces;
+using Matt.SharedKernel.Paginations;
+using Matt.SharedKernel.Results;
 using Microsoft.EntityFrameworkCore;
 using WePrepClass.Application.Interfaces;
 using WePrepClass.Contracts.Users;
@@ -14,10 +12,8 @@ public record GetUsersQuery(int PageIndex, int PageSize = 10)
     : IQueryRequest<PaginatedList<UserDto>>, IAuthorizationRequired;
 
 public class GetUsersQueryHandler(
-    IReadDbContext userRepository,
-    IAppLogger<GetUsersQueryHandler> logger,
-    IMapper mapper
-) : QueryHandlerBase<GetUsersQuery, PaginatedList<UserDto>>(logger, mapper)
+    IReadDbContext userRepository
+) : QueryHandlerBase<GetUsersQuery, PaginatedList<UserDto>>
 {
     public override async Task<Result<PaginatedList<UserDto>>> Handle(
         GetUsersQuery getUsersQuery,

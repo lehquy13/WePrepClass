@@ -1,9 +1,10 @@
 ﻿using FluentValidation;
-using Matt.ResultObject;
 using Matt.SharedKernel.Application.Contracts.Interfaces;
 using Matt.SharedKernel.Application.Contracts.Interfaces.Infrastructures;
 using Matt.SharedKernel.Application.Mediators.Commands;
 using Matt.SharedKernel.Domain.Interfaces;
+using Matt.SharedKernel.Results;
+using Microsoft.Extensions.Logging;
 using WePrepClass.Domain.WePrepClassAggregates.Users;
 using WePrepClass.Domain.WePrepClassAggregates.Users.ValueObjects;
 
@@ -42,8 +43,8 @@ public class ChangePasswordCommandHandler(
     IIdentityService identityService,
     ICurrentUserService currentUserService,
     IUnitOfWork unitOfWork,
-    IAppLogger<ChangePasswordCommandHandler> logger
-) : CommandHandlerBase<ChangePasswordCommand>(unitOfWork, logger)
+    ILogger<ChangePasswordCommandHandler> logger
+) : CommandHandlerBase<ChangePasswordCommand>(unitOfWork)
 {
     public override async Task<Result> Handle(ChangePasswordCommand command, CancellationToken cancellationToken)
     {
@@ -55,7 +56,7 @@ public class ChangePasswordCommandHandler(
 
         if (result.IsSuccess && await UnitOfWork.SaveChangesAsync(cancellationToken) > 0) return Result.Success();
 
-        Logger.LogWarning("Change password fail", result.Error.ToString());
+        logger.LogWarning("Change password fail: {Message}", result.Error.ToString());
         return Result.Fail(AuthenticationErrorConstants.ChangePasswordFail);
     }
 }

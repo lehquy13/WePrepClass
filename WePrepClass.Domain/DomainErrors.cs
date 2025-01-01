@@ -1,4 +1,4 @@
-﻿using Matt.ResultObject;
+﻿using Matt.SharedKernel.Results;
 
 namespace WePrepClass.Domain;
 

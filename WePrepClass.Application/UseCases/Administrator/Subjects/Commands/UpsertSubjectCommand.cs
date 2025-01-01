@@ -1,7 +1,8 @@
 ﻿using FluentValidation;
-using Matt.ResultObject;
+
 using Matt.SharedKernel.Application.Mediators.Commands;
 using Matt.SharedKernel.Domain.Interfaces;
+using Matt.SharedKernel.Results;
 using WePrepClass.Contracts.Subjects;
 using WePrepClass.Domain.WePrepClassAggregates.Subjects;
 using WePrepClass.Domain.WePrepClassAggregates.Subjects.ValueObjects;
@@ -21,9 +22,8 @@ public class UpsertSubjectCommandValidator : AbstractValidator<UpsertSubjectComm
 
 public class UpsertSubjectCommandHandler(
     ISubjectRepository subjectRepository,
-    IUnitOfWork unitOfWork,
-    IAppLogger<UpsertSubjectCommandHandler> logger
-) : CommandHandlerBase<UpsertSubjectCommand>(unitOfWork, logger)
+    IUnitOfWork unitOfWork
+) : CommandHandlerBase<UpsertSubjectCommand>(unitOfWork)
 {
     public override async Task<Result> Handle(UpsertSubjectCommand request, CancellationToken cancellationToken)
     {

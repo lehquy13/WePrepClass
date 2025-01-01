@@ -1,5 +1,4 @@
 ﻿using Matt.SharedKernel;
-using Matt.SharedKernel.Domain.Interfaces;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 
@@ -19,7 +18,7 @@ public sealed class NotFoundExceptionHandler(IServiceProvider serviceProvider) :
 
         using (var scope = serviceProvider.CreateScope())
         {
-            var logger = scope.ServiceProvider.GetRequiredService<IAppLogger<NotFoundExceptionHandler>>();
+            var logger = scope.ServiceProvider.GetRequiredService<ILogger<NotFoundExceptionHandler>>();
 
             logger.LogError("Exception occurred: {Message}", notFoundException.Message);
         }

@@ -1,4 +1,6 @@
-using Matt.Paginated;
+// ReSharper disable UnassignedGetOnlyAutoProperty
+
+using Matt.SharedKernel.Paginations;
 
 namespace WePrepClass.Contracts.Tutors;
 

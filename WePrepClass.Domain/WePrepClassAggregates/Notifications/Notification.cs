@@ -1,5 +1,4 @@
-﻿using Matt.SharedKernel.Domain.Primitives.Abstractions;
-using Matt.SharedKernel.Domain.Primitives.Auditing;
+﻿using Matt.SharedKernel.Domain.Primitives.Auditing;
 using WePrepClass.Domain.Commons.Enums;
 
 namespace WePrepClass.Domain.WePrepClassAggregates.Notifications;

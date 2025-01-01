@@ -1,9 +1,7 @@
-﻿using MapsterMapper;
-using Matt.Paginated;
-using Matt.ResultObject;
-using Matt.SharedKernel.Application.Contracts.Interfaces.Infrastructures;
+﻿using Matt.SharedKernel.Application.Contracts.Interfaces.Infrastructures;
 using Matt.SharedKernel.Application.Mediators.Queries;
-using Matt.SharedKernel.Domain.Interfaces;
+using Matt.SharedKernel.Paginations;
+using Matt.SharedKernel.Results;
 using Microsoft.EntityFrameworkCore;
 using WePrepClass.Application.Interfaces;
 using WePrepClass.Contracts.Tutors;
@@ -22,30 +20,30 @@ public record GetTutorsQuery(
 
 public class GetTutorsQueryHandler(
     IReadDbContext dbContext,
-    ICurrentUserService currentUserService,
-    IAppLogger<GetTutorsQueryHandler> logger,
-    IMapper mapper
-) : QueryHandlerBase<GetTutorsQuery, PaginatedList<TutorListDto>>(logger, mapper)
+    ICurrentUserService currentUserService
+) : QueryHandlerBase<GetTutorsQuery, PaginatedList<TutorListDto>>
 {
     public override async Task<Result<PaginatedList<TutorListDto>>> Handle(
         GetTutorsQuery request,
         CancellationToken cancellationToken
     )
     {
-        IQueryable<(Tutor Tutor, IEnumerable<Subject> Majors, User User, IEnumerable<TeachingAssignment> Courses)> tutors =
-            from tutor in dbContext.Tutors.Where(x => x.TutorStatus == TutorStatus.Active)
-            join major in dbContext.Majors on tutor.Id equals major.TutorId
-            join subject in dbContext.Subjects on major.SubjectId equals subject.Id into majors
-            join user in dbContext.Users on tutor.UserId equals user.Id
-            join course in dbContext.TeachingAssignments.Where(x =>
-                    x.TeachingAssignmentStatus == TeachingAssignmentStatus.Assigned) on tutor.Id equals course.TutorId
-                into teachingAssignments
-            select new ValueTuple<Tutor, IEnumerable<Subject>, User, IEnumerable<TeachingAssignment>>(
-                tutor,
-                majors,
-                user,
-                teachingAssignments
-            );
+        IQueryable<(Tutor Tutor, IEnumerable<Subject> Majors, User User, IEnumerable<TeachingAssignment> Courses)>
+            tutors =
+                from tutor in dbContext.Tutors.Where(x => x.TutorStatus == TutorStatus.Active)
+                join major in dbContext.Majors on tutor.Id equals major.TutorId
+                join subject in dbContext.Subjects on major.SubjectId equals subject.Id into majors
+                join user in dbContext.Users on tutor.UserId equals user.Id
+                join course in dbContext.TeachingAssignments.Where(x =>
+                        x.TeachingAssignmentStatus == TeachingAssignmentStatus.Assigned) on tutor.Id equals course
+                        .TutorId
+                    into teachingAssignments
+                select new ValueTuple<Tutor, IEnumerable<Subject>, User, IEnumerable<TeachingAssignment>>(
+                    tutor,
+                    majors,
+                    user,
+                    teachingAssignments
+                );
 
         tutors = ApplySearching(request, tutors);
 
@@ -85,7 +83,8 @@ public class GetTutorsQueryHandler(
 
     private IQueryable<(Tutor Tutor, IEnumerable<Subject> Majors, User User, IEnumerable<TeachingAssignment> Courses)>
         ApplyUserOrientedSearching(
-            IQueryable<(Tutor Tutor, IEnumerable<Subject> Majors, User User, IEnumerable<TeachingAssignment> Courses)> tutors)
+            IQueryable<(Tutor Tutor, IEnumerable<Subject> Majors, User User, IEnumerable<TeachingAssignment> Courses)>
+                tutors)
     {
         if (currentUserService.IsAuthenticated)
         {
@@ -110,7 +109,8 @@ public class GetTutorsQueryHandler(
 
     private static IQueryable<(Tutor, IEnumerable<Subject>, User, IEnumerable<TeachingAssignment>)> ApplySearching(
         GetTutorsQuery request,
-        IQueryable<(Tutor Tutor, IEnumerable<Subject> Majors, User User, IEnumerable<TeachingAssignment> Courses)> tutors)
+        IQueryable<(Tutor Tutor, IEnumerable<Subject> Majors, User User, IEnumerable<TeachingAssignment> Courses)>
+            tutors)
     {
         if (request.TutorParams.Academic?.ToEnum<AcademicLevelOption>() is { } academicLevel &&
             academicLevel != AcademicLevelOption.Optional)

@@ -1,7 +1,5 @@
-﻿using MapsterMapper;
-using Matt.ResultObject;
-using Matt.SharedKernel.Application.Mediators.Queries;
-using Matt.SharedKernel.Domain.Interfaces;
+﻿using Matt.SharedKernel.Application.Mediators.Queries;
+using Matt.SharedKernel.Results;
 using Microsoft.EntityFrameworkCore;
 using WePrepClass.Application.Interfaces;
 using WePrepClass.Contracts.Tutors;
@@ -13,10 +11,8 @@ namespace WePrepClass.Application.UseCases.Wpc.Tutors.Queries;
 public record GetTutorQuery(Guid TutorId) : IQueryRequest<TutorDto>;
 
 public class GetTutorQueryHandler(
-    IReadDbContext dbContext,
-    IAppLogger<GetTutorQueryHandler> logger,
-    IMapper mapper
-) : QueryHandlerBase<GetTutorQuery, TutorDto>(logger, mapper)
+    IReadDbContext dbContext
+) : QueryHandlerBase<GetTutorQuery, TutorDto>
 {
     public override async Task<Result<TutorDto>> Handle(GetTutorQuery request, CancellationToken cancellationToken)
     {
@@ -39,7 +35,7 @@ public class GetTutorQueryHandler(
                 TutorMajors = majors.Select(g => g.Name).ToList()
             };
 
-        var tutorDto = await queryable.FirstOrDefaultAsync(cancellationToken: cancellationToken);
+        var tutorDto = await queryable.FirstOrDefaultAsync(cancellationToken);
 
         return tutorDto ?? Result<TutorDto>.Fail(DomainErrors.Tutors.NotFound);
     }

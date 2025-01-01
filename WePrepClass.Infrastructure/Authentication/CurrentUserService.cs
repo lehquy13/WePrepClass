@@ -1,8 +1,8 @@
 ﻿using System.Security.Claims;
-using Matt.ResultObject;
 using Matt.SharedKernel.Application.Contracts.Interfaces.Infrastructures;
-using Matt.SharedKernel.Domain.Interfaces;
+using Matt.SharedKernel.Results;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
 using WePrepClass.Application.Interfaces;
 
 namespace WePrepClass.Infrastructure.Authentication;
@@ -35,7 +35,7 @@ internal class CurrentUserService : ICurrentUserService
     public CurrentUserService(
         IJwtTokenGenerator jwtTokenGenerator,
         IHttpContextAccessor httpContextAccessor,
-        IAppLogger<CurrentUserService> logger)
+        ILogger<CurrentUserService> logger)
     {
         if (httpContextAccessor.HttpContext is null)
         {

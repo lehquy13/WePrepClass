@@ -1,7 +1,5 @@
-﻿using MapsterMapper;
-using Matt.ResultObject;
-using Matt.SharedKernel.Application.Mediators.Queries;
-using Matt.SharedKernel.Domain.Interfaces;
+﻿using Matt.SharedKernel.Application.Mediators.Queries;
+using Matt.SharedKernel.Results;
 using Microsoft.EntityFrameworkCore;
 using WePrepClass.Application.Interfaces;
 using WePrepClass.Contracts.Courses;
@@ -16,10 +14,8 @@ public record GetRelatedCoursesQuery(
 ) : IQueryRequest<IEnumerable<CourseListDto>>;
 
 public class GetRelatedCoursesQueryHandler(
-    IReadDbContext readDbContext,
-    IAppLogger<GetRelatedCoursesQueryHandler> logger,
-    IMapper mapper
-) : QueryHandlerBase<GetRelatedCoursesQuery, IEnumerable<CourseListDto>>(logger, mapper)
+    IReadDbContext readDbContext
+) : QueryHandlerBase<GetRelatedCoursesQuery, IEnumerable<CourseListDto>>
 {
     public override async Task<Result<IEnumerable<CourseListDto>>> Handle(GetRelatedCoursesQuery request,
         CancellationToken cancellationToken)

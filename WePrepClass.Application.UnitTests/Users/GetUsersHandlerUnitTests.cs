@@ -1,6 +1,4 @@
 ﻿using FluentAssertions;
-using MapsterMapper;
-using Matt.SharedKernel.Domain.Interfaces;
 using Moq;
 using Moq.EntityFrameworkCore;
 using WePrepClass.Application.Interfaces;
@@ -13,8 +11,6 @@ namespace WePrepClass.Application.UnitTests.Users;
 public class GetUsersHandlerUnitTests
 {
     private readonly Mock<IReadDbContext> _readDbContextMock = new();
-    private readonly Mock<IAppLogger<GetUsersQueryHandler>> _loggerMock = new();
-    private readonly IMapper _mapperMock = MapsterProfile.Get;
 
     private const int PageIndex = 1;
 
@@ -22,11 +18,7 @@ public class GetUsersHandlerUnitTests
 
     public GetUsersHandlerUnitTests()
     {
-        _sut = new GetUsersQueryHandler(
-            _readDbContextMock.Object,
-            _loggerMock.Object,
-            _mapperMock
-        );
+        _sut = new GetUsersQueryHandler(_readDbContextMock.Object);
     }
 
     [Fact]

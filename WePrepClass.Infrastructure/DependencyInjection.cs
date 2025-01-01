@@ -1,7 +1,7 @@
 ﻿using System.Text;
 using Matt.SharedKernel.Application.Contracts.Interfaces.Infrastructures;
-using Matt.SharedKernel.Domain.Interfaces;
 using Matt.SharedKernel.Domain.Interfaces.Emails;
+using Matt.SharedKernel.Domain.Interfaces.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
@@ -15,7 +15,6 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.Net.Http.Headers;
 using WePrepClass.Application.Interfaces;
 using WePrepClass.Domain.WePrepClassAggregates.Users;
-using WePrepClass.Infrastructure.AppLogger;
 using WePrepClass.Infrastructure.Authentication;
 using WePrepClass.Infrastructure.Cloudinary;
 using WePrepClass.Infrastructure.EmailServices;
@@ -33,8 +32,6 @@ public static class DependencyInjection
         this IServiceCollection services,
         IConfiguration configuration)
     {
-        services.AddScoped(typeof(IAppLogger<>), typeof(AppLogger<>));
-
         services.AddScoped<ICurrentUserService, CurrentUserService>();
         services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
@@ -61,7 +58,7 @@ public static class DependencyInjection
         services.AddSingleton(Options.Create(cloudinary));
         services.AddScoped<IBlobStorageServices, BlobStorageServices>();
 
-        services.AddScoped<IEmailSender, EmailSender>();
+        services.AddScoped<IEmailService, EmailService>();
 
         //configure BackgroundService
         //services.AddHostedService<InfrastructureBackgroundService>();
@@ -81,6 +78,8 @@ public static class DependencyInjection
         );
 
         services.AddScoped<IReadDbContext, ReadDbContext>();
+        services.AddScoped(typeof(IReadOnlyRepository<,>), typeof(ReadOnlyRepositoryImpl<,>));
+        services.AddScoped(typeof(IRepository<,>), typeof(RepositoryImpl<,>));
 
         services
             .AddIdentity<IdentityUser, IdentityRole>(options =>

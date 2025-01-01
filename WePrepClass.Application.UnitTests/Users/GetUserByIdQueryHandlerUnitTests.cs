@@ -1,6 +1,4 @@
 ﻿using FluentAssertions;
-using MapsterMapper;
-using Matt.SharedKernel.Domain.Interfaces;
 using Moq;
 using WePrepClass.Application.UseCases.Administrator.Users.Queries;
 using WePrepClass.Domain.WePrepClassAggregates.Users;
@@ -11,17 +9,12 @@ namespace WePrepClass.Application.UnitTests.Users;
 public class GetUserByIdQueryHandlerUnitTests
 {
     private readonly Mock<IUserRepository> _userRepositoryMock = new();
-    private readonly Mock<IAppLogger<GetUserByIdQueryHandler>> _loggerMock = new();
-    private readonly IMapper _mapperMock = MapsterProfile.Get;
 
     private readonly GetUserByIdQueryHandler _sut;
 
     public GetUserByIdQueryHandlerUnitTests()
     {
-        _sut = new GetUserByIdQueryHandler(
-            _userRepositoryMock.Object,
-            _loggerMock.Object,
-            _mapperMock);
+        _sut = new GetUserByIdQueryHandler(_userRepositoryMock.Object);
     }
 
     [Fact]

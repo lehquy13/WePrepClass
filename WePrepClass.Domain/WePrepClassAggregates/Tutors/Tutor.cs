@@ -1,7 +1,7 @@
-using Matt.ResultObject;
 using Matt.SharedKernel;
 using Matt.SharedKernel.Domain.Interfaces;
 using Matt.SharedKernel.Domain.Primitives.Auditing;
+using Matt.SharedKernel.Results;
 using WePrepClass.Domain.Commons.Enums;
 using WePrepClass.Domain.WePrepClassAggregates.Subjects.ValueObjects;
 using WePrepClass.Domain.WePrepClassAggregates.Tutors.Entities;

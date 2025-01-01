@@ -1,6 +1,6 @@
-﻿using Matt.ResultObject;
-using Matt.SharedKernel.Application.Mediators.Commands;
+﻿using Matt.SharedKernel.Application.Mediators.Commands;
 using Matt.SharedKernel.Domain.Interfaces;
+using Matt.SharedKernel.Results;
 using WePrepClass.Domain.WePrepClassAggregates.Subjects;
 using WePrepClass.Domain.WePrepClassAggregates.Subjects.ValueObjects;
 
@@ -10,9 +10,8 @@ public record DeleteSubjectCommand(int SubjectId) : ICommandRequest;
 
 public class DeleteSubjectCommandHandler(
     ISubjectRepository subjectRepository,
-    IUnitOfWork unitOfWork,
-    IAppLogger<DeleteSubjectCommandHandler> logger
-) : CommandHandlerBase<DeleteSubjectCommand>(unitOfWork, logger)
+    IUnitOfWork unitOfWork
+) : CommandHandlerBase<DeleteSubjectCommand>(unitOfWork)
 {
     public override async Task<Result> Handle(DeleteSubjectCommand request, CancellationToken cancellationToken)
     {

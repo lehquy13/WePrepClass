@@ -1,7 +1,8 @@
-﻿using Matt.ResultObject;
+﻿
 using Matt.SharedKernel.Application.Contracts.Interfaces.Infrastructures;
 using Matt.SharedKernel.Application.Mediators.Commands;
 using Matt.SharedKernel.Domain.Interfaces;
+using Matt.SharedKernel.Results;
 using WePrepClass.Contracts.Courses;
 using WePrepClass.Domain.Commons.Enums;
 using WePrepClass.Domain.WePrepClassAggregates.Courses;
@@ -16,9 +17,8 @@ public record RequestNewCourseCommand(CourseCreateDto CourseToCreate) : ICommand
 public class RequestNewCourseCommandHandler(
     ICourseRepository courseRepository,
     ICurrentUserService currentUserService,
-    IUnitOfWork unitOfWork,
-    IAppLogger<RequestNewCourseCommandHandler> logger
-) : CommandHandlerBase<RequestNewCourseCommand>(unitOfWork, logger)
+    IUnitOfWork unitOfWork
+) : CommandHandlerBase<RequestNewCourseCommand>(unitOfWork)
 {
     public override async Task<Result> Handle(RequestNewCourseCommand command,
         CancellationToken cancellationToken)
@@ -33,10 +33,7 @@ public class RequestNewCourseCommandHandler(
             command.CourseToCreate.Address
         );
 
-        if (session.IsFailed || address.IsFailed)
-        {
-            return Result.Fail("Invalid session or address");
-        }
+        if (session.IsFailed || address.IsFailed) return Result.Fail("Invalid session or address");
 
         var course = Course.Create(
             command.CourseToCreate.Title,

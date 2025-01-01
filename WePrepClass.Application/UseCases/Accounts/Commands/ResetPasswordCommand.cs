@@ -1,7 +1,8 @@
 ﻿using FluentValidation;
-using Matt.ResultObject;
 using Matt.SharedKernel.Application.Mediators.Commands;
 using Matt.SharedKernel.Domain.Interfaces;
+using Matt.SharedKernel.Results;
+using Microsoft.Extensions.Logging;
 using WePrepClass.Domain.WePrepClassAggregates.Users;
 
 namespace WePrepClass.Application.UseCases.Accounts.Commands;
@@ -38,8 +39,8 @@ public class ResetPasswordCommandValidator : AbstractValidator<ResetPasswordComm
 public class ResetPasswordCommandHandler(
     IIdentityService identityService,
     IUnitOfWork unitOfWork,
-    IAppLogger<ResetPasswordCommandHandler> logger
-) : CommandHandlerBase<ResetPasswordCommand>(unitOfWork, logger)
+    ILogger<ResetPasswordCommandHandler> logger
+) : CommandHandlerBase<ResetPasswordCommand>(unitOfWork)
 {
     public override async Task<Result> Handle(ResetPasswordCommand command, CancellationToken cancellationToken)
     {
@@ -51,7 +52,7 @@ public class ResetPasswordCommandHandler(
 
         if (result.IsSuccess && await UnitOfWork.SaveChangesAsync(cancellationToken) > 0) return Result.Success();
 
-        logger.LogError("Reset password fail", result.Error.ToString());
+        logger.LogError("Reset password fail: {Message}", result.Error.ToString());
 
         return AuthenticationErrorConstants.ResetPasswordFail;
     }

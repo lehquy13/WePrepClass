@@ -1,9 +1,7 @@
-﻿using MapsterMapper;
-using Matt.Paginated;
-using Matt.ResultObject;
-using Matt.SharedKernel.Application.Contracts.Interfaces.Infrastructures;
+﻿using Matt.SharedKernel.Application.Contracts.Interfaces.Infrastructures;
 using Matt.SharedKernel.Application.Mediators.Queries;
-using Matt.SharedKernel.Domain.Interfaces;
+using Matt.SharedKernel.Paginations;
+using Matt.SharedKernel.Results;
 using Microsoft.EntityFrameworkCore;
 using WePrepClass.Application.Interfaces;
 using WePrepClass.Contracts.Courses;
@@ -17,10 +15,8 @@ public record GetCoursesQuery(GetCourseRequest CourseParams) : IQueryRequest<Pag
 
 public class GetCoursesQueryHandler(
     IReadDbContext dbContext,
-    ICurrentUserService currentUserService,
-    IAppLogger<GetCoursesQueryHandler> logger,
-    IMapper mapper
-) : QueryHandlerBase<GetCoursesQuery, PaginatedList<CourseListDto>>(logger, mapper)
+    ICurrentUserService currentUserService
+) : QueryHandlerBase<GetCoursesQuery, PaginatedList<CourseListDto>>
 {
     public override async Task<Result<PaginatedList<CourseListDto>>> Handle(GetCoursesQuery request,
         CancellationToken cancellationToken)
@@ -47,7 +43,7 @@ public class GetCoursesQueryHandler(
                 LearningMode = x.course.LearningModeRequirement.ToString(),
                 SubjectName = x.subject.Name
             })
-            .ToListAsync(cancellationToken: cancellationToken);
+            .ToListAsync(cancellationToken);
 
         return PaginatedList<CourseListDto>.Create(
             queryResult, request.CourseParams.PageIndex, request.CourseParams.PageSize, count);
@@ -57,10 +53,8 @@ public class GetCoursesQueryHandler(
         IQueryable<(Course course, Subject subject)> courseQuery)
     {
         if (!string.IsNullOrWhiteSpace(request.CourseParams.SubjectName))
-        {
             courseQuery = courseQuery.Where(x =>
                 x.subject.Name.Contains(request.CourseParams.SubjectName, StringComparison.CurrentCultureIgnoreCase));
-        }
 
         return courseQuery;
     }

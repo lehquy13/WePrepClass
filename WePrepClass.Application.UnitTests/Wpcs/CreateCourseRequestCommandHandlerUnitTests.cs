@@ -33,8 +33,7 @@ public class CreateCourseRequestCommandHandlerUnitTests
             _courseRepositoryMock.Object,
             _tutorRepositoryMock.Object,
             _currentUserServiceMock.Object,
-            _unitOfWorkMock.Object,
-            Mock.Of<IAppLogger<CreateCourseRequestCommandHandler>>()
+            _unitOfWorkMock.Object
         );
     }
 

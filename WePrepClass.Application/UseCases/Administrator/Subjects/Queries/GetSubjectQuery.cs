@@ -1,8 +1,7 @@
 ﻿using FluentValidation;
 using MapsterMapper;
-using Matt.ResultObject;
 using Matt.SharedKernel.Application.Mediators.Queries;
-using Matt.SharedKernel.Domain.Interfaces;
+using Matt.SharedKernel.Results;
 using WePrepClass.Contracts.Subjects;
 using WePrepClass.Domain.WePrepClassAggregates.Subjects;
 using WePrepClass.Domain.WePrepClassAggregates.Subjects.ValueObjects;
@@ -21,9 +20,8 @@ public class GetSubjectQueryValidator : AbstractValidator<GetSubjectQuery>
 
 public class GetSubjectQueryHandler(
     ISubjectRepository subjectRepository,
-    IAppLogger<GetSubjectQueryHandler> logger,
     IMapper mapper
-) : QueryHandlerBase<GetSubjectQuery, SubjectDto>(logger, mapper)
+) : QueryHandlerBase<GetSubjectQuery, SubjectDto>
 {
     public override async Task<Result<SubjectDto>> Handle(GetSubjectQuery getAllUserQuery,
         CancellationToken cancellationToken)
@@ -32,7 +30,7 @@ public class GetSubjectQueryHandler(
 
         if (subjects is null) return Result.Fail(AppServiceError.Subject.NotFound);
 
-        var subjectDtos = Mapper.Map<SubjectDto>(subjects);
+        var subjectDtos = mapper.Map<SubjectDto>(subjects);
 
         return subjectDtos;
     }

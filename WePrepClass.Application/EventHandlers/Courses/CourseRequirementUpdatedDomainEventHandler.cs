@@ -11,7 +11,7 @@ namespace WePrepClass.Application.EventHandlers.Courses;
 public class CourseRequirementUpdatedDomainEventHandler(
     ILogger<CourseRequirementUpdatedDomainEventHandler> logger,
     IReadDbContext dbContext,
-    IEmailSender emailSender
+    IEmailService emailSender
 ) : INotificationHandler<CourseRequirementUpdatedDomainEvent>
 {
     public async Task Handle(CourseRequirementUpdatedDomainEvent notification, CancellationToken cancellationToken)

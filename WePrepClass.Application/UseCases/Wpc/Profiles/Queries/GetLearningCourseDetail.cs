@@ -1,10 +1,7 @@
 ﻿using FluentValidation;
-using MapsterMapper;
-using Matt.ResultObject;
 using Matt.SharedKernel.Application.Contracts.Interfaces;
-using Matt.SharedKernel.Application.Mediators;
 using Matt.SharedKernel.Application.Mediators.Queries;
-using Matt.SharedKernel.Domain.Interfaces;
+using Matt.SharedKernel.Results;
 using Microsoft.EntityFrameworkCore;
 using WePrepClass.Application.Interfaces;
 using WePrepClass.Contracts.Users;
@@ -25,10 +22,8 @@ public class GetLearningCourseDetailQueryValidator : AbstractValidator<GetLearni
 }
 
 public class GetLearningCourseDetailQueryHandler(
-    IReadDbContext dbContext,
-    IAppLogger<RequestHandlerBase> logger,
-    IMapper mapper
-) : QueryHandlerBase<GetLearningCourseDetailQuery, AttendedCourseDetailDto>(logger, mapper)
+    IReadDbContext dbContext
+) : QueryHandlerBase<GetLearningCourseDetailQuery, AttendedCourseDetailDto>
 {
     public override async Task<Result<AttendedCourseDetailDto>> Handle(GetLearningCourseDetailQuery request,
         CancellationToken cancellationToken)
@@ -62,12 +57,9 @@ public class GetLearningCourseDetailQueryHandler(
             };
 
         var courseQueryResult =
-            await courseRequestQueryable.FirstOrDefaultAsync(cancellationToken: cancellationToken);
+            await courseRequestQueryable.FirstOrDefaultAsync(cancellationToken);
 
-        if (courseQueryResult is null)
-        {
-            return DomainErrors.Courses.NotFound;
-        }
+        if (courseQueryResult is null) return DomainErrors.Courses.NotFound;
 
         return courseQueryResult;
     }

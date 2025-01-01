@@ -10,7 +10,6 @@ namespace WePrepClass.Application.UnitTests.Subjects;
 public class DeleteSubjectUnitTests
 {
     private readonly Mock<IUnitOfWork> _unitOfWorkMock = new();
-    private readonly Mock<IAppLogger<DeleteSubjectCommandHandler>> _deleteSubjectLoggerMock = new();
     private readonly Mock<ISubjectRepository> _subjectRepositoryMock = new();
 
     private readonly DeleteSubjectCommandHandler _deleteSubjectCommandHandler;
@@ -19,8 +18,7 @@ public class DeleteSubjectUnitTests
     {
         _deleteSubjectCommandHandler = new DeleteSubjectCommandHandler(
             _subjectRepositoryMock.Object,
-            _unitOfWorkMock.Object,
-            _deleteSubjectLoggerMock.Object);
+            _unitOfWorkMock.Object);
     }
 
     [Fact]

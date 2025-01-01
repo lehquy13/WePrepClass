@@ -1,8 +1,6 @@
 ﻿using FluentValidation;
-using MapsterMapper;
-using Matt.ResultObject;
 using Matt.SharedKernel.Application.Mediators.Queries;
-using Matt.SharedKernel.Domain.Interfaces;
+using Matt.SharedKernel.Results;
 using WePrepClass.Application.Interfaces;
 using WePrepClass.Contracts.Authentications;
 using WePrepClass.Domain.WePrepClassAggregates.Users;
@@ -33,12 +31,10 @@ public class LoginQueryValidator : AbstractValidator<LoginQuery>
 }
 
 public class LoginQueryHandler(
-    IAppLogger<LoginQueryHandler> logger,
-    IMapper mapper,
     IIdentityService identityService,
     IUserRepository userRepository,
     IJwtTokenGenerator jwtTokenGenerator
-) : QueryHandlerBase<LoginQuery, AuthenticationResult>(logger, mapper)
+) : QueryHandlerBase<LoginQuery, AuthenticationResult>
 {
     public override async Task<Result<AuthenticationResult>> Handle(
         LoginQuery getAllUserQuery,
@@ -47,19 +43,13 @@ public class LoginQueryHandler(
         var identityDto = await identityService.SignInAsync(
             getAllUserQuery.Email, getAllUserQuery.Password);
 
-        if (identityDto is null)
-        {
-            return Result.Fail(AuthenticationErrorConstants.LoginFailError);
-        }
+        if (identityDto is null) return Result.Fail(AuthenticationErrorConstants.LoginFailError);
 
         var customer = await userRepository.GetByCustomerIdAsync(
             UserId.Create(identityDto.Id),
             cancellationToken);
 
-        if (customer is null)
-        {
-            return Result.Fail(AuthenticationErrorConstants.UserNotFound);
-        }
+        if (customer is null) return Result.Fail(AuthenticationErrorConstants.UserNotFound);
 
         var loginToken = jwtTokenGenerator.GenerateToken(identityDto);
 

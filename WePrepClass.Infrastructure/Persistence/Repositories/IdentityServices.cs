@@ -1,10 +1,10 @@
 ﻿using System.Text;
-using Matt.ResultObject;
 using Matt.SharedKernel.Application.Authorizations;
-using Matt.SharedKernel.Domain.Interfaces;
 using Matt.SharedKernel.Domain.Interfaces.Emails;
+using Matt.SharedKernel.Results;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.WebUtilities;
+using Microsoft.Extensions.Logging;
 using WePrepClass.Domain.Commons;
 using WePrepClass.Domain.Commons.Enums;
 using WePrepClass.Domain.DomainServices;
@@ -17,8 +17,8 @@ namespace WePrepClass.Infrastructure.Persistence.Repositories;
 public class IdentityService(
     SignInManager<IdentityUser> signInManager,
     UserManager<IdentityUser> userManager,
-    IEmailSender emailSender,
-    IAppLogger<IdentityService> logger
+    IEmailService emailSender,
+    ILogger<IdentityService> logger
 ) : DomainServiceBase, IIdentityService
 {
     public async Task<IdentityDto?> SignInAsync(
@@ -81,7 +81,7 @@ public class IdentityService(
             return Result.Fail(result.Errors.Select(x => x.Description).Aggregate((x, y) => x + " " + y));
         }
 
-        logger.LogInformation("User created a new account with password.");
+        logger.LogInformation("User created a new account with password");
 
         var userId = new Guid(await userManager.GetUserIdAsync(esIdentityUser));
         var code = await userManager.GenerateEmailConfirmationTokenAsync(esIdentityUser);
@@ -120,7 +120,7 @@ public class IdentityService(
                 role
             );
 
-        logger.LogError("Fail to add role to user with id {userId} {Message}", userId,
+        logger.LogError("Fail to add role to user with id {UserId} {Message}", userId,
             roleAddResult.Errors.Select(x => x.Description).Aggregate((x, y) => x + " " + y));
 
         return Result.Fail(DomainServiceErrors.FailAddRoleError);
@@ -160,7 +160,7 @@ public class IdentityService(
 
         if (verifyResult.Succeeded) return Result.Success();
 
-        logger.LogError("Fail to change password for user with id {userId} {Message}", userId,
+        logger.LogError("Fail to change password for user with id {UserId} {Message}", userId,
             verifyResult.Errors.Select(x => x.Description).Aggregate((x, y) => x + " " + y));
 
         return Result.Fail(DomainServiceErrors.InvalidPassword);

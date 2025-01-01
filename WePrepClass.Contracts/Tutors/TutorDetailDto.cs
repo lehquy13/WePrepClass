@@ -19,7 +19,7 @@ public class ChangeVerificationRequestDto
     public required List<string> ChangeVerificationRequestDetails { get; set; } = null!;
 }
 
-public class VerificationDto
+public class VerificationDto : BasicAuditedEntityDto<Guid>
 {
     public required string Image { get; init; } = "doc_contract.png";
 }

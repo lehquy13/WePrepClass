@@ -1,8 +1,7 @@
 ﻿using FluentValidation;
-using Matt.ResultObject;
-using Matt.SharedKernel.Application.Mediators;
 using Matt.SharedKernel.Application.Mediators.Commands;
 using Matt.SharedKernel.Domain.Interfaces;
+using Matt.SharedKernel.Results;
 using WePrepClass.Contracts.Tutors;
 using WePrepClass.Contracts.Users;
 using WePrepClass.Domain.Commons.Enums;
@@ -30,9 +29,8 @@ public class CreateTutorCommandHandler(
     ITutorRepository tutorRepository,
     IUserRepository userRepository,
     IUnitOfWork unitOfWork,
-    IAppLogger<RequestHandlerBase> logger,
     IIdentityService identityService
-) : CommandHandlerBase<CreateTutorCommand>(unitOfWork, logger)
+) : CommandHandlerBase<CreateTutorCommand>(unitOfWork)
 {
     public override async Task<Result> Handle(CreateTutorCommand command, CancellationToken cancellationToken)
     {

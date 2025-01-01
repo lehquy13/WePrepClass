@@ -1,7 +1,5 @@
-﻿using MapsterMapper;
-using Matt.ResultObject;
-using Matt.SharedKernel.Application.Mediators.Queries;
-using Matt.SharedKernel.Domain.Interfaces;
+﻿using Matt.SharedKernel.Application.Mediators.Queries;
+using Matt.SharedKernel.Results;
 using Microsoft.EntityFrameworkCore;
 using WePrepClass.Application.Interfaces;
 using WePrepClass.Contracts.Courses;
@@ -13,10 +11,8 @@ namespace WePrepClass.Application.UseCases.Wpc.Courses.Queries;
 public record GetCourseQuery(Guid CourseId) : IQueryRequest<CourseDto>;
 
 public class GetCourseDetailQueryHandler(
-    IReadDbContext dbContext,
-    IAppLogger<GetCourseDetailQueryHandler> logger,
-    IMapper mapper
-) : QueryHandlerBase<GetCourseQuery, CourseDto>(logger, mapper)
+    IReadDbContext dbContext
+) : QueryHandlerBase<GetCourseQuery, CourseDto>
 {
     public override async Task<Result<CourseDto>> Handle(GetCourseQuery request,
         CancellationToken cancellationToken)
@@ -41,9 +37,7 @@ public class GetCourseDetailQueryHandler(
         var courseFromDb = await queryable.FirstOrDefaultAsync(cancellationToken);
 
         if (courseFromDb is null)
-        {
             return Result.NotFound(DomainErrors.Courses.NotFound.Code, DomainErrors.Courses.NotFound.Description);
-        }
 
         return courseFromDb;
     }

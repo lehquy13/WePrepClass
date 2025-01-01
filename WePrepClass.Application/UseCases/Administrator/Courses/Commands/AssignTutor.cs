@@ -1,6 +1,6 @@
-﻿using Matt.ResultObject;
-using Matt.SharedKernel.Application.Mediators.Commands;
+﻿using Matt.SharedKernel.Application.Mediators.Commands;
 using Matt.SharedKernel.Domain.Interfaces;
+using Matt.SharedKernel.Results;
 using WePrepClass.Domain;
 using WePrepClass.Domain.WePrepClassAggregates.Courses;
 using WePrepClass.Domain.WePrepClassAggregates.Courses.ValueObjects;
@@ -14,9 +14,8 @@ public record AssignTutorCommand(Guid CourseId, Guid TutorId) : ICommandRequest;
 public class AssignTutorCommandHandler(
     ICourseRepository courseRepository,
     ITutorRepository tutorRepository,
-    IUnitOfWork unitOfWork,
-    IAppLogger<AssignTutorCommandHandler> logger
-) : CommandHandlerBase<AssignTutorCommand>(unitOfWork, logger)
+    IUnitOfWork unitOfWork
+) : CommandHandlerBase<AssignTutorCommand>(unitOfWork)
 {
     public override async Task<Result> Handle(AssignTutorCommand command, CancellationToken cancellationToken)
     {

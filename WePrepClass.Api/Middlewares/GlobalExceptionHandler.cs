@@ -1,5 +1,4 @@
-﻿using Matt.SharedKernel.Domain.Interfaces;
-using Microsoft.AspNetCore.Diagnostics;
+﻿using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WePrepClass.Api.Middlewares;
@@ -13,7 +12,7 @@ public sealed class GlobalExceptionHandler(IServiceProvider serviceProvider) : I
     {
         using (var scope = serviceProvider.CreateScope())
         {
-            var logger = scope.ServiceProvider.GetRequiredService<IAppLogger<GlobalExceptionHandler>>();
+            var logger = scope.ServiceProvider.GetRequiredService<ILogger<GlobalExceptionHandler>>();
 
             logger.LogError("Exception occurred: {Message}", exception.Message);
         }

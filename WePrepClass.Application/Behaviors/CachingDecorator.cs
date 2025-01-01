@@ -1,13 +1,13 @@
 using System.Text.Json;
 using LazyCache;
-using Matt.SharedKernel.Domain.Interfaces;
 using MediatR;
+using Microsoft.Extensions.Logging;
 
 namespace WePrepClass.Application.Behaviors;
 
 public class CachingBehavior<TRequest, TResponse>(
     IAppCache cache,
-    IAppLogger<CachingBehavior<TRequest, TResponse>> logger
+    ILogger<CachingBehavior<TRequest, TResponse>> logger
 ) : IPipelineBehavior<TRequest, TResponse> where TRequest : IRequest<TResponse>, new()
 {
     public Task<TResponse> Handle(TRequest request,
@@ -17,7 +17,7 @@ public class CachingBehavior<TRequest, TResponse>(
         var defaultRequestKey = GenerateCacheKey(new TRequest());
         var key = GenerateCacheKey(request);
 
-        logger.LogInformation($"Generated key: {key}");
+        logger.LogInformation("Generated key: {Key}", key);
 
         if (defaultRequestKey.Equals(key))
         {

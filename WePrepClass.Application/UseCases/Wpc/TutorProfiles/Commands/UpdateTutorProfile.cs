@@ -1,7 +1,8 @@
-﻿using Matt.ResultObject;
+﻿
 using Matt.SharedKernel.Application.Contracts.Interfaces.Infrastructures;
 using Matt.SharedKernel.Application.Mediators.Commands;
 using Matt.SharedKernel.Domain.Interfaces;
+using Matt.SharedKernel.Results;
 using Microsoft.EntityFrameworkCore;
 using WePrepClass.Application.Interfaces;
 using WePrepClass.Contracts.Tutors;
@@ -18,9 +19,8 @@ public class UpdateTutorInformationCommandHandler(
     IReadDbContext dbContext,
     ITutorRepository tutorRepository,
     IUnitOfWork unitOfWork,
-    ICurrentUserService currentUserService,
-    IAppLogger<UpdateTutorInformationCommandHandler> logger
-) : CommandHandlerBase<UpdateTutorInformationCommand>(unitOfWork, logger)
+    ICurrentUserService currentUserService
+) : CommandHandlerBase<UpdateTutorInformationCommand>(unitOfWork)
 {
     public override async Task<Result> Handle(UpdateTutorInformationCommand command,
         CancellationToken cancellationToken)

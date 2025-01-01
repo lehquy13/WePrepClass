@@ -1,6 +1,7 @@
-﻿using Matt.ResultObject;
+﻿using Matt.SharedKernel.Domain;
 using Matt.SharedKernel.Domain.Interfaces;
 using Matt.SharedKernel.Domain.Primitives.Auditing;
+using Matt.SharedKernel.Results;
 using WePrepClass.Domain.Commons.Enums;
 using WePrepClass.Domain.WePrepClassAggregates.Courses.Entities;
 using WePrepClass.Domain.WePrepClassAggregates.Courses.ValueObjects;
@@ -267,7 +268,7 @@ public record CourseRequirementUpdatedDomainEvent(Course Course) : IDomainEvent;
 
 public record CourseCreatedCourseDomainEvent(Course Course) : IDomainEvent;
 
-public record CourseWasRefundedDomainEvent(Course Course, TeachingAssignment approvedTeachingAssignment) : IDomainEvent;
+public record CourseWasRefundedDomainEvent(Course Course, TeachingAssignment ApprovedTeachingAssignment) : IDomainEvent;
 
 public record CourseConfirmedDomainEvent(Course Course) : IDomainEvent;
 

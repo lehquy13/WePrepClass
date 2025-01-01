@@ -1,4 +1,4 @@
-﻿namespace WePrepClass.Application.UseCases.Wpc.Profiles.Commands;
+﻿//namespace WePrepClass.Application.UseCases.Wpc.Profiles.Commands;
 
 //public record AddOrResetDiscoveryCommand(Guid UserId, List<Guid> DiscoveryIds) : ICommandRequest;
 //
@@ -6,10 +6,10 @@
 //     IUnitOfWork unitOfWork,
 //     ICurrentUserService currentUserService,
 //     IRepository<Discovery, DiscoveryId> discoveryRepository,
-//     IAppLogger<AddOrResetDiscoveryCommandHandler> logger,
+//     ILogger<AddOrResetDiscoveryCommandHandler> logger,
 //     IAsyncQueryableExecutor asyncQueryableExecutor,
 //     IRepository<DiscoveryUser, DiscoveryUserId> discoveryUserRepository)
-//     : CommandHandlerBase<AddOrResetDiscoveryCommand>(unitOfWork, logger)
+//     : CommandHandlerBase<AddOrResetDiscoveryCommand>(unitOfWork)
 // {
 //     public override async Task<Result> Handle(AddOrResetDiscoveryCommand request, CancellationToken cancellationToken)
 //     {

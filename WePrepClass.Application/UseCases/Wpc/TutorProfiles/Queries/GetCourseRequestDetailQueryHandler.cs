@@ -1,6 +1,6 @@
 ﻿// TODO: pending
 // using MapsterMapper;
-// using Matt.ResultObject;
+// 
 // using Matt.SharedKernel.Application.Contracts.Interfaces;
 // using Matt.SharedKernel.Application.Contracts.Interfaces.Infrastructures;
 // using Matt.SharedKernel.Application.Mediators.Queries;
@@ -17,9 +17,9 @@
 // public class GetCourseRequestDetailQueryHandler(
 //     IReadDbContext dbContext,
 //     ICurrentUserService currentUserService,
-//     IAppLogger<GetCourseRequestDetailQueryHandler> logger,
+//     ILogger<GetCourseRequestDetailQueryHandler> logger,
 //     IMapper mapper)
-//     : QueryHandlerBase<GetCourseRequestDetailQuery, CourseRequestForDetailDto>(logger, mapper)
+//     : QueryHandlerBase<GetCourseRequestDetailQuery, CourseRequestForDetailDto>
 // {
 //     public override async Task<Result<CourseRequestForDetailDto>> Handle(GetCourseRequestDetailQuery request,
 //         CancellationToken cancellationToken)
@@ -97,3 +97,4 @@
 //         return courseRequestDto;
 //     }
 // }
+

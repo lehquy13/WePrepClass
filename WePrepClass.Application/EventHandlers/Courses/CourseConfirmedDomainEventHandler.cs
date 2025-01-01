@@ -44,7 +44,7 @@ public class CourseConfirmedDomainEventHandler(
 public class MailToTutorWhenCourseConfirmedDomainEventHandler(
     ILogger<MailToTutorWhenCourseConfirmedDomainEventHandler> logger,
     IReadDbContext readDbContext,
-    IEmailSender emailSender
+    IEmailService emailSender
 ) : INotificationHandler<CourseConfirmedDomainEvent>
 {
     public async Task Handle(CourseConfirmedDomainEvent notification, CancellationToken cancellationToken)
@@ -74,7 +74,5 @@ public class MailToTutorWhenCourseConfirmedDomainEventHandler(
             "Course Confirmed",
             $"Course {notification.Course.Title} has been confirmed and ready for teaching"
         );
-
-        return;
     }
 }

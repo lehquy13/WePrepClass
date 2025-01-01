@@ -1,5 +1,4 @@
 ﻿using Matt.SharedKernel;
-using Matt.SharedKernel.Domain.Interfaces;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -20,7 +19,7 @@ public sealed class BadRequestExceptionHandler(IServiceProvider serviceProvider)
 
         using (var scope = serviceProvider.CreateScope())
         {
-            var logger = scope.ServiceProvider.GetRequiredService<IAppLogger<BadRequestExceptionHandler>>();
+            var logger = scope.ServiceProvider.GetRequiredService<ILogger<BadRequestExceptionHandler>>();
 
             logger.LogError("Validation failed with errors:\n{Errors}",
                 JsonConvert.SerializeObject(badRequestException.Errors, Formatting.Indented));

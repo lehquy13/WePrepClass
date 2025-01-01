@@ -1,9 +1,7 @@
-﻿using MapsterMapper;
-using Matt.Paginated;
-using Matt.ResultObject;
-using Matt.SharedKernel.Application.Contracts.Interfaces;
+﻿using Matt.SharedKernel.Application.Contracts.Interfaces;
 using Matt.SharedKernel.Application.Mediators.Queries;
-using Matt.SharedKernel.Domain.Interfaces;
+using Matt.SharedKernel.Paginations;
+using Matt.SharedKernel.Results;
 using Microsoft.EntityFrameworkCore;
 using WePrepClass.Application.Interfaces;
 using WePrepClass.Contracts.Tutors;
@@ -18,10 +16,8 @@ public record GetTutorsQuery(
 ) : IQueryRequest<PaginatedList<TutorListDto>>, IAuthorizationRequired;
 
 public class GetTutorsQueryHandler(
-    IReadDbContext dbContext,
-    IAppLogger<GetTutorsQueryHandler> logger,
-    IMapper mapper
-) : QueryHandlerBase<GetTutorsQuery, PaginatedList<TutorListDto>>(logger, mapper)
+    IReadDbContext dbContext
+) : QueryHandlerBase<GetTutorsQuery, PaginatedList<TutorListDto>>
 {
     public override async Task<Result<PaginatedList<TutorListDto>>> Handle(GetTutorsQuery request,
         CancellationToken cancellationToken)

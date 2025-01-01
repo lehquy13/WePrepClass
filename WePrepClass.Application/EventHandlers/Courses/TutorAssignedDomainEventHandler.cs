@@ -10,7 +10,7 @@ namespace WePrepClass.Application.EventHandlers.Courses;
 public class TutorAssignedDomainEventHandler(
     IReadDbContext dbContext,
     ILogger<TutorAssignedDomainEventHandler> logger,
-    IEmailSender emailSender
+    IEmailService emailSender
 ) : INotificationHandler<TutorAssignedDomainEvent>
 {
     public async Task Handle(TutorAssignedDomainEvent notification, CancellationToken cancellationToken)

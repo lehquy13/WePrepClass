@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using Matt.ResultObject;
 using Matt.SharedKernel;
 using Matt.SharedKernel.Domain.Primitives.Auditing;
+using Matt.SharedKernel.Results;
 using WePrepClass.Domain.Commons.Enums;
 using WePrepClass.Domain.WePrepClassAggregates.Users.ValueObjects;
 

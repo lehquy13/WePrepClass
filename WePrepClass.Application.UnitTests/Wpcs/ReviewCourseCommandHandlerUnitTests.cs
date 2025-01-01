@@ -1,5 +1,6 @@
 ﻿using FluentAssertions;
 using Matt.SharedKernel.Application.Contracts.Interfaces.Infrastructures;
+using Matt.SharedKernel.Domain;
 using Matt.SharedKernel.Domain.Interfaces;
 using Moq;
 using WePrepClass.Application.UseCases.Wpc.Courses.Commands;
@@ -23,13 +24,11 @@ public class ReviewCourseCommandHandlerUnitTests
         _courseRepositoryMock = new Mock<ICourseRepository>();
         _currentUserServiceMock = new Mock<ICurrentUserService>();
         _unitOfWorkMock = new Mock<IUnitOfWork>();
-        var loggerMock = new Mock<IAppLogger<ReviewCourseCommandHandler>>();
 
         _handler = new ReviewCourseCommandHandler(
             _courseRepositoryMock.Object,
             _currentUserServiceMock.Object,
-            _unitOfWorkMock.Object,
-            loggerMock.Object
+            _unitOfWorkMock.Object
         );
     }
 

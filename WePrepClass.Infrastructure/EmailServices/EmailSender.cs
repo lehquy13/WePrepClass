@@ -8,7 +8,7 @@ using WePrepClass.Infrastructure.Models;
 
 namespace WePrepClass.Infrastructure.EmailServices;
 
-internal class EmailSender(IOptions<EmailSettingNames> options) : IEmailSender
+internal class EmailService(IOptions<EmailSettingNames> options) : IEmailService
 {
     private readonly EmailSettingNames _emailSettingNames = options.Value;
 

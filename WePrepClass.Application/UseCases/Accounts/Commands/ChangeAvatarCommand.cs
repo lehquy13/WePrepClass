@@ -1,9 +1,9 @@
 ﻿using FluentValidation;
-using Matt.ResultObject;
 using Matt.SharedKernel.Application.Contracts.Interfaces;
 using Matt.SharedKernel.Application.Contracts.Interfaces.Infrastructures;
 using Matt.SharedKernel.Application.Mediators.Commands;
 using Matt.SharedKernel.Domain.Interfaces;
+using Matt.SharedKernel.Results;
 using WePrepClass.Domain.WePrepClassAggregates.Users;
 using WePrepClass.Domain.WePrepClassAggregates.Users.ValueObjects;
 
@@ -24,19 +24,15 @@ public class ChangeAvatarCommandValidator : AbstractValidator<ChangeAvatarComman
 public class ChangeAvatarCommandHandler(
     IUserRepository userRepository,
     ICurrentUserService currentUserService,
-    IUnitOfWork unitOfWork,
-    IAppLogger<ChangeAvatarCommandHandler> logger
-) : CommandHandlerBase<ChangeAvatarCommand>(unitOfWork, logger)
+    IUnitOfWork unitOfWork
+) : CommandHandlerBase<ChangeAvatarCommand>(unitOfWork)
 {
     public override async Task<Result> Handle(ChangeAvatarCommand request, CancellationToken cancellationToken)
     {
         var id = UserId.Create(currentUserService.UserId);
         var account = await userRepository.GetByCustomerIdAsync(id, cancellationToken);
 
-        if (account == null)
-        {
-            return Result.Fail(AccountServiceErrorConstants.NonExistUserError);
-        }
+        if (account == null) return Result.Fail(AccountServiceErrorConstants.NonExistUserError);
 
         account.SetAvatar(request.Url);
 

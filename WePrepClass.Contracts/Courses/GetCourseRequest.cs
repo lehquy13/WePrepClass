@@ -1,4 +1,4 @@
-﻿using Matt.Paginated;
+﻿using Matt.SharedKernel.Paginations;
 
 namespace WePrepClass.Contracts.Courses;
 

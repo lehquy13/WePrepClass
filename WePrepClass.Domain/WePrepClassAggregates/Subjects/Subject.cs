@@ -1,6 +1,6 @@
-﻿using Matt.ResultObject;
-using Matt.SharedKernel;
+﻿using Matt.SharedKernel;
 using Matt.SharedKernel.Domain.Primitives.Auditing;
+using Matt.SharedKernel.Results;
 using WePrepClass.Domain.WePrepClassAggregates.Subjects.ValueObjects;
 
 namespace WePrepClass.Domain.WePrepClassAggregates.Subjects;

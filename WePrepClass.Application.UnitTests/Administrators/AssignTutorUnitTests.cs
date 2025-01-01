@@ -22,13 +22,11 @@ public class AssignTutorUnitTests
         _courseRepositoryMock = new Mock<ICourseRepository>();
         _tutorRepositoryMock = new Mock<ITutorRepository>();
         Mock<IUnitOfWork> unitOfWorkMock = new();
-        var loggerMock = new Mock<IAppLogger<AssignTutorCommandHandler>>();
 
         _handler = new AssignTutorCommandHandler(
             _courseRepositoryMock.Object,
             _tutorRepositoryMock.Object,
-            unitOfWorkMock.Object,
-            loggerMock.Object
+            unitOfWorkMock.Object
         );
     }
 

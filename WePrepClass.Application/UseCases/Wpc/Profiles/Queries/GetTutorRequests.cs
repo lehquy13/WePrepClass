@@ -1,9 +1,7 @@
-﻿using MapsterMapper;
-using Matt.ResultObject;
-using Matt.SharedKernel.Application.Contracts.Interfaces;
+﻿using Matt.SharedKernel.Application.Contracts.Interfaces;
 using Matt.SharedKernel.Application.Contracts.Interfaces.Infrastructures;
 using Matt.SharedKernel.Application.Mediators.Queries;
-using Matt.SharedKernel.Domain.Interfaces;
+using Matt.SharedKernel.Results;
 using Microsoft.EntityFrameworkCore;
 using WePrepClass.Application.Interfaces;
 using WePrepClass.Domain.WePrepClassAggregates.Users.ValueObjects;
@@ -14,10 +12,8 @@ public record GetTutorRequestsQuery : IQueryRequest<IEnumerable<TutorRequestForL
 
 public class GetTutorRequestsQueryHandler(
     IReadDbContext dbContext,
-    IAppLogger<GetTutorRequestsQueryHandler> logger,
-    ICurrentUserService currentUserService,
-    IMapper mapper
-) : QueryHandlerBase<GetTutorRequestsQuery, IEnumerable<TutorRequestForListDto>>(logger, mapper)
+    ICurrentUserService currentUserService
+) : QueryHandlerBase<GetTutorRequestsQuery, IEnumerable<TutorRequestForListDto>>
 {
     public override async Task<Result<IEnumerable<TutorRequestForListDto>>> Handle(GetTutorRequestsQuery request,
         CancellationToken cancellationToken)
